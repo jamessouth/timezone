@@ -5,6 +5,6 @@ export default async function getTimezoneData() {
     response = await response.json();
     return response.parse.text['*'];
   } catch(err){
-    console.log('error on fetch: ', err.message);
+    console.error('error on fetch: ', err.message);
   }
 }

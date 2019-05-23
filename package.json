@@ -6,11 +6,11 @@
   "browserslist": "last 2 versions, > 1%, not dead, not ie < 12",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint src && echo 'Linted!'",
+    "lint": "eslint src/ && echo 'Linted!'",
     "dev": "webpack-dev-server",
     "build": "webpack && cp src/favicon.ico docs/favicon.ico && cp -r src/assets/icons/ docs/",
     "test": "nyc riteway -r @babel/register -r @babel/polyfill src/**/*.test.js | tap-nirvana",
-    "watch": "watch \"clear && npm run -s test\" src/ && npm run -s lint"
+    "watch": "watch \"clear && npm run -s lint && npm run -s test\" src/"
   },
   "author": "james south",
   "license": "ISC",

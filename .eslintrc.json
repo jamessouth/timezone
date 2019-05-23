@@ -26,7 +26,8 @@
   },
   "rules": {
     "linebreak-style": ["error", "windows"],
-    "quotes": ["error", "single"],
+    "no-console": ["error", { "allow": ["error"] }],
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
     "indent": ["error", 2]
   }
 }
