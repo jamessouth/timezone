@@ -1,10 +1,13 @@
 import { describe } from 'riteway';// , Try
-import { mockTable, mockCutTable, mockSplitRows, mockHeadersRemoved, mockSplitColumns, mockArrays } from './testHelpers';
+import { mockTable, mockCutTable, mockSplitRows, mockHeadersRemoved, mockSplitColumns, mockArrays, mockTableRowArray, mockTableRowArray2 } from './testHelpers';
 import cutOutTable from './cutOutTable';
 import splitIntoRows from './splitIntoRows';
 import removeColumnHeaders from './removeColumnHeaders';
 import splitIntoColumns from './splitIntoColumns';
 import removeUnneededColumns from './removeUnneededColumns';
+import getOffset from './getOffset';
+import filterOutParens from './filterOutParens';
+import filterPlaceNames from './filterPlaceNames';
 
 describe('cutOutTable cuts rows out of the body of a table', async assert => {
   assert({
@@ -60,5 +63,32 @@ describe('removeUnneededColumns removes 1st index from array and any empty strin
     should: 'return an array with 0th at 0, then 2nd and 3rd indices together at 1',
     actual: removeUnneededColumns(mockArrays[2]),
     expected: ['0', '2,3']
+  });
+});
+
+describe('getOffset strips text content out of HTML', async assert => {
+  assert({
+    given: 'an array of HTML strings',
+    should: 'return a new array: [text of the first element, the rest of the array]',
+    actual: getOffset(mockTableRowArray),
+    expected: ['UTC+14:00', mockTableRowArray[1]]
+  });
+});
+
+describe('filterOutParens strips out parenthesized text', async assert => {
+  assert({
+    given: 'an array of HTML strings',
+    should: 'return a new array: [the first element, second element minus parens]',
+    actual: filterOutParens(mockTableRowArray),
+    expected: ['\n<td><a href="/wiki/UTC%2B14:00" title="UTC+14:00">UTC+14:00</a>\n', 'mock']
+  });
+});
+
+describe('filterPlaceNames strips out HTML that isn\'t an <a> or <p> tag', async assert => {
+  assert({
+    given: 'an array of strings, the 2nd element being HTML',
+    should: 'return a new array: [the first element as is, second element minus non-<a>s and <p>s]',
+    actual: filterPlaceNames(mockTableRowArray2),
+    expected: ['m', '\n<td><a href="/wiki/UTC%2B14:00" title="UTC+14:00">UTC+14:00</a>\n']
   });
 });
