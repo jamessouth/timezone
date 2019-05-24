@@ -13,6 +13,7 @@ import removeMissedStateNames from './removeMissedStateNames';
 import abbrevLongNames from './abbrevLongNames';
 import sortNames from './sortNames';
 import deDupe from './deDupe';
+import addFirstIndex from './addFirstIndex';
 
 describe('cutOutTable cuts rows out of the body of a table', async assert => {
   assert({
@@ -152,5 +153,14 @@ describe('deDupe removes duplicate names', async assert => {
     should: 'return a new array with any duplicate elements removed',
     actual: deDupe(dupes),
     expected: ['n', 'p', 'b', '2', 'x']
+  });
+});
+
+describe('addFirstIndex tacks the first index of an array onto the front of every other element in the array', async assert => {
+  assert({
+    given: 'an array of strings',
+    should: 'return a new array with the former first element now at the front of every other element',
+    actual: addFirstIndex(dupes),
+    expected: ['n\u00A0\u00A0p', 'n\u00A0\u00A0b', 'n\u00A0\u00A0b', 'n\u00A0\u00A0n', 'n\u00A0\u00A02', 'n\u00A0\u00A0x', 'n\u00A0\u00A0x']
   });
 });

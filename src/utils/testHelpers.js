@@ -23,6 +23,7 @@ const mockTableRowArray2 = [
   'm',
   `<span class="flagicon"><img alt="" decoding="async" width="23" height="14" class="thumbborder" data-file-width="1000" data-file-height="600" />&#160;</span><a href="/wiki/Bangladesh" title="Bangladesh">Bangladesh</a><span class="flagicon"><a href="/wiki/Bhutan" title="Bhutan"><img alt="Bhutan" decoding="async" width="23" height="15" class="thumbborder" data-file-width="900" data-file-height="600" /></a></span> <a href="/wiki/Bhutan" title="Bhutan">Bhutan</a><p><span class="flagicon"><a href="/wiki/British_Indian_Ocean_Territory" title="British Indian Ocean Territory"><img alt="British Indian Ocean Territory" decoding="async" width="23" height="12" class="thumbborder" data-file-width="600" data-file-height="300" /></a></span> <a href="/wiki/British_Indian_Ocean_Territory" title="British Indian Ocean Territory">British Indian Ocean Territory</a></p>`
 ];
+
 /* eslint-disable quotes */
 const filteredNodes = [
   {"nodeName":"a","tagName":"a","attrs":[{"name":"href","value":"/wiki/Bangladesh"},{"name":"title","value":"Bangladesh"}],"namespaceURI":"http://www.w3.org/1999/xhtml","childNodes":[{"nodeName":"#text","value":"Bangladesh","parentNode":[null]}],"parentNode":{"nodeName":"#document-fragment","childNodes":[[null],[null],[null],[null],[null],[null]]}},
