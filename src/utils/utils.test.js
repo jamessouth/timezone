@@ -1,5 +1,5 @@
 import { describe } from 'riteway';// , Try
-import { mockTable, mockCutTable, mockSplitRows, mockHeadersRemoved, mockSplitColumns, mockArrays, mockTableRowArray, mockTableRowArray2 } from './testHelpers';
+import { mockTable, mockCutTable, mockSplitRows, mockHeadersRemoved, mockSplitColumns, mockArrays, mockTableRowArray, mockTableRowArray2, filteredNodes, missedStates } from './testHelpers';
 import cutOutTable from './cutOutTable';
 import splitIntoRows from './splitIntoRows';
 import removeColumnHeaders from './removeColumnHeaders';
@@ -8,6 +8,8 @@ import removeUnneededColumns from './removeUnneededColumns';
 import getOffset from './getOffset';
 import filterOutParens from './filterOutParens';
 import filterPlaceNames from './filterPlaceNames';
+import extractPlaceNames from './extractPlaceNames';
+import removeMissedStateNames from './removeMissedStateNames';
 
 describe('cutOutTable cuts rows out of the body of a table', async assert => {
   assert({
@@ -87,8 +89,47 @@ describe('filterOutParens strips out parenthesized text', async assert => {
 describe('filterPlaceNames strips out HTML that isn\'t an <a> or <p> tag', async assert => {
   assert({
     given: 'an array of strings, the 2nd element being HTML',
-    should: 'return a new array: [the first element as is, second element minus non-<a>s and <p>s]',
-    actual: filterPlaceNames(mockTableRowArray2),
-    expected: ['m', '\n<td><a href="/wiki/UTC%2B14:00" title="UTC+14:00">UTC+14:00</a>\n']
+    should: 'return a new array: [the first element as is, second element an AST with only <a> and <p> nodes]',// ASTs not comparing well so making a simple mapping
+    actual: [filterPlaceNames(mockTableRowArray2)[0], filterPlaceNames(mockTableRowArray2)[1].map(e => e.nodeName)],
+    expected: ['m', filteredNodes.map(e => e.nodeName)]
+  });
+});
+
+describe('extractPlaceNames pulls text from HTML nodes', async assert => {
+  assert({
+    given: 'an array with a string and an AST',
+    should: 'return a new array: [the first element as is, then a spread out array of place names]',
+    actual: extractPlaceNames(['j', filteredNodes]),
+    expected: ['j', 'Bangladesh', 'Bhutan', 'British Indian Ocean Territory']
+  });
+});
+
+describe('removeMissedStateNames removes state names not previously stripped by filterOutParens', async assert => {
+  assert({
+    given: 'an array with a state name',
+    should: 'return a new array with the state removed',
+    actual: removeMissedStateNames(missedStates[0]),
+    expected: ['UTC−04:00', 1, 2, 3, 4]
+  });
+  assert({
+    given: 'an array',
+    should: 'return a new array with the 5 elements from index 8 on removed',// several states removed
+    actual: removeMissedStateNames(missedStates[1]),
+    expected: ['UTC−03:00', 1, 2, 3, 4, 5, 6, 7, 13, 14, 15]
+  });
+  assert({
+    given: 'an array with a state name',
+    should: 'return a new array with the state removed',
+    actual: removeMissedStateNames(missedStates[2]),
+    expected: ['UTC+10:00', 1, 2, 3, 4]
+  });
+});
+
+describe('filterOutParens strips out parenthesized text', async assert => {
+  assert({
+    given: 'an array of HTML strings',
+    should: 'return a new array: [the first element, second element minus parens]',
+    actual: filterOutParens(mockTableRowArray),
+    expected: ['\n<td><a href="/wiki/UTC%2B14:00" title="UTC+14:00">UTC+14:00</a>\n', 'mock']
   });
 });
