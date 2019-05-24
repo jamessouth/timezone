@@ -1,5 +1,5 @@
 import { describe } from 'riteway';// , Try
-import { mockTable, mockCutTable, mockSplitRows, mockHeadersRemoved, mockSplitColumns, mockArrays, mockTableRowArray, mockTableRowArray2, filteredNodes, missedStates } from './testHelpers';
+import { mockTable, mockCutTable, mockSplitRows, mockHeadersRemoved, mockSplitColumns, mockArrays, mockTableRowArray, mockTableRowArray2, filteredNodes, missedStates, longNames, dupes } from './testHelpers';
 import cutOutTable from './cutOutTable';
 import splitIntoRows from './splitIntoRows';
 import removeColumnHeaders from './removeColumnHeaders';
@@ -10,6 +10,9 @@ import filterOutParens from './filterOutParens';
 import filterPlaceNames from './filterPlaceNames';
 import extractPlaceNames from './extractPlaceNames';
 import removeMissedStateNames from './removeMissedStateNames';
+import abbrevLongNames from './abbrevLongNames';
+import sortNames from './sortNames';
+import deDupe from './deDupe';
 
 describe('cutOutTable cuts rows out of the body of a table', async assert => {
   assert({
@@ -125,11 +128,29 @@ describe('removeMissedStateNames removes state names not previously stripped by 
   });
 });
 
-describe('filterOutParens strips out parenthesized text', async assert => {
+describe('abbrevLongNames shortens long names', async assert => {
   assert({
-    given: 'an array of HTML strings',
-    should: 'return a new array: [the first element, second element minus parens]',
-    actual: filterOutParens(mockTableRowArray),
-    expected: ['\n<td><a href="/wiki/UTC%2B14:00" title="UTC+14:00">UTC+14:00</a>\n', 'mock']
+    given: 'an array of strings',
+    should: 'return a new array with a few select long names shortened',
+    actual: abbrevLongNames(longNames),
+    expected: ['n', 'S Georgia/S Sandwich Islands', 'BIOT', 'DR Congo']
+  });
+});
+
+describe('sortNames sorts names in alpha order', async assert => {
+  assert({
+    given: 'an array of strings',
+    should: 'return a new array with indices 1+ alpha sorted',
+    actual: sortNames(longNames),
+    expected: ['n', 'British Indian Ocean Territory', 'Democratic Republic of the Congo', 'South Georgia and the South Sandwich Islands']
+  });
+});
+
+describe('deDupe removes duplicate names', async assert => {
+  assert({
+    given: 'an array of strings',
+    should: 'return a new array with any duplicate elements removed',
+    actual: deDupe(dupes),
+    expected: ['n', 'p', 'b', '2', 'x']
   });
 });

@@ -37,5 +37,8 @@ const missedStates = [
   ['UTC+10:00', 1, 2, 'Victoria', 3, 4]
 ];
 
+const longNames = ['n', 'South Georgia and the South Sandwich Islands', 'British Indian Ocean Territory', 'Democratic Republic of the Congo'];
 
-export { mockTable, mockCutTable, mockSplitRows, mockHeadersRemoved, mockSplitColumns, mockArrays, mockTableRowArray, mockTableRowArray2, filteredNodes, missedStates };
+const dupes = ['n', 'p', 'b', 'b', 'n', '2', 'x', 'x'];
+
+export { mockTable, mockCutTable, mockSplitRows, mockHeadersRemoved, mockSplitColumns, mockArrays, mockTableRowArray, mockTableRowArray2, filteredNodes, missedStates, longNames, dupes };
