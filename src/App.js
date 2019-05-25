@@ -10,7 +10,7 @@ export default class App extends Component{
   }
 
   sendMsg = e => {
-    fetch('http://localhost:3101').then(x => x.json()).then(y => console.log(y));
+    fetch('http://localhost:3101').then(x => x.body).then(y => y.getReader()).then(z => z.read()).then(f => console.log(f));
   }
 
 
