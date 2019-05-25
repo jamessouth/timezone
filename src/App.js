@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import getTimezoneData from './utils/getTimezoneData';
+// import getTimezoneData from './utils/getTimezoneData';
 
 const Fragment = React.Fragment;
 export default class App extends Component{
@@ -9,7 +9,7 @@ export default class App extends Component{
     // getTimezoneData();
   }
 
-  sendMsg = e => {
+  sendMsg() {
     fetch('http://localhost:3101').then(x => x.body).then(y => y.getReader()).then(z => z.read()).then(f => console.log(f));
   }
 
