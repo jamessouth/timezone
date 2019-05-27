@@ -5,12 +5,27 @@ const Fragment = React.Fragment;
 export default class App extends Component{
 
 
+
+
   componentDidMount() {
     // getTimezoneData();
   }
-
+// .map(x => String.fromCharcode(x)
   sendMsg() {
-    fetch('http://localhost:3101').then(x => x.body).then(y => y.getReader()).then(z => z.read()).then(f => console.log(f));
+    fetch('http://localhost:3101')
+    // .then(x => x.json())
+    .then(async res => {
+      let ooo = res.body.getReader();
+      let ttt = await ooo.read();
+      async function uuu({done, value}) {
+        if (done) return;
+        console.log(new TextDecoder('utf-8').decode(value));
+
+        return ooo.read().then(uuu);
+      }
+      return await uuu(ttt);
+    });
+
   }
 
 

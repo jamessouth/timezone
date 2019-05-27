@@ -4,6 +4,22 @@ import processTimezoneData from './utils/processTimezoneData';
 const http = require('http');
 const https = require('https');
 const MongoClient = require('mongodb').MongoClient;
+const { Transform } = require('stream');
+
+let r = 0;
+const dec = new Transform({
+  transform(ch, enc, cb) {
+
+    setTimeout(() => {
+      this.push(`--${ch.length}___${new Date().getSeconds()}--`);
+      cb();
+    }, 250);
+
+
+
+  }
+});
+
 
 const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
 const server = http.createServer(serverCB).listen(3101, () => {
@@ -19,13 +35,17 @@ function serverCB(req, res) {
     let c = 0;
     let chunks = [];
     https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', resl => {
-      resl.pipe(res);
-    	// res.on('data', chunk => {
-        // console.log(`chunk ${c++}`);
-        // console.log(JSON.parse(JSON.stringify(chunk)));
-        // console.log();
+      resl
+      .pipe(dec)
 
-      // });
+    	// res
+      // .on('data', chunk => {
+      //   console.log(`chunk ${c++}`);
+      //   console.log(String.fromCharCode(chunk[0]));
+      //   console.log();
+      //   return {"a": "b", "c": 2};
+      // })
+      .pipe(res);
     });
 
 
