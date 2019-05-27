@@ -15,15 +15,15 @@ export default class App extends Component{
     fetch('http://localhost:3101')
     // .then(x => x.json())
     .then(async res => {
-      let ooo = res.body.getReader();
-      let ttt = await ooo.read();
-      async function uuu({done, value}) {
+      const readr = res.body.getReader();
+      const data = await readr.read();
+      async function processData({done, value}) {
         if (done) return;
         console.log(new TextDecoder('utf-8').decode(value));
 
-        return ooo.read().then(uuu);
+        return readr.read().then(processData);
       }
-      return await uuu(ttt);
+      return await processData(data);
     });
 
   }
