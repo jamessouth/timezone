@@ -11,28 +11,34 @@ let cnt = 1;
 const throt = new Transform({
   encoding: 'utf8',
   transform(ch, enc, cb) {
-    let obj = `${cnt},p,y,${ch.length}`;
+    // console.log(cnt++);
+    // console.log(ch.toString());
+    if()
     setTimeout(() => {
-      // console.log(obj);
-      this.push(obj);
-      cnt++;
+
+      this.push(ch);
       cb();
     }, 250);
   }
 });
-// let doc;
-const seed = function(database) {
+
+
+const seed = function(database, cl) {
   return new Writable({
     decodeStrings: false,
     defaultEncoding: 'utf8',
     write(ch, enc, cb) {
-      console.log(ch);
-      database.collection('timezones').insertOne({no:cnt, dat:ch}, (err, r) => {
+      // console.log(ch);
+      database.collection('timezones').insertOne({no:cnt, data:ch}, (err, r) => {
         assert.equal(null, err);
+        cnt++;
         assert.equal(1, r.insertedCount);
         cb();
       });
-
+    },
+    final(cb) {
+      cl.close();
+      cb();
     }
   });
 }
@@ -56,15 +62,9 @@ function serverCB(reqt, resp) {
         console.log("Connected correctly to mongo server!");
         const db = client.db('tzs');
 
-        chunks.pipe(throt).pipe(seed(db));
-
-
-
-        // assert.equal(1, r.insertedCount);
-
-        setTimeout(() => {
-          client.close();
-        }, 25998);
+        chunks
+        .pipe(throt)
+        .pipe(seed(db, client));
 
 
 
