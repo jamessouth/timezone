@@ -7,32 +7,48 @@ const MongoClient = require('mongodb').MongoClient;
 const { Transform, Writable } = require('stream');
 const assert = require('assert');
 
-const dec = new Transform({
+let cnt = 1;
+const throt = new Transform({
+  encoding: 'utf8',
   transform(ch, enc, cb) {
+    let obj = `${cnt},p,y,${ch.length}`;
     setTimeout(() => {
-      this.push(`--${ch.length}___${new Date().getSeconds()}--`);
+      // console.log(obj);
+      this.push(obj);
+      cnt++;
       cb();
     }, 250);
   }
 });
+// let doc;
+const seed = function(database) {
+  return new Writable({
+    decodeStrings: false,
+    defaultEncoding: 'utf8',
+    write(ch, enc, cb) {
+      console.log(ch);
+      database.collection('timezones').insertOne({no:cnt, dat:ch}, (err, r) => {
+        assert.equal(null, err);
+        assert.equal(1, r.insertedCount);
+        cb();
+      });
 
+    }
+  });
+}
 
 const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
 const server = http.createServer(serverCB).listen(3101, () => {
   console.log('server running on port 3101!');
 });
 
-function serverCB(req, res) {
-  console.log(req.url);
-  if(req.url === '/') {
-    res.writeHead(200, '7777777', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
+function serverCB(reqt, resp) {
+  console.log(reqt.url);
+  if(reqt.url === '/') {
+    resp.writeHead(200, '7777777', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
 
 
-    https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', resl => resl.pipe(dec).pipe(res));
-
-
-
-    (async function() {
+    https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
       try {
         console.log(new Date());
         await client.connect();
@@ -40,22 +56,26 @@ function serverCB(req, res) {
         console.log("Connected correctly to mongo server!");
         const db = client.db('tzs');
 
-        // Insert a single document
-        let r = await db.collection('inserts').insertOne({a:1});
-        assert.equal(1, r.insertedCount);
+        chunks.pipe(throt).pipe(seed(db));
 
-        // Insert multiple documents
-        var rr = await db.collection('inserts').insertMany([{a:2}, {a:3}]);
-        assert.equal(2, rr.insertedCount);
 
-        // Close connection
-        client.close();
+
+        // assert.equal(1, r.insertedCount);
+
+        setTimeout(() => {
+          client.close();
+        }, 25998);
+
+
+
       } catch(err) {
         console.log(err);
       }
-    })();
+    });
 
-    // res.write('done!!!', 'utf8');
-    // res.end();
+
+
+    // resp.write('done!!!', 'utf8');
+    // resp.end();
   }
 };
