@@ -1,47 +1,18 @@
 /* eslint-disable no-console */
 import processTimezoneData from './utils/processTimezoneData';
 
+import removeFirstChunk from './streams/removeFirstChunk';
+import throttleStream from './streams/throttleStream';
+import seedDB from './streams/seedDB';
+
 const http = require('http');
 const https = require('https');
 const MongoClient = require('mongodb').MongoClient;
-const { Transform, Writable } = require('stream');
+
 const assert = require('assert');
 
-let cnt = 1;
-const throt = new Transform({
-  encoding: 'utf8',
-  transform(ch, enc, cb) {
-    // console.log(cnt++);
-    // console.log(ch.toString());
-    if()
-    setTimeout(() => {
-
-      this.push(ch);
-      cb();
-    }, 250);
-  }
-});
 
 
-const seed = function(database, cl) {
-  return new Writable({
-    decodeStrings: false,
-    defaultEncoding: 'utf8',
-    write(ch, enc, cb) {
-      // console.log(ch);
-      database.collection('timezones').insertOne({no:cnt, data:ch}, (err, r) => {
-        assert.equal(null, err);
-        cnt++;
-        assert.equal(1, r.insertedCount);
-        cb();
-      });
-    },
-    final(cb) {
-      cl.close();
-      cb();
-    }
-  });
-}
 
 const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
 const server = http.createServer(serverCB).listen(3101, () => {
@@ -63,8 +34,9 @@ function serverCB(reqt, resp) {
         const db = client.db('tzs');
 
         chunks
-        .pipe(throt)
-        .pipe(seed(db, client));
+        .pipe(throttleStream)
+        .pipe(removeFirstChunk)
+        .pipe(seedDB(db, client));
 
 
 
