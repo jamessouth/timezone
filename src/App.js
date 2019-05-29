@@ -12,6 +12,7 @@ export default class App extends Component{
   }
 // .map(x => String.fromCharcode(x)
   sendMsg() {
+    console.log(new Date());
     fetch('http://localhost:3101')
     // .then(x => x.json())
     .then(async res => {

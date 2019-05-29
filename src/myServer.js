@@ -29,20 +29,20 @@ function serverCB(reqt, resp) {
 
     https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
       try {
-        console.log(new Date());
+        // console.log(new Date());
         await client.connect();
-        console.log(new Date());
+        // console.log(new Date());
         console.log("Connected correctly to mongo server!");
         const db = client.db('tzs');
 
         chunks
-        .pipe(throttleStream)
+        // .pipe(throttleStream)
         .pipe(removeFirstChunk)
         .pipe(splitByRows)
-        .pipe(removeColumnHeaders)
+        // .pipe(removeColumnHeaders)
         .pipe(seedDB(db, client));
 
-
+// UTC[\+-]\d{2}:\d{2}(?=\\+">[U\+-])
 
       } catch(err) {
         console.log(err);
