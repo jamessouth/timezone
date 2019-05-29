@@ -4,6 +4,8 @@ import processTimezoneData from './utils/processTimezoneData';
 import removeFirstChunk from './streams/removeFirstChunk';
 import throttleStream from './streams/throttleStream';
 import seedDB from './streams/seedDB';
+import splitByRows from './streams/splitByRows';
+import removeColumnHeaders from './streams/removeColumnHeaders';
 
 const http = require('http');
 const https = require('https');
@@ -36,6 +38,8 @@ function serverCB(reqt, resp) {
         chunks
         .pipe(throttleStream)
         .pipe(removeFirstChunk)
+        .pipe(splitByRows)
+        .pipe(removeColumnHeaders)
         .pipe(seedDB(db, client));
 
 
