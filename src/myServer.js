@@ -29,9 +29,7 @@ const server = http.createServer(serverCB).listen(3101, () => {
 function serverCB(reqt, resp) {
   console.log(reqt.url);
   if(reqt.url === '/') {
-    resp.writeHead(200, '7777777', { 'Access-Control-Allow-Origin': 'http://localhost:3100', 'Connection': 'keep-alive', 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' });
-
-    resp.write('event: ping\ndata: grabbing data...');
+    resp.writeHead(200, '7777777', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
 
 
     https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {

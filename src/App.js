@@ -12,15 +12,6 @@ export default class App extends Component{
   }
 // .map(x => String.fromCharcode(x)
   sendMsg() {
-    const evtSource = new EventSource();
-    evtSource.addEventListener('ping', function(e) {
-      console.log('p ', e);
-    }, false);
-    evtSource.addEventListener('error', function(e) {
-      console.log('err ', e);
-    });
-
-
     console.log(new Date());
     fetch('http://localhost:3101')
     // .then(x => x.json())
