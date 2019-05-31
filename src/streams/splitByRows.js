@@ -14,12 +14,12 @@ const splitByRows = new Transform({
     }
     cb();
   }
-  // ,
-  // flush(cb) {
-  //   console.log('flush ', this.partialRow);
-  //   this.push(this.partialRow || '');
-  //   cb();
-  // }
+  ,
+  flush(cb) {
+    // console.log('flush ', this.partialRow);
+    this.push(this.partialRow || '');
+    cb();
+  }
 });
 
 export default splitByRows;

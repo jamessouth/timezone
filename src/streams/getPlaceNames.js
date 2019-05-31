@@ -5,7 +5,7 @@ const treeAdapters = require('parse5/lib/tree-adapters/default.js');
 import '../polyfills/flatMap';
 import getNames from '../utils/getNames';
 
-const getPNames = new Transform({
+const getPlaceNames = new Transform({
   encoding: 'utf8',
   readableObjectMode: true,
   transform(ch, enc, cb) {
@@ -25,4 +25,4 @@ const getPNames = new Transform({
   }
 });
 
-export default getPNames;
+export default getPlaceNames;

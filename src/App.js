@@ -12,13 +12,13 @@ export default class App extends Component{
   }
 // .map(x => String.fromCharcode(x)
   sendMsg() {
-    const evtSource = new EventSource();
-    evtSource.addEventListener('ping', function(e) {
-      console.log('p ', e);
-    }, false);
-    evtSource.addEventListener('error', function(e) {
-      console.log('err ', e);
-    });
+    // const evtSource = new EventSource('http://localhost:3101');
+    // evtSource.addEventListener('ping', function(e) {
+    //   console.log('p ', e);
+    // }, false);
+    // evtSource.addEventListener('error', function(e) {
+    //   console.log('err ', e);
+    // });
 
 
     console.log(new Date());

@@ -6,8 +6,8 @@ import removeParens from './streams/removeParens';
 import seedDB from './streams/seedDB';
 import removeStates from './streams/removeStates';
 import splitByRows from './streams/splitByRows';
-import getPNames from './streams/getPNames';
-import deDupe from './streams/deDupe';
+import getPlaceNames from './streams/getPlaceNames';
+import removeDuplicateNames from './streams/removeDuplicateNames';
 import sortNames from './streams/sortNames';
 import replaceUnicodeChars from './streams/replaceUnicodeChars';
 import stripOutImgTags from './streams/stripOutImgTags';
@@ -29,16 +29,16 @@ const server = http.createServer(serverCB).listen(3101, () => {
 function serverCB(reqt, resp) {
   console.log(reqt.url);
   if(reqt.url === '/') {
-    resp.writeHead(200, '7777777', { 'Access-Control-Allow-Origin': 'http://localhost:3100', 'Connection': 'keep-alive', 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' });
-
-    resp.write('event: ping\ndata: grabbing data...');
+    // resp.writeHead(200, '7777777', { 'Access-Control-Allow-Origin': 'http://localhost:3100', 'Connection': 'keep-alive', 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' });
+    //
+    // resp.write('event: ping\ndata: grabbing data...');
 
 
     https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
       try {
-        // console.log(new Date());
+
         await client.connect();
-        // console.log(new Date());
+
         console.log("Connected correctly to mongo server!");
         const db = client.db('tzs');
 
@@ -47,9 +47,9 @@ function serverCB(reqt, resp) {
           .pipe(splitByRows)
           .pipe(stripOutImgTags)
           .pipe(removeParens)
-          .pipe(getPNames)
+          .pipe(getPlaceNames)
           .pipe(removeStates)
-          .pipe(deDupe)
+          .pipe(removeDuplicateNames)
           .pipe(sortNames)
           .pipe(replaceUnicodeChars)
           .pipe(seedDB(db, client));

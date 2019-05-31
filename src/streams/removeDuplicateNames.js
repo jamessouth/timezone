@@ -1,6 +1,6 @@
 const { Transform } = require('stream');
 
-const deDupe = new Transform({
+const removeDuplicateNames = new Transform({
   encoding: 'utf8',
   readableObjectMode: true,
   writableObjectMode: true,
@@ -15,4 +15,4 @@ const deDupe = new Transform({
   }
 });
 
-export default deDupe;
+export default removeDuplicateNames;
