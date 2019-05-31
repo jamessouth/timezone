@@ -4,7 +4,7 @@ const splitByRows = new Transform({
   encoding: 'utf8',
   transform(ch, enc, cb) {
 
-    const rows = ((this.partialRow || '') + ch.toString()).split(/<\/tr>/);
+    const rows = ((this.partialRow || '') + ch.toString()).split(/<\/tr>\\n<tr>\\n/);
     // console.log('rows ', rows);
     this.partialRow = rows.pop();
     // console.log('pR ', this.partialRow);

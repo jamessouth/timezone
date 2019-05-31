@@ -2,10 +2,12 @@
 import processTimezoneData from './utils/processTimezoneData';
 
 import removeFirstChunk from './streams/removeFirstChunk';
-import throttleStream from './streams/throttleStream';
+import removeParens from './streams/removeParens';
 import seedDB from './streams/seedDB';
+import takeTree from './streams/takeTree';
 import splitByRows from './streams/splitByRows';
-import removeColumnHeaders from './streams/removeColumnHeaders';
+import getPNames from './streams/getPNames';
+import stripOutImgTags from './streams/stripOutImgTags';
 
 const http = require('http');
 const https = require('https');
@@ -36,10 +38,12 @@ function serverCB(reqt, resp) {
         const db = client.db('tzs');
 
         chunks
-        // .pipe(throttleStream)
         .pipe(removeFirstChunk)
         .pipe(splitByRows)
-        // .pipe(removeColumnHeaders)
+        .pipe(stripOutImgTags)
+        .pipe(removeParens)
+        .pipe(getPNames)
+        .pipe(takeTree)
         .pipe(seedDB(db, client));
 
 // UTC[\+-]\d{2}:\d{2}(?=\\+">[U\+-])

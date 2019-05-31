@@ -6,11 +6,12 @@ export default function seedDB(database, cl) {
   return new Writable({
     decodeStrings: false,
     defaultEncoding: 'utf8',
+    objectMode: true,
     write(ch, enc, cb) {
       // console.log(ch);
 
       if(count > 2) {
-        database.collection('timezones').insertOne({no: count, data: ch}, (err, r) => {
+        database.collection('timezones').insertOne({no: count, offset: ch[0], places: ch.slice(1)}, (err, r) => {
           assert.equal(null, err);
           assert.equal(1, r.insertedCount);
         });
