@@ -4,9 +4,12 @@ import processTimezoneData from './utils/processTimezoneData';
 import removeFirstChunk from './streams/removeFirstChunk';
 import removeParens from './streams/removeParens';
 import seedDB from './streams/seedDB';
-import takeTree from './streams/takeTree';
+import removeStates from './streams/removeStates';
 import splitByRows from './streams/splitByRows';
 import getPNames from './streams/getPNames';
+import deDupe from './streams/deDupe';
+import sortNames from './streams/sortNames';
+import replaceUnicodeChars from './streams/replaceUnicodeChars';
 import stripOutImgTags from './streams/stripOutImgTags';
 
 const http = require('http');
@@ -38,15 +41,17 @@ function serverCB(reqt, resp) {
         const db = client.db('tzs');
 
         chunks
-        .pipe(removeFirstChunk)
-        .pipe(splitByRows)
-        .pipe(stripOutImgTags)
-        .pipe(removeParens)
-        .pipe(getPNames)
-        .pipe(takeTree)
-        .pipe(seedDB(db, client));
+          .pipe(removeFirstChunk)
+          .pipe(splitByRows)
+          .pipe(stripOutImgTags)
+          .pipe(removeParens)
+          .pipe(getPNames)
+          .pipe(removeStates)
+          .pipe(deDupe)
+          .pipe(sortNames)
+          .pipe(replaceUnicodeChars)
+          .pipe(seedDB(db, client));
 
-// UTC[\+-]\d{2}:\d{2}(?=\\+">[U\+-])
 
       } catch(err) {
         console.log(err);

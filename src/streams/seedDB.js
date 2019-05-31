@@ -9,9 +9,9 @@ export default function seedDB(database, cl) {
     objectMode: true,
     write(ch, enc, cb) {
       // console.log(ch);
-
+      const chArray = JSON.parse(ch);
       if(count > 2) {
-        database.collection('timezones').insertOne({no: count, offset: ch[0], places: ch.slice(1)}, (err, r) => {
+        database.collection('timezones').insertOne({no: count, offset: chArray[0], places: chArray.slice(1)}, (err, r) => {
           assert.equal(null, err);
           assert.equal(1, r.insertedCount);
         });
