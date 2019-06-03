@@ -17,7 +17,7 @@ const https = require('https');
 const MongoClient = require('mongodb').MongoClient;
 
 const assert = require('assert');
-
+const { parse } = require('querystring');
 
 
 
@@ -27,8 +27,22 @@ const server = http.createServer(serverCB).listen(3101, () => {
 });
 
 function serverCB(reqt, resp) {
-  console.log(reqt.url);
-  if(reqt.url === '/') {
+  const db = client.db('tzs');
+  console.log(reqt.url, reqt.method);
+  console.log();
+  if (reqt.method === 'POST') {
+    reqt.on('data', chk => {
+      const source = parse(chk.toString()).query.replace(/\s+/, '');
+      graphql({ schema, source, contextValue: db }).then(ans => console.log(ans));
+      console.log(source);
+    });
+    reqt.on('end', () => {
+      resp.end();
+    });
+  }
+
+
+  if (reqt.method === 'GET' && reqt.url === '/') {
     // resp.writeHead(200, '7777777', { 'Access-Control-Allow-Origin': 'http://localhost:3100', 'Connection': 'keep-alive', 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' });
     //
     // resp.write('event: ping\ndata: grabbing data...');
@@ -40,7 +54,7 @@ function serverCB(reqt, resp) {
         await client.connect();
 
         console.log("Connected correctly to mongo server!");
-        const db = client.db('tzs');
+
 
         chunks
           .pipe(removeFirstChunk)

@@ -43,7 +43,11 @@ export default class App extends Component{
     return (
       <Fragment>
         <div className="intro">Hello World</div>
-        <button onClick={this.sendMsg}>eee</button>
+        <button type="button" onClick={this.sendMsg}>data</button>
+        <form action="http://localhost:3101/" method="POST">
+          <textarea cols="40" rows="15" placeholder="{query...}" name="query"></textarea>
+          <button>submit</button>
+        </form>
       </Fragment>
     );
   }
