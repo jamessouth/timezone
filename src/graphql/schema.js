@@ -15,8 +15,8 @@ const RootQuery = new GraphQLObjectType({
     timezone: {
       type: TimezoneType,
       args: { offset: { type: GraphQLString }},
-      resolve(parent, args, { db }) {
-        db.collection('timezones').find({ args.offset }, (err, docs) => {
+      resolve(parent, { offset }, { db }) {
+        db.collection('timezones').find({ offset }, (err, docs) => {
           assert.equal(null, err);
           assert.equal(1, docs.length);
         });

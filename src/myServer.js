@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import processTimezoneData from './utils/processTimezoneData';
+import { graphql } from 'graphql';
+import schema from './graphql/schema';
 
 import removeFirstChunk from './streams/removeFirstChunk';
 import removeParens from './streams/removeParens';
@@ -20,13 +21,18 @@ const assert = require('assert');
 const { parse } = require('querystring');
 
 
+// {
+//   timezone(UTC+08:45)
+// }
+
 
 const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
 const server = http.createServer(serverCB).listen(3101, () => {
   console.log('server running on port 3101!');
 });
 
-function serverCB(reqt, resp) {
+async function serverCB(reqt, resp) {
+  await client.connect();
   const db = client.db('tzs');
   console.log(reqt.url, reqt.method);
   console.log();
@@ -37,6 +43,7 @@ function serverCB(reqt, resp) {
       console.log(source);
     });
     reqt.on('end', () => {
+      client.close();
       resp.end();
     });
   }
