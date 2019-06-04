@@ -20,9 +20,10 @@ const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const { parse } = require('querystring');
 
-
 // {
-//   timezone(UTC+08:45)
+//   timezone(offset: "UTC+08:45") {
+//     places
+//   }
 // }
 
 
@@ -34,13 +35,19 @@ const server = http.createServer(serverCB).listen(3101, () => {
 async function serverCB(reqt, resp) {
   await client.connect();
   const db = client.db('tzs');
+  // const col = db.collection('timezones');
+  // const docs = await col.find({offset:"UTC+08:45"}).toArray();
+  // assert.equal(1, docs.length);
+  // console.log(docs);
+
+
   console.log(reqt.url, reqt.method);
   console.log();
   if (reqt.method === 'POST') {
     reqt.on('data', chk => {
       const source = parse(chk.toString()).query.replace(/\s+/, '');
-      graphql({ schema, source, contextValue: db }).then(ans => console.log(ans));
-      console.log(source);
+      graphql({ schema, source, contextValue: db }).then(ans => console.log('ans ', ans));
+      console.log('source ', source);
     });
     reqt.on('end', () => {
       client.close();
