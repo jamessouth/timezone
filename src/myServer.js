@@ -32,18 +32,27 @@ const server = http.createServer(serverCB).listen(3101, () => {
 async function serverCB(reqt, resp) {
 
   if (reqt.method === 'POST') {
-    const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
-    await client.connect();
-    const db = client.db('tzs');
-    reqt.on('data', chk => {
-      const source = parse(chk.toString()).query.replace(/\s+/, '');
-      graphql({ schema, source, contextValue: db }).then(ans => console.dir(Object.assign({}, ans)));
-    });
-    reqt.on('end', () => {
-      client.close();
-      resp.writeHead('204');
-      resp.end();
-    });
+    try {
+      let body = '';
+      const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
+      await client.connect();
+      const db = client.db('tzs');
+      reqt.on('data', chk => body += chk);
+      reqt.on('end', async () => {
+        try {
+          const source = parse(body.toString()).query.replace(/\s+/, '');
+          const data = await graphql({ schema, source, contextValue: db });
+          console.log(Object.assign({}, data.data.timezone));
+          client.close();
+          resp.writeHead('204');
+          resp.end();
+        } catch (err) {
+          console.log(err.stack);
+        }
+      });
+    } catch (err) {
+      console.log(err.stack);
+    }
   }
 
 
