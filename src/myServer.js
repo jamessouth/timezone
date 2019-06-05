@@ -33,8 +33,7 @@ const server = http.createServer(serverCB).listen(3101, () => {
 });
 
 async function serverCB(reqt, resp) {
-  await client.connect();
-  const db = client.db('tzs');
+
   // const col = db.collection('timezones');
   // const docs = await col.find({offset:"UTC+08:45"}).toArray();
   // assert.equal(1, docs.length);
@@ -44,13 +43,20 @@ async function serverCB(reqt, resp) {
   console.log(reqt.url, reqt.method);
   console.log();
   if (reqt.method === 'POST') {
+    await client.connect();
+    const db = client.db('tzs');
     reqt.on('data', chk => {
       const source = parse(chk.toString()).query.replace(/\s+/, '');
-      graphql({ schema, source, contextValue: db }).then(ans => console.log('ans ', ans));
-      console.log('source ', source);
+      console.log('source ', new Date(), source);
+
+      graphql({ schema, source, contextValue: db }).then(ans => console.log('ans ', new Date(), Object.assign({}, ans.data.timezone).places));
+
     });
     reqt.on('end', () => {
-      client.close();
+      // console.log(client.topology.s.sessions);
+      // client.close();
+
+      resp.writeHead('204');
       resp.end();
     });
   }

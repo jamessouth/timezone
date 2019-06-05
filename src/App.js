@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import getTimezoneData from './utils/getTimezoneData';
 
-const Fragment = React.Fragment;
+// const Fragment = React.Fragment;
 export default class App extends Component{
 
 
@@ -41,14 +41,14 @@ export default class App extends Component{
 
   render() {
     return (
-      <Fragment>
+      <>
         <div className="intro">Hello World</div>
         <button type="button" onClick={this.sendMsg}>data</button>
         <form action="http://localhost:3101/" method="POST">
           <textarea cols="40" rows="15" placeholder="{query...}" name="query"></textarea>
           <button>submit</button>
         </form>
-      </Fragment>
+      </>
     );
   }
 }
