@@ -15,10 +15,9 @@ import stripOutImgTags from './streams/stripOutImgTags';
 
 const http = require('http');
 const https = require('https');
-const MongoClient = require('mongodb').MongoClient;
-
 const assert = require('assert');
 const { parse } = require('querystring');
+const MongoClient = require('mongodb').MongoClient;
 
 // {
 //   timezone(offset: "UTC+08:45") {
@@ -26,40 +25,29 @@ const { parse } = require('querystring');
 //   }
 // }
 
-
-const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
 const server = http.createServer(serverCB).listen(3101, () => {
   console.log('server running on port 3101!');
 });
 
 async function serverCB(reqt, resp) {
 
-  // const col = db.collection('timezones');
-  // const docs = await col.find({offset:"UTC+08:45"}).toArray();
-  // assert.equal(1, docs.length);
-  // console.log(docs);
-
-
-  console.log(reqt.url, reqt.method);
-  console.log();
   if (reqt.method === 'POST') {
+    const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
     await client.connect();
     const db = client.db('tzs');
     reqt.on('data', chk => {
       const source = parse(chk.toString()).query.replace(/\s+/, '');
-      console.log('source ', new Date(), source);
-
-      graphql({ schema, source, contextValue: db }).then(ans => console.log('ans ', new Date(), Object.assign({}, ans.data.timezone).places));
-
+      graphql({ schema, source, contextValue: db }).then(ans => console.dir(Object.assign({}, ans)));
     });
     reqt.on('end', () => {
-      // console.log(client.topology.s.sessions);
-      // client.close();
-
+      client.close();
       resp.writeHead('204');
       resp.end();
     });
   }
+
+
+
 
 
   if (reqt.method === 'GET' && reqt.url === '/') {
@@ -67,7 +55,7 @@ async function serverCB(reqt, resp) {
     //
     // resp.write('event: ping\ndata: grabbing data...');
 
-
+    const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
     https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
       try {
 

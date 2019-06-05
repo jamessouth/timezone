@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { graphql, GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLList } from 'graphql';
 
 const assert = require('assert');
