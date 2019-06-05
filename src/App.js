@@ -36,10 +36,10 @@ export default class App extends Component{
 
   }
 
-  async postQuery(text) {
+  async postQuery(body) {
     await fetch('http://localhost:3101', {
       method: 'POST',
-      body: text
+      body
     });
   }
 

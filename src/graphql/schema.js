@@ -20,7 +20,7 @@ const RootQuery = new GraphQLObjectType({
       async resolve(parent, { offset }, db) {
         try {
           const col = db.collection('timezones');
-          const docs = await col.find({offset}).toArray();
+          const docs = await col.find({ offset }).toArray();
           assert.equal(1, docs.length);
           return docs[0];
         } catch (err) {

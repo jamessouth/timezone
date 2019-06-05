@@ -33,23 +33,20 @@ async function serverCB(reqt, resp) {
 
   if (reqt.method === 'POST') {
     try {
-      let body = '';
+      let source = '';
       const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
       await client.connect();
       const db = client.db('tzs');
-      reqt.on('data', chk => body += chk);
+      reqt.on('data', chk => source += chk);
       reqt.on('end', async () => {
-        console.log('body__', body);
         try {
-          const source = body.replace(/\s+/, '');
-          console.log('source__', source);
           const data = await graphql({ schema, source, contextValue: db });
           console.log(Object.assign({}, data.data.timezone));
         } catch (err) {
           console.log(err.stack);
         } finally {
           client.close();
-          resp.writeHead('204');
+          resp.writeHead('200', {'Access-Control-Allow-Origin': 'http://localhost:3100'});
           resp.end();
         }
       });
