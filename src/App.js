@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
+import Form from './components/Form';
 // import getTimezoneData from './utils/getTimezoneData';
 
 // const Fragment = React.Fragment;
 export default class App extends Component{
-
-
-
 
   componentDidMount() {
     // getTimezoneData();
@@ -38,16 +36,20 @@ export default class App extends Component{
 
   }
 
+  async postQuery(text) {
+    await fetch('http://localhost:3101', {
+      method: 'POST',
+      body: text
+    });
+  }
+
 
   render() {
     return (
       <>
         <div className="intro">Hello World</div>
         <button type="button" onClick={this.sendMsg}>data</button>
-        <form action="http://localhost:3101/" method="POST">
-          <textarea cols="40" rows="15" placeholder="{query...}" name="query"></textarea>
-          <button>submit</button>
-        </form>
+        <Form postQuery={this.postQuery}/>
       </>
     );
   }
