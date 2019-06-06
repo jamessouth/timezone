@@ -36,11 +36,23 @@ export default class App extends Component{
 
   }
 
+
+
   async postQuery(body) {
-    await fetch('http://localhost:3101', {
-      method: 'POST',
-      body
-    });
+    try {
+      let data = await fetch('http://localhost:3101', {
+        method: 'POST',
+        body
+      });
+      if (data.ok) {
+        data = await data.json();
+        console.log(data);
+      } else {
+        throw new Error('Network problem - response not ok');
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
 

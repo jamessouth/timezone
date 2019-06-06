@@ -34,6 +34,7 @@ async function serverCB(reqt, resp) {
   if (reqt.method === 'POST') {
     try {
       let source = '';
+      let payload;
       const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
       await client.connect();
       const db = client.db('tzs');
@@ -41,13 +42,14 @@ async function serverCB(reqt, resp) {
       reqt.on('end', async () => {
         try {
           const data = await graphql({ schema, source, contextValue: db });
-          console.log(Object.assign({}, data.data.timezone));
+          payload = Object.assign({}, data.data.timezone);
+          console.log(payload);
         } catch (err) {
           console.log(err.stack);
         } finally {
           client.close();
           resp.writeHead('200', {'Access-Control-Allow-Origin': 'http://localhost:3100'});
-          resp.end();
+          resp.end(JSON.stringify(payload));
         }
       });
     } catch (err) {
