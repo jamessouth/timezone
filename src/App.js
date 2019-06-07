@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Form from './components/Form';
-
-
+import List from './components/List';
 
 
 function sendMsg() {
@@ -15,7 +14,7 @@ function sendMsg() {
   // });
 
 
-  console.log(new Date());
+  // console.log(new Date());
   fetch('http://localhost:3101')
   // .then(x => x.json())
   .then(async res => {
@@ -33,31 +32,32 @@ function sendMsg() {
 }
 
 
-async function postQuery(body) {
-  try {
-    let data = await fetch('http://localhost:3101', {
-      method: 'POST',
-      body
-    });
-    if (data.ok) {
-      data = await data.json();
-      console.log(data);
-    } else {
-      throw new Error('Network problem - response not ok');
-    }
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-
 export default function App() {
+  let [places, updatePlaces] = useState([]);
 
-    return (
-      <>
-        <div className="intro">Hello World</div>
-        <button type="button" onClick={sendMsg}>data</button>
-        <Form postQuery={postQuery}/>
-      </>
-    );
+  async function postQuery(body) {
+    try {
+      let data = await fetch('http://localhost:3101', {
+        method: 'POST',
+        body
+      });
+      if (data.ok) {
+        data = await data.json();
+        updatePlaces(data.places);
+      } else {
+        throw new Error('Network problem - response not ok');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  return (
+    <>
+      <div className="intro">Hello World</div>
+      <button type="button" onClick={sendMsg}>data</button>
+      <Form postQuery={postQuery}/>
+      <List places={places}></List>
+    </>
+  );
 }

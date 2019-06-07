@@ -5,7 +5,7 @@ export default function Form(props) {
 
   return (
     <form>
-      <textarea value={queryText} onChange={e => updateQueryText(queryText = e.target.value)} cols="40" rows="15" placeholder="{query...}" name="query"></textarea>
+      <textarea value={queryText} onChange={e => updateQueryText(e.target.value)} cols="40" rows="15" placeholder="{query...}" name="query"></textarea>
       <button type="button" onClick={() => props.postQuery(queryText)}>submit query</button>
     </form>
   );

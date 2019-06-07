@@ -8,7 +8,6 @@ export default function seedDB(database, cl) {
     defaultEncoding: 'utf8',
     objectMode: true,
     write(ch, enc, cb) {
-      // console.log(ch);
       const chArray = JSON.parse(ch);
       if(count > 0) {
         database.collection('timezones').insertOne({no: count, offset: chArray[0], places: chArray.slice(1)}, (err, r) => {
@@ -21,7 +20,6 @@ export default function seedDB(database, cl) {
     },
     final(cb) {
       cl.close();
-      console.log(new Date());
       cb();
     }
   });

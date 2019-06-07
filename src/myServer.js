@@ -71,7 +71,7 @@ async function serverCB(reqt, resp) {
       try {
 
         await client.connect();
-
+        const db = client.db('tzs');
         console.log("Connected correctly to mongo server!");
 
 
