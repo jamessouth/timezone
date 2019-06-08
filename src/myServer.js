@@ -2,22 +2,16 @@
 import { graphql } from 'graphql';
 import schema from './graphql/schema';
 
-import removeFirstChunk from './streams/removeFirstChunk';
-import removeParens from './streams/removeParens';
-import seedDB from './streams/seedDB';
-import removeStates from './streams/removeStates';
-import splitByRows from './streams/splitByRows';
-import getPlaceNames from './streams/getPlaceNames';
-import removeDuplicateNames from './streams/removeDuplicateNames';
-import sortNames from './streams/sortNames';
-import replaceUnicodeChars from './streams/replaceUnicodeChars';
-import stripOutImgTags from './streams/stripOutImgTags';
+import seedMongoDB from './streams/seedMongoDB';
+
+import makePipeline from './streams/makePipeline';
 
 const http = require('http');
 const https = require('https');
 const assert = require('assert');
-const { parse } = require('querystring');
+// const { parse } = require('querystring');
 const MongoClient = require('mongodb').MongoClient;
+
 
 // {
 //   timezone(offset: "UTC+08:45") {
@@ -58,9 +52,6 @@ async function serverCB(reqt, resp) {
   }
 
 
-
-
-
   if (reqt.method === 'GET' && reqt.url === '/') {
     // resp.writeHead(200, '7777777', { 'Access-Control-Allow-Origin': 'http://localhost:3100', 'Connection': 'keep-alive', 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' });
     //
@@ -75,21 +66,15 @@ async function serverCB(reqt, resp) {
         console.log("Connected correctly to mongo server!");
 
 
-        chunks
-          .pipe(removeFirstChunk)
-          .pipe(splitByRows)
-          .pipe(stripOutImgTags)
-          .pipe(removeParens)
-          .pipe(getPlaceNames)
-          .pipe(removeStates)
-          .pipe(removeDuplicateNames)
-          .pipe(sortNames)
-          .pipe(replaceUnicodeChars)
-          .pipe(seedDB(db, client));
+        makePipeline(chunks, seedMongoDB(db, client));
 
 
       } catch(err) {
-        console.log(err);
+        if(err.name === 'MongoNetworkError') {
+          console.log('\x1b[1m\x1b[31mNo running MongoDB instance found\x1b[0m - \x1b[1m\x1b[32mfalling back to ....\x1b[0m');
+        }
+
+        // console.log('errrrrrrrrrrr', err.message);
       }
     });
 
