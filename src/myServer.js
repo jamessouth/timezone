@@ -11,6 +11,7 @@ const https = require('https');
 const assert = require('assert');
 // const { parse } = require('querystring');
 const MongoClient = require('mongodb').MongoClient;
+const PouchDB = require('pouchdb-node');
 
 
 // {
@@ -72,6 +73,7 @@ async function serverCB(reqt, resp) {
       } catch(err) {
         if(err.name === 'MongoNetworkError') {
           console.log('\x1b[1m\x1b[31mNo running MongoDB instance found\x1b[0m - \x1b[1m\x1b[32mfalling back to ....\x1b[0m');
+          const db = new PouchDB('tzs');
         }
 
         // console.log('errrrrrrrrrrr', err.message);
