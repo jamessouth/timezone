@@ -3,6 +3,7 @@ import { graphql } from 'graphql';
 import schema from './graphql/schema';
 
 import seedMongoDB from './streams/seedMongoDB';
+import seedPouchDB from './streams/seedPouchDB';
 
 import makePipeline from './streams/makePipeline';
 
@@ -12,8 +13,9 @@ const assert = require('assert');
 // const { parse } = require('querystring');
 const MongoClient = require('mongodb').MongoClient;
 const PouchDB = require('pouchdb-node');
+PouchDB.plugin(require('pouchdb-find'));
 
-
+let db, client;
 // {
 //   timezone(offset: "UTC+08:45") {
 //     places
@@ -32,7 +34,7 @@ async function serverCB(reqt, resp) {
       let payload;
       const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
       await client.connect();
-      const db = client.db('tzs');
+      db = client.db('tzs');
       reqt.on('data', chk => source += chk);
       reqt.on('end', async () => {
         try {
@@ -58,29 +60,48 @@ async function serverCB(reqt, resp) {
     //
     // resp.write('event: ping\ndata: grabbing data...');
 
-    const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
-    https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
-      try {
 
-        await client.connect();
-        const db = client.db('tzs');
-        console.log("Connected correctly to mongo server!");
+    try {
+      client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
+      await client.connect();
+      db = client.db('tzs');
+      console.log("Connected correctly to mongo server!");
+    } catch (err) {
+      if(err.name === 'MongoNetworkError') {
+        console.log('\x1b[1m\x1b[31mNo running MongoDB instance found\x1b[0m - \x1b[1m\x1b[32mfalling back to PouchDB\x1b[0m');
+        db = new PouchDB('tzs');
+        // db.destroy();
+        db.allDocs({
+          include_docs: true,
+          attachments: true
+        }, function(err, response) {
+          if (err) { return console.log(err); }
+          response.rows.forEach((item) => {console.log(item.doc);})
+        });
 
 
-        makePipeline(chunks, seedMongoDB(db, client));
 
 
-      } catch(err) {
-        if(err.name === 'MongoNetworkError') {
-          console.log('\x1b[1m\x1b[31mNo running MongoDB instance found\x1b[0m - \x1b[1m\x1b[32mfalling back to ....\x1b[0m');
-          const db = new PouchDB('tzs');
-        }
-
-        // console.log('errrrrrrrrrrr', err.message);
+      } else {
+        console.log('tfctfctfctfc', err);
       }
-    });
-
-
+    } finally {
+      // https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', chunks => {
+      //
+      //     if(db.prefix) {
+      //       makePipeline(chunks, seedPouchDB(db));
+      //
+      //     } else {
+      //       makePipeline(chunks, seedMongoDB(db, client));
+      //     }
+      //
+      // });
+    }
+    // db.createIndex({
+    //   index: {
+    //     fields: ['offset']
+    //   }
+    // }, (err, r) => console.log(r));
 
     // resp.write('done!!!', 'utf8');
     // resp.end();
