@@ -13,7 +13,6 @@ export default function seedPouchDB(database) {
         database.post({no: count, offset: chArray[0], places: chArray.slice(1)}, (err, r) => {
           assert.equal(null, err);
           assert.equal(true, r.ok);
-          database.info((err, r) => console.log('no. of docs inserted: ', r.doc_count));
           cb();
         });
       } else {
@@ -22,6 +21,14 @@ export default function seedPouchDB(database) {
       count++;
     },
     final(cb) {
+      // database.allDocs({
+      //   include_docs: true,
+      //   attachments: true
+      // }, function(err, response) {
+      //   if (err) { return console.log(err); }
+      //   response.rows.forEach((item) => console.log(item.doc));
+      //
+      // });
       database.close();
       cb();
     }

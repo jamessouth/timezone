@@ -13,10 +13,12 @@ export default function seedMongoDB(database, cl) {
         database.collection('timezones').insertOne({no: count, offset: chArray[0], places: chArray.slice(1)}, (err, r) => {
           assert.equal(null, err);
           assert.equal(1, r.insertedCount);
+          cb();
         });
+      } else {
+        cb();
       }
       count++;
-      cb();
     },
     final(cb) {
       cl.close();

@@ -27,30 +27,35 @@ const server = http.createServer(serverCB).listen(3101, () => {
 });
 
 async function serverCB(reqt, resp) {
-
+  let source = '';
+  let payload, data;
   if (reqt.method === 'POST') {
     try {
-      let source = '';
-      let payload;
       const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
       await client.connect();
       db = client.db('tzs');
+    } catch (err) {
+      if(err.name === 'MongoNetworkError') {
+        db = new PouchDB('tzs');
+      } else {
+        console.log('t33333333', err);
+      }
+    } finally {
       reqt.on('data', chk => source += chk);
       reqt.on('end', async () => {
         try {
-          const data = await graphql({ schema, source, contextValue: db });
+          data = await graphql({ schema, source, contextValue: db });
           payload = Object.assign({}, data.data.timezone);
-          console.log(payload);
+          console.log('fhfhfhfhfhfhf');
         } catch (err) {
-          console.log(err.stack);
+          console.log('llllllllllllll', err.stack);
         } finally {
-          client.close();
+          console.log(payload);
+          client && client.close();
           resp.writeHead('200', {'Access-Control-Allow-Origin': 'http://localhost:3100'});
           resp.end(JSON.stringify(payload));
         }
       });
-    } catch (err) {
-      console.log(err.stack);
     }
   }
 
@@ -71,37 +76,32 @@ async function serverCB(reqt, resp) {
         console.log('\x1b[1m\x1b[31mNo running MongoDB instance found\x1b[0m - \x1b[1m\x1b[32mfalling back to PouchDB\x1b[0m');
         db = new PouchDB('tzs');
         // db.destroy();
-        db.allDocs({
-          include_docs: true,
-          attachments: true
-        }, function(err, response) {
-          if (err) { return console.log(err); }
-          response.rows.forEach((item) => {console.log(item.doc);})
-        });
-
-
-
-
       } else {
         console.log('tfctfctfctfc', err);
       }
     } finally {
-      // https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', chunks => {
-      //
-      //     if(db.prefix) {
-      //       makePipeline(chunks, seedPouchDB(db));
-      //
-      //     } else {
-      //       makePipeline(chunks, seedMongoDB(db, client));
-      //     }
-      //
-      // });
+      https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', chunks => {
+
+          if(db.prefix) {
+            makePipeline(chunks, seedPouchDB(db));
+            console.log('ccccccccccccccccccccc');
+            db.createIndex({
+              index: {
+                fields: ['offset']
+              }
+            }, (err, r) => console.log(err || r));
+
+          } else {
+            makePipeline(chunks, seedMongoDB(db, client));
+          }
+
+      });
     }
-    // db.createIndex({
-    //   index: {
-    //     fields: ['offset']
-    //   }
-    // }, (err, r) => console.log(r));
+    db.createIndex({
+      index: {
+        fields: ['offset']
+      }
+    }, (err, r) => console.log(err || r));
 
     // resp.write('done!!!', 'utf8');
     // resp.end();

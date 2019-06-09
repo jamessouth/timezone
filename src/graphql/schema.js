@@ -19,10 +19,21 @@ const RootQuery = new GraphQLObjectType({
       args: { offset: { type: GraphQLString }},
       async resolve(parent, { offset }, db) {
         try {
-          const col = db.collection('timezones');
-          const docs = await col.find({ offset }).toArray();
-          assert.equal(1, docs.length);
-          return docs[0];
+          let docs;
+          if(db.prefix) {
+            console.log('here');
+            docs = await db.find({ selector: { offset } });
+            console.log(docs);
+            assert.equal(1, docs.docs.length);
+            return docs.docs[0];
+          } else {
+            const col = db.collection('timezones');
+            docs = await col.find({ offset }).toArray();
+            assert.equal(1, docs.length);
+            return docs[0];
+          }
+
+
         } catch (err) {
           console.log(err.stack);
         }
