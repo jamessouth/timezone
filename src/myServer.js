@@ -29,6 +29,7 @@ const server = http.createServer(serverCB).listen(3101, () => {
 async function serverCB(reqt, resp) {
   let source = '';
   let payload, data;
+
   if (reqt.method === 'POST') {
     try {
       const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
@@ -80,28 +81,18 @@ async function serverCB(reqt, resp) {
         console.log('tfctfctfctfc', err);
       }
     } finally {
-      https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', chunks => {
+      https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
 
           if(db.prefix) {
-            makePipeline(chunks, seedPouchDB(db));
+            await makePipeline(chunks, seedPouchDB(db)).catch(err => console.log(err));
             console.log('ccccccccccccccccccccc');
-            db.createIndex({
-              index: {
-                fields: ['offset']
-              }
-            }, (err, r) => console.log(err || r));
 
           } else {
             makePipeline(chunks, seedMongoDB(db, client));
           }
-
       });
     }
-    db.createIndex({
-      index: {
-        fields: ['offset']
-      }
-    }, (err, r) => console.log(err || r));
+
 
     // resp.write('done!!!', 'utf8');
     // resp.end();

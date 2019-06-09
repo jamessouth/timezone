@@ -9,10 +9,12 @@ import removeDuplicateNames from './removeDuplicateNames';
 import sortNames from './sortNames';
 import replaceUnicodeChars from './replaceUnicodeChars';
 
-const { pipeline } = require('stream');
+const util = require('util');
+const stream = require('stream');
+const pipeline = util.promisify(stream.pipeline);
 
-export default function makePipeline(data, seedFunc) {
-  return pipeline(data,
+export default async function makePipeline(data, seedFunc) {
+  await pipeline(data,
     removeFirstChunk,
     splitByRows,
     stripOutImgTags,
@@ -22,6 +24,6 @@ export default function makePipeline(data, seedFunc) {
     removeDuplicateNames,
     sortNames,
     replaceUnicodeChars,
-    seedFunc,
-    err => err ? console.log(err) : console.log('Data successfully piped!'));
+    seedFunc);
+  console.log('Data piped successfully and database seeded!');
 }
