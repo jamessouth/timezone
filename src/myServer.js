@@ -88,7 +88,8 @@ async function serverCB(reqt, resp) {
             console.log('ccccccccccccccccccccc');
 
           } else {
-            makePipeline(chunks, seedMongoDB(db, client));
+            await makePipeline(chunks, seedMongoDB(db, client)).catch(err => console.log(err));
+            console.log('cc343453453434535ccc');
           }
       });
     }

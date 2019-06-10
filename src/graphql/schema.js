@@ -24,7 +24,7 @@ const RootQuery = new GraphQLObjectType({
             console.log('here');
             docs = await db.find({ selector: { offset } });
             console.log(docs);
-            assert.equal(1, docs.docs.length);
+            // assert.equal(1, docs.docs.length);
             return docs.docs[0];
           } else {
             const col = db.collection('timezones');
