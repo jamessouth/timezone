@@ -5,12 +5,8 @@ const removeDuplicateNames = new Transform({
   readableObjectMode: true,
   writableObjectMode: true,
   transform(ch, enc, cb) {
-
     const noDupes = [...new Set(JSON.parse(ch))];
-
-
     this.push(JSON.stringify(noDupes));
-
     cb();
   }
 });

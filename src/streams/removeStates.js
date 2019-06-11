@@ -5,12 +5,8 @@ const removeStates = new Transform({
   readableObjectMode: true,
   writableObjectMode: true,
   transform(ch, enc, cb) {
-
     const noStates = JSON.parse(ch).filter(p => !p.match(/Rio|Paulo|Minas|Paran|Mato|Cocos|Victoria/));
-
-
     this.push(JSON.stringify(noStates));
-
     cb();
   }
 });

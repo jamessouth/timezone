@@ -9,7 +9,6 @@ const getPlaceNames = new Transform({
   encoding: 'utf8',
   readableObjectMode: true,
   transform(ch, enc, cb) {
-
     const parsedHTML = parse5.parseFragment(ch.toString());
     const ancAndPara = treeAdapters.getChildNodes(parsedHTML);
     const chil = ancAndPara
@@ -17,10 +16,7 @@ const getPlaceNames = new Transform({
       .flatMap((v,i) => i != 1 ? v.childNodes : [])
       .filter(u => ['a', 'p'].includes(u.nodeName))
       .map(getNames);
-
-
     this.push(JSON.stringify(chil));
-
     cb();
   }
 });
