@@ -1,6 +1,6 @@
 # timezones
 
-Very much a work-in-progress.  Hasn't been styled yet.  Not even sure what all it is going to do.  Just playing and building with TDD, React, Node, GraphQL, MongoDB, PouchDB.
+#### Very much a work-in-progress.  Hasn't been styled yet.  Not even sure what all it is going to do.  Just playing and building with TDD, React, Node, GraphQL, MongoDB, PouchDB.
 -------------------------------------------------------------------------------
 
 1.  Download and `npm install` this to run it.
@@ -11,7 +11,7 @@ Very much a work-in-progress.  Hasn't been styled yet.  Not even sure what all i
 
 4.  Optionally, spin up a MongoDB instance.  You can also, if you want, open up a Mongo shell to see the data in the `tzs` database, `timezones` collection.
 
-5.  Click the data button to hit Wikipedia's REST API for a table of UTC offsets from the [time zone](https://en.wikipedia.org/wiki/Time_zone) page.
+5.  Click the `data` button to hit Wikipedia's REST API for a table of UTC offsets from the [time zone](https://en.wikipedia.org/wiki/Time_zone) page.
 
 6.  The response will be piped through a series of streams, transforming each line in the table into an object that (so far) includes the offset and a list of places in that time zone.
 
