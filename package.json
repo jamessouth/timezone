@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint src/ && echo 'Linted!'",
     "dev": "webpack-dev-server",
-    "dev:backend": "node -r esm src/myServer_wip.js",
+    "dev:backend": "node -r esm src/myServer.js",
     "build": "webpack && cp src/favicon.ico docs/favicon.ico && cp -r src/assets/icons/ docs/",
     "test": "nyc riteway -r @babel/register -r @babel/polyfill src/**/*.test.js | tap-nirvana",
     "watch": "watch \"clear && npm run -s lint && npm run -s test\" src/"

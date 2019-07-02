@@ -43,7 +43,9 @@ export default function App() {
       });
       if (data.ok) {
         data = await data.json();
+        // console.log(data);
         updatePlaces(data.places);
+        // console.log(places);
       } else {
         throw new Error('Network problem - response not ok');
       }
@@ -52,12 +54,19 @@ export default function App() {
     }
   }
 
+// form validation
+
   return (
     <>
       <div className="intro">Hello World</div>
       <button type="button" onClick={sendMsg}>data</button>
       <Form postQuery={postQuery}/>
-      <List places={places}></List>
+      {
+        places && places.length > 0 && <List places={places}></List>
+      }
+      {
+        !places && <p>not places</p>
+      }
     </>
   );
 }
