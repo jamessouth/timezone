@@ -5,9 +5,9 @@
 
 1.  Download and `npm install` this to run it.
 
-2.  I'm still developing so for the front-end just run `npm run dev` to start webpack-dev-server, then open a browser on `localhost:3100`.
+2.  I'm still developing so for the front-end just run `npm run dev:front` to start webpack-dev-server, then open a browser on `localhost:3100`.
 
-3.  For the back-end, open another terminal and run `node -r esm src/myServer.js`.
+3.  For the back-end, open another terminal and run `npm run dev:back`.  This will start `nodemon` watching the server script.  It will beep.
 
 4.  Optionally, spin up a MongoDB instance.  You can also, if you want, open up a Mongo shell to see the data in the `tzs` database, `timezones` collection.
 
