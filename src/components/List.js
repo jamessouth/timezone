@@ -1,12 +1,12 @@
 import React from 'react';
 
-export default function List(props) {
-  const places = props.places.map((place, ind) => <li key={ind}>{place}</li>);
+export default function List({ places }) {
+  const locations = places.map((place, ind) => <li key={ind}>{place}</li>);
 
   return (
     <>
     <p>hiuhoiuh</p>
-    <ul>{places}</ul>
+    <ul>{locations}</ul>
     </>
   );
 

@@ -5,6 +5,7 @@ import schema from './graphql/schema';
 import seedMongoDB from './streams/seedMongoDB';
 import seedPouchDB from './streams/seedPouchDB';
 
+
 import makePipeline from './streams/makePipeline';
 
 const http = require('http');
@@ -16,14 +17,16 @@ const PouchDB = require('pouchdb-node');
 PouchDB.plugin(require('pouchdb-find'));
 
 let db, client;
-// {
-//   timezone(offset: "UTC+08:45") {
-//     places
-//   }
-// }
+let rrr = `
+{
+  timezone(offset: "UTC+08:45") {
+    places
+  }
+}
+`;
 
 const server = http.createServer(serverCB).listen(3101, () => {
-  console.log('server running on port 3101!');
+  console.log('server running on port 3101!', '\x07');// default beep
 });
 
 async function serverCB(reqt, resp) {
@@ -42,16 +45,34 @@ async function serverCB(reqt, resp) {
         console.log('t33333333', err);
       }
     } finally {
-      reqt.on('data', chk => source += chk);
+      reqt.on('data', chk => {
+        // console.log('ch ', chk);
+        source += chk;
+      });
       reqt.on('end', async () => {
+        // console.log('src ', source);
         try {
           data = await graphql({ schema, source, contextValue: db });
-          payload = Object.assign({}, data.data.timezone);
+          if (data.data) {
+            if (data.data.timezone) {
+              console.log('some data');
+              payload = Object.assign({}, data.data.timezone);
+            } else {
+              console.log('bad timezone');
+              payload = { places: [] };
+            }
+
+
+          } else {
+            console.log('bad query');
+            payload = {msg: 'Please submit a valid query.'};
+          }
           console.log('fhfhfhfhfhfhf');
         } catch (err) {
           console.log('llllllllllllll', err.stack);
         } finally {
-          console.log(payload);
+          console.log('pl ', payload);
+          console.log();
           client && client.close();
           resp.writeHead('200', {'Access-Control-Allow-Origin': 'http://localhost:3100'});
           resp.end(JSON.stringify(payload));

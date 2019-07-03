@@ -33,7 +33,8 @@ function sendMsg() {
 
 
 export default function App() {
-  let [places, updatePlaces] = useState([]);
+  const [places, updatePlaces] = useState(null);
+  const [graphQLErrorMsg, updateGraphQLErrorMsg] = useState(null);
 
   async function postQuery(body) {
     try {
@@ -43,9 +44,16 @@ export default function App() {
       });
       if (data.ok) {
         data = await data.json();
-        // console.log(data);
-        updatePlaces(data.places);
-        // console.log(places);
+        console.log(data);
+        if (data.places) {
+          updatePlaces(data.places);
+          updateGraphQLErrorMsg(null);
+          console.log(places);
+        } else {
+          updateGraphQLErrorMsg(data.msg);
+          updatePlaces(null);
+          console.log(graphQLErrorMsg);
+        }
       } else {
         throw new Error('Network problem - response not ok');
       }
@@ -65,7 +73,10 @@ export default function App() {
         places && places.length > 0 && <List places={places}></List>
       }
       {
-        !places && <p>not places</p>
+        places && places.length == 0 && <p>Please enter a valid time zone</p>
+      }
+      {
+        graphQLErrorMsg && <p>{graphQLErrorMsg}</p>
       }
     </>
   );
