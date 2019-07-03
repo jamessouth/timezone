@@ -16,7 +16,7 @@ const MongoClient = require('mongodb').MongoClient;
 const PouchDB = require('pouchdb-node');
 PouchDB.plugin(require('pouchdb-find'));
 
-let db, client;
+let db, client, offsets;
 let rrr = `
 {
   timezone(offset: "UTC+08:45") {
@@ -83,9 +83,10 @@ async function serverCB(reqt, resp) {
 
 
   if (reqt.method === 'GET' && reqt.url === '/') {
-    // resp.writeHead(200, '7777777', { 'Access-Control-Allow-Origin': 'http://localhost:3100', 'Connection': 'keep-alive', 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' });
-    //
+    resp.writeHead(200, '7777777', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
+
     // resp.write('event: ping\ndata: grabbing data...');
+    // , 'Connection': 'keep-alive', 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache'
 
 
     try {
@@ -103,20 +104,35 @@ async function serverCB(reqt, resp) {
       }
     } finally {
       https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
+        if (db.prefix) {
 
-          if(db.prefix) {
-            await makePipeline(chunks, seedPouchDB(db)).catch(err => console.log(err));
-            console.log('ccccccccccccccccccccc');
 
-          } else {
-            await makePipeline(chunks, seedMongoDB(db, client)).catch(err => console.log(err));
-            console.log('cc343453453434535ccc');
-          }
+          await makePipeline(chunks, seedPouchDB(db));
+
+          offsets = await db.find({ selector: { offset: { $exists: true } },
+          fields: ['no', 'offset'] });
+
+          // offsets = await db.find({ selector: { offset: "UTC+08:45" } });
+
+          db.close();
+
+
+          // .then(x => console.log(x)).then(() => {
+          //
+          // }).then(() => ).catch(err => console.log('4444', err));
+          console.log('ccccccccccccccccccccc');
+          console.log(offsets);
+          resp.end(JSON.stringify(offsets));
+
+        } else {
+          await makePipeline(chunks, seedMongoDB(db, client)).catch(err => console.log(err));
+          console.log('cc343453453434535ccc');
+        }
       });
     }
 
 
     // resp.write('done!!!', 'utf8');
-    // resp.end();
+
   }
 };

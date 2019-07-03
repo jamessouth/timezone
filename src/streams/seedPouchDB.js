@@ -29,7 +29,7 @@ export default function seedPouchDB(database) {
       //   response.rows.forEach((item) => console.log(item.doc));
       //
       // });
-      database.close();
+      // database.close();
       cb();
     }
   });
