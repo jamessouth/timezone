@@ -11,6 +11,7 @@ import offsetsStream from './streams/offsetsStream';
 
 const { Readable } = require('stream');
 const http = require('http');
+const fs = require('fs');
 const https = require('https');
 const assert = require('assert');
 // const { parse } = require('querystring');
@@ -134,38 +135,44 @@ async function serverCB(reqt, resp) {
         console.log('tfctfctfctfc', err);
       }
     } finally {
-      https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
+      // https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
+      //   if (db.prefix) {
+      //     await makePipeline(chunks, seedPouchDB(db));
+      //     offsets = await db.find({ selector: { offset: { $exists: true } },
+      //     fields: ['no', 'offset'] });
+      //     db.close();
+      //     console.log('ccccccccccccccccccccc');
+      //     offsetsStream(offsets.docs).pipe(resp);
+      //     // console.log(offsets);
+      //     // resp.end(JSON.stringify(offsets));
+      //   } else {
+      //     await makePipeline(chunks, seedMongoDB(db, client)).catch(err => console.log(err));
+      //     console.log('cc343453453434535ccc');
+      //   }
+      // });
+
+      (async function getData() {
+        // const file = fs.createReadStream('./tabledata');
         if (db.prefix) {
-
-
-          await makePipeline(chunks, seedPouchDB(db));
-
-          offsets = await db.find({ selector: { offset: { $exists: true } },
-          fields: ['no', 'offset'] });
-
-          // offsets = await db.find({ selector: { offset: "UTC+08:45" } });
-
+          await db.createIndex({
+            index: {
+              fields: ['no']
+            }
+          });
+          // await makePipeline(file, seedPouchDB(db));
+          offsets = await db.find({ selector: { no: { $exists: true } },
+          fields: ['offset'],
+          sort: [{no: 'asc'}] });
           db.close();
-
-
-          // .then(x => console.log(x)).then(() => {
-          //
-          // }).then(() => ).catch(err => console.log('4444', err));
           console.log('ccccccccccccccccccccc');
-
-
           offsetsStream(offsets.docs).pipe(resp);
-
-
-
           // console.log(offsets);
           // resp.end(JSON.stringify(offsets));
-
         } else {
           await makePipeline(chunks, seedMongoDB(db, client)).catch(err => console.log(err));
           console.log('cc343453453434535ccc');
         }
-      });
+      })();
     }
 
 

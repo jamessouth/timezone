@@ -6,11 +6,17 @@ export default function Form({ offsetList, postQuery }) {
 
   return (
     <form>
-    <select value={selectValue} onChange={e => setSelectValue(e.target.value)} id="sort">
-      <option hidden>Select...</option>
-      <option>{offsetList}</option>
-    </select>
-
+      {
+        offsetList &&
+          <select
+            value={selectValue}
+            onChange={e => setSelectValue(e.target.value)}
+            id="sort"
+          >
+            <option hidden>Select...</option>
+            {offsetList.map(({ offset }, i) => <option key={i} value={offset}>{offset}</option>)}
+          </select>
+      }
 
 
 
