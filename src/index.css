@@ -7,3 +7,22 @@
 .intro{
   background-color: yellow;
 }
+.div{
+  color: white;
+  /* tab-size: 1.5em; */
+  background-color: #282c34;
+  border-radius: 10px;
+  width: 50%;
+  /* overflow: auto; */
+}
+.pre{
+  font-size: 14px;
+  line-height: 20px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  height: auto;
+  margin: 1rem;
+}
+.code{
+
+}
