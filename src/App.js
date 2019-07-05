@@ -39,6 +39,7 @@ export default function App() {
       return await processData(data);
     }).then(offsets => {console.log(offsets);updateOffsetList(offsets)});
 
+
   }
 
   async function postQuery(body) {
@@ -50,15 +51,19 @@ export default function App() {
       if (data.ok) {
         data = await data.json();
         console.log(data);
+
         if (data.places) {
           updatePlaces(data.places);
           updateGraphQLErrorMsg(null);
           console.log(places);
-        } else {
+        }
+
+        if (data.msg) {
           updateGraphQLErrorMsg(data.msg);
           updatePlaces(null);
           console.log(graphQLErrorMsg);
         }
+
       } else {
         throw new Error('Network problem - response not ok');
       }
@@ -69,20 +74,25 @@ export default function App() {
 
 // form validation
 
+
+
+
   return (
     <>
       <div className="intro">Hello World</div>
       <button type="button" onClick={sendMsg}>data</button>
       <Form offsetList={offsetList} postQuery={postQuery}/>
       {
-        places && places.length > 0 && <List places={places}></List>
+        places && <List places={places}></List>
       }
       {
-        places && places.length == 0 && <p>Please enter a valid time zone</p>
+        graphQLErrorMsg && <p>{`There was an error: ${graphQLErrorMsg}.  Please try again.`}</p>
       }
-      {
-        graphQLErrorMsg && <p>{graphQLErrorMsg}</p>
-      }
+
     </>
   );
 }
+
+// {
+//   places && places.length == 0 && <p>Please enter a valid time zone</p>
+// }

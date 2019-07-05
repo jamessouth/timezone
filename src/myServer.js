@@ -85,23 +85,28 @@ async function serverCB(reqt, resp) {
         // console.log('src ', source);
         try {
           data = await graphql({ schema, source, contextValue: db });
-          if (data.data) {
-            if (data.data.timezone) {
-              console.log('some data');
-              payload = Object.assign({}, data.data.timezone);
-            } else {
-              console.log('bad timezone');
-              payload = { places: [] };
+          // if (data.data) {
+          // console.log('mys', data);
+            if (data.errors) {
+              throw data.errors[0];
+
             }
 
+            // if (data.data.timezone) {
 
-          } else {
-            console.log('bad query');
-            payload = {msg: 'Please submit a valid query.'};
-          }
+              payload = Object.assign({}, data.data.timezone);
+            // }
+
+
+
+          // } else {
+          //   console.log('bad query');
+
+          // }
           console.log('fhfhfhfhfhfhf');
         } catch (err) {
-          console.log('llllllllllllll', err.stack);
+          console.log('llllllllllllll', err);
+          payload = { msg: err.message };
         } finally {
           console.log('pl ', payload);
           console.log();

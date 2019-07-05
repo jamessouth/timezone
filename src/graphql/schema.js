@@ -19,6 +19,7 @@ const RootQuery = new GraphQLObjectType({
       args: { offset: { type: GraphQLString }},
       async resolve(parent, { offset }, db) {
         try {
+          // throw new Error('arrrg');
           let docs;
           if(db.prefix) {
             console.log('here');
@@ -35,7 +36,8 @@ const RootQuery = new GraphQLObjectType({
 
 
         } catch (err) {
-          console.log(err.stack);
+          // console.log('sch', err.stack);
+          return err;
         }
       }
     }
