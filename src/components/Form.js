@@ -28,8 +28,7 @@ export default function Form({ offsetList, postQuery }) {
       <label htmlFor="huey">huey</label>
       <input onChange={e => setRadioValue(e.target.value)} type="radio" id="huey" name="drone" value="huey"/>
 
-      <label htmlFor="dewey">Dewey</label>
-      <input onChange={e => setRadioValue(e.target.value)} type="radio" id="dewey" name="drone" value="dewey"/>
+
 
 
       {
@@ -47,13 +46,18 @@ export default function Form({ offsetList, postQuery }) {
           </div>
       }
 
+      {
+        selectValue !== 'Select...' && !!queryText &&
+          <button type="button" onClick={() => postQuery(queryText)}>submit query</button>
+      }
 
-      <button type="button" onClick={() => postQuery(queryText)}>submit query</button>
+
     </form>
   );
 
 }
 
-
+// <label htmlFor="dewey">Dewey</label>
+// <input onChange={e => setRadioValue(e.target.value)} type="radio" id="dewey" name="drone" value="dewey"/>
 
       // <textarea readOnly value={queryText} onChange={e => setQueryText(e.target.value)} cols="40" rows="15" name="query"></textarea>
