@@ -6,10 +6,11 @@ export default function Form({ offsetList, postQuery }) {
   const [queryText, setQueryText] = useState(null);
   const [selectValue, setSelectValue] = useState('Select...');
   const [radioValue, setRadioValue] = useState(null);
+  const [offsetCheckboxValue, setOffsetCheckboxValue] = useState(false);
 
   useEffect(() => {
     setQueryText(code1.current.textContent);
-  }, [radioValue, selectValue]);
+  }, [radioValue, selectValue, offsetCheckboxValue]);
 
   return (
     <form>
@@ -28,6 +29,9 @@ export default function Form({ offsetList, postQuery }) {
       <label htmlFor="huey">huey</label>
       <input onChange={e => setRadioValue(e.target.value)} type="radio" id="huey" name="drone" value="huey"/>
 
+      <label htmlFor="offset">offset</label>
+      <input onChange={() => setOffsetCheckboxValue(prev => !prev)} type="checkbox" id="offset" name="fields" value={offsetCheckboxValue}/>
+
 
 
 
@@ -38,6 +42,7 @@ export default function Form({ offsetList, postQuery }) {
               <code ref={code1} className="code">{`
 {
   timezone(offset: "${selectValue}") {
+    ${offsetCheckboxValue ? 'offset' : ''}
     places
   }
 }

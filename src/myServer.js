@@ -126,20 +126,20 @@ async function serverCB(reqt, resp) {
       // });
 
       (async function getData() {
-        const file = fs.createReadStream('./tabledata');
+        // const file = fs.createReadStream('./tabledata');
         if (db.prefix) { // pouch
-          await makePipeline(file, seedDB(db, false));
-          await db.createIndex({
-            index: {
-              fields: ['no']
-            }
-          });
-
-          await db.createIndex({
-            index: {
-              fields: ['offset']
-            }
-          });
+          // await makePipeline(file, seedDB(db, false));
+          // await db.createIndex({
+          //   index: {
+          //     fields: ['no']
+          //   }
+          // });
+          //
+          // await db.createIndex({
+          //   index: {
+          //     fields: ['offset']
+          //   }
+          // });
 
 
           offsets = await db.find({ selector: { no: { $gt: -1 } },
@@ -155,6 +155,7 @@ async function serverCB(reqt, resp) {
           const col = db.collection('timezones');
           offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
           client.close();
+
 
 
           console.log('cc343453453434535ccc');
