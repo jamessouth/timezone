@@ -27,17 +27,14 @@ export default function App() {
       const readr = res.body.getReader();
       const data = await readr.read();
       async function processData({done, value}) {
-        console.log('bod ', bod.length);
         if (done) {
-          // bod += ']';  .replace(',]', ']')
           return JSON.parse(bod);
         }
         bod += new TextDecoder('utf-8').decode(value);
-
         return readr.read().then(processData);
       }
       return await processData(data);
-    }).then(offsets => {console.log(offsets);updateOffsetList(offsets)});
+    }).then(offsets => updateOffsetList(offsets));
 
 
   }
@@ -73,9 +70,6 @@ export default function App() {
   }
 
 // form validation
-
-
-
 
   return (
     <>

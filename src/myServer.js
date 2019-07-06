@@ -7,7 +7,7 @@ import seedDB from './streams/seedDB';
 import makePipeline from './streams/makePipeline';
 import offsetsStream from './streams/offsetsStream';
 
-const { Readable } = require('stream');
+// const { Readable } = require('stream');
 const http = require('http');
 const fs = require('fs');
 const https = require('https');
@@ -127,7 +127,7 @@ async function serverCB(reqt, resp) {
 
       (async function getData() {
         const file = fs.createReadStream('./tabledata');
-        if (db.prefix) {
+        if (db.prefix) { // pouch
           await db.createIndex({
             index: {
               fields: ['no']
@@ -142,7 +142,7 @@ async function serverCB(reqt, resp) {
           offsetsStream(offsets.docs).pipe(resp);
           // console.log(offsets);
           // resp.end(JSON.stringify(offsets));
-        } else {
+        } else { // mongo
           await makePipeline(file, seedDB(db));
           const col = db.collection('timezones');
           offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
