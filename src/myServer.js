@@ -91,7 +91,7 @@ async function serverCB(reqt, resp) {
               throw data.errors[0];
 
             }
-
+            // console.log('hdhdhdhdhdhd');
             // if (data.data.timezone) {
 
               payload = Object.assign({}, data.data.timezone);
@@ -174,8 +174,23 @@ async function serverCB(reqt, resp) {
           // console.log(offsets);
           // resp.end(JSON.stringify(offsets));
         } else {
-          await makePipeline(chunks, seedMongoDB(db, client)).catch(err => console.log(err));
+          // await makePipeline(file, seedMongoDB(db));
+          const col = db.collection('timezones');
+          offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
+          client.close();
+          // .toArray()  .sort({ 'no': 1 })
+          // console.log(offsets);
+
+          // offsets.forEach(x => JSON.stringify(x), y => console.log(y));
+          // offsets.pipe(process.stdout);
+          // console.log(erer);
+          // offsets.stream({transform: function(chunk) {console.log(chunk);return JSON.stringify(chunk);}}).pipe(process.stdout);
+          // console.log(offsets);
           console.log('cc343453453434535ccc');
+          // offsets.stream({ transform: ch => JSON.stringify(ch)}).pipe(process.stdout);
+          // transformStream(x => JSON.stringify(x))
+          offsetsStream(offsets).pipe(resp);
+
         }
       })();
     }

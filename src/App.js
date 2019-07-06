@@ -23,14 +23,14 @@ export default function App() {
     fetch('http://localhost:3101')
     // .then(x => x.json())
     .then(async res => {
-      let bod = '[';
+      let bod = '';
       const readr = res.body.getReader();
       const data = await readr.read();
       async function processData({done, value}) {
         console.log('bod ', bod.length);
         if (done) {
-          bod += ']';
-          return JSON.parse(bod.replace(',]', ']'));
+          // bod += ']';  .replace(',]', ']')
+          return JSON.parse(bod);
         }
         bod += new TextDecoder('utf-8').decode(value);
 

@@ -19,8 +19,9 @@ export default function seedPouchDB(database) {
         cb();
       }
       count++;
-    },
-    final(cb) {
+    }
+    // ,
+    // final(cb) {
       // database.allDocs({
       //   include_docs: true,
       //   attachments: true
@@ -30,7 +31,7 @@ export default function seedPouchDB(database) {
       //
       // });
       // database.close();
-      cb();
-    }
+    //   cb();
+    // }
   });
 }

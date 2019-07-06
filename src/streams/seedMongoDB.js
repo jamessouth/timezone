@@ -1,7 +1,7 @@
 const { Writable } = require('stream');
 const assert = require('assert');
 
-export default function seedMongoDB(database, cl) {
+export default function seedMongoDB(database) {
   let count = 0;
   return new Writable({
     decodeStrings: false,
@@ -19,10 +19,11 @@ export default function seedMongoDB(database, cl) {
         cb();
       }
       count++;
-    },
-    final(cb) {
-      cl.close();
-      cb();
     }
+    // ,
+    // final(cb) {
+    //
+    //   cb();
+    // }
   });
 }
