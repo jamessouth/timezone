@@ -1,7 +1,7 @@
 const { Writable } = require('stream');
 const assert = require('assert');
 
-export default function seedMongoDB(database) {
+export default function seedDB(database, mongo = true) {
   let count = 0;
   return new Writable({
     decodeStrings: false,
@@ -9,10 +9,20 @@ export default function seedMongoDB(database) {
     objectMode: true,
     write(ch, enc, cb) {
       const chArray = JSON.parse(ch);
+      const data = {
+        no: count,
+        offset: chArray[0],
+        places: chArray.slice(1)
+      };
       if(count > 0) {
-        database.collection('timezones').insertOne({no: count, offset: chArray[0], places: chArray.slice(1)}, (err, r) => {
+        mongo && database.collection('timezones').insertOne(data, (err, r) => {
           assert.equal(null, err);
           assert.equal(1, r.insertedCount);
+          cb();
+        });
+        !mongo && database.post(data, (err, r) => {
+          assert.equal(null, err);
+          assert.equal(true, r.ok);
           cb();
         });
       } else {
@@ -20,10 +30,5 @@ export default function seedMongoDB(database) {
       }
       count++;
     }
-    // ,
-    // final(cb) {
-    //
-    //   cb();
-    // }
   });
 }

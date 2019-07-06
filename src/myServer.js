@@ -2,9 +2,7 @@
 import { graphql } from 'graphql';
 import schema from './graphql/schema';
 
-import seedMongoDB from './streams/seedMongoDB';
-import seedPouchDB from './streams/seedPouchDB';
-
+import seedDB from './streams/seedDB';
 
 import makePipeline from './streams/makePipeline';
 import offsetsStream from './streams/offsetsStream';
@@ -27,35 +25,6 @@ let rrr = `
   }
 }
 `;
-
-
-// (async function hhh() {
-//   db = new PouchDB('tzs');
-//
-//   offsets = await db.find({ selector: { offset: { $exists: true } },
-//   fields: ['no', 'offset'] });
-//
-//             db.close();
-// // console.log(offsets);
-// // console.log();
-// // console.log();
-//   const myReadable = new Readable({
-//     // objectMode: true,
-//     read(size) {
-//       // const offsetObj = offsets.docs.shift();
-//       // if (offsetObj) offsetObj.dt = new Date().getMilliseconds();
-//       this.push(JSON.stringify(offsets.docs));
-//       // if (size > 17000) this.push(null);
-//     }
-//   });
-//
-//
-//   myReadable.pipe(process.stdout);
-// })();
-
-
-
-
 
 const server = http.createServer(serverCB).listen(3101, () => {
   console.log('server running on port 3101!', '\x07');// default beep
@@ -142,7 +111,7 @@ async function serverCB(reqt, resp) {
     } finally {
       // https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
       //   if (db.prefix) {
-      //     await makePipeline(chunks, seedPouchDB(db));
+      //     await makePipeline(chunks, seedDB(db, false));
       //     offsets = await db.find({ selector: { offset: { $exists: true } },
       //     fields: ['no', 'offset'] });
       //     db.close();
@@ -151,20 +120,20 @@ async function serverCB(reqt, resp) {
       //     // console.log(offsets);
       //     // resp.end(JSON.stringify(offsets));
       //   } else {
-      //     await makePipeline(chunks, seedMongoDB(db, client)).catch(err => console.log(err));
+      //     await makePipeline(chunks, seedDB(db)).catch(err => console.log(err));
       //     console.log('cc343453453434535ccc');
       //   }
       // });
 
       (async function getData() {
-        // const file = fs.createReadStream('./tabledata');
+        const file = fs.createReadStream('./tabledata');
         if (db.prefix) {
           await db.createIndex({
             index: {
               fields: ['no']
             }
           });
-          // await makePipeline(file, seedPouchDB(db));
+          // await makePipeline(file, seedDB(db, false));
           offsets = await db.find({ selector: { no: { $exists: true } },
           fields: ['offset'],
           sort: [{no: 'asc'}] });
@@ -174,21 +143,15 @@ async function serverCB(reqt, resp) {
           // console.log(offsets);
           // resp.end(JSON.stringify(offsets));
         } else {
-          // await makePipeline(file, seedMongoDB(db));
+          await makePipeline(file, seedDB(db));
           const col = db.collection('timezones');
           offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
           client.close();
-          // .toArray()  .sort({ 'no': 1 })
-          // console.log(offsets);
 
-          // offsets.forEach(x => JSON.stringify(x), y => console.log(y));
-          // offsets.pipe(process.stdout);
-          // console.log(erer);
-          // offsets.stream({transform: function(chunk) {console.log(chunk);return JSON.stringify(chunk);}}).pipe(process.stdout);
-          // console.log(offsets);
+
           console.log('cc343453453434535ccc');
-          // offsets.stream({ transform: ch => JSON.stringify(ch)}).pipe(process.stdout);
-          // transformStream(x => JSON.stringify(x))
+
+
           offsetsStream(offsets).pipe(resp);
 
         }
