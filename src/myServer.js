@@ -128,17 +128,25 @@ async function serverCB(reqt, resp) {
       (async function getData() {
         const file = fs.createReadStream('./tabledata');
         if (db.prefix) { // pouch
+          await makePipeline(file, seedDB(db, false));
           await db.createIndex({
             index: {
               fields: ['no']
             }
           });
-          // await makePipeline(file, seedDB(db, false));
-          offsets = await db.find({ selector: { no: { $exists: true } },
+
+          await db.createIndex({
+            index: {
+              fields: ['offset']
+            }
+          });
+
+
+          offsets = await db.find({ selector: { no: { $gt: -1 } },
           fields: ['offset'],
           sort: [{no: 'asc'}] });
           db.close();
-          console.log('ccccccccccccccccccccc');
+          console.log('ccccccccccccccccccccc', offsets);
           offsetsStream(offsets.docs).pipe(resp);
           // console.log(offsets);
           // resp.end(JSON.stringify(offsets));
