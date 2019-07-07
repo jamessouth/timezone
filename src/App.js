@@ -1,11 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import Form from './components/Form';
 import List from './components/List';
 
+const initialState = {
+  places: null,
+  offset: null,
+  msg: null
+}
+
+function reducer(state, { data: { timezone: { places, offset }, msg } }) {
+  // if (places || offset) return {
+  //   ...state,
+  //   places: places && places,
+  //   offset: offset && offset,
+  //   msg
+  // };
+  // if (msg) return {
+  //   ...state,
+  //   places: null,
+  //   offset: null,
+  //   msg
+  // };
+
+  return {
+    ...state,
+    places,
+    offset,
+    msg
+  };
+}
 
 export default function App() {
-  const [places, updatePlaces] = useState(null);
-  const [graphQLErrorMsg, updateGraphQLErrorMsg] = useState(null);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [offsetList, updateOffsetList] = useState(null);
 
   function sendMsg() {
@@ -49,17 +75,7 @@ export default function App() {
         data = await data.json();
         console.log(data);
 
-        if (data.places) {
-          updatePlaces(data.places);
-          updateGraphQLErrorMsg(null);
-          console.log(places);
-        }
-
-        if (data.msg) {
-          updateGraphQLErrorMsg(data.msg);
-          updatePlaces(null);
-          console.log(graphQLErrorMsg);
-        }
+        dispatch({ data });
 
       } else {
         throw new Error('Network problem - response not ok');
@@ -77,15 +93,23 @@ export default function App() {
       <button type="button" onClick={sendMsg}>data</button>
       <Form offsetList={offsetList} postQuery={postQuery}/>
       {
-        places && <List places={places}></List>
+        state.offset && <p>{`Offset: ${state.offset}`}</p>
       }
       {
-        graphQLErrorMsg && <p>{`There was an error: ${graphQLErrorMsg}.  Please try again.`}</p>
+        state.places && <List places={state.places}></List>
+      }
+      {
+        state.msg && <p>{`There was an error: ${state.msg}.  Please try again.`}</p>
       }
 
     </>
   );
 }
+
+
+
+
+
 
 // {
 //   places && places.length == 0 && <p>Please enter a valid time zone</p>

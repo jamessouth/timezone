@@ -63,8 +63,9 @@ async function serverCB(reqt, resp) {
             // console.log('hdhdhdhdhdhd');
             // if (data.data.timezone) {
 
-              payload = Object.assign({}, data.data.timezone);
+              payload = Object.assign({}, data.data);
             // }
+
 
 
 

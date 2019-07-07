@@ -13,6 +13,8 @@
   background-color: #282c34;
   border-radius: 10px;
   width: 50%;
+  -moz-user-select: none;
+  user-select: none;
   /* overflow: auto; */
 }
 .pre{
