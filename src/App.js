@@ -1,34 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import Form from './components/Form';
 import List from './components/List';
-
-const initialState = {
-  places: null,
-  offset: null,
-  msg: null
-}
-
-function reducer(state, { data: { timezone: { places, offset }, msg } }) {
-  // if (places || offset) return {
-  //   ...state,
-  //   places: places && places,
-  //   offset: offset && offset,
-  //   msg
-  // };
-  // if (msg) return {
-  //   ...state,
-  //   places: null,
-  //   offset: null,
-  //   msg
-  // };
-
-  return {
-    ...state,
-    places,
-    offset,
-    msg
-  };
-}
+import { initialState, reducer } from './reducers/appState';
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
