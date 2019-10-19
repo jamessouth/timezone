@@ -21,8 +21,6 @@
     "graphql": "^14.5.8",
     "mongodb": "^3.3.3",
     "parse5": "^5.1.0",
-    "pouchdb-find": "^7.1.1",
-    "pouchdb-node": "^7.1.1",
     "react": "^16.10.2",
     "react-dom": "^16.10.2"
   },
