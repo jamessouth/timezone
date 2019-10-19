@@ -6,8 +6,10 @@ const ScriptExtHTMLWebpackPlugin = require('script-ext-html-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-  mode: 'development', // production
-  devtool: 'inline-source-map', //
+  mode: 'development',
+  devtool: 'inline-source-map',
+  // mode: 'production',
+  // devtool: 'source-map',
   entry: {
     main: './src/index.js',
   },
@@ -58,7 +60,8 @@ module.exports = {
             loader: "css-loader",
             options: {
               modules: true,
-              localIdentName: '[local]',
+              sourceMap: true,
+
             },
           },
         ],
