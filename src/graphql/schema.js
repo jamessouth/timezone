@@ -17,20 +17,21 @@ const RootQuery = new GraphQLObjectType({
     timezone: {
       type: TimezoneType,
       args: { offset: { type: GraphQLString }},
-      async resolve(parent, { offset }, db) {
+      async resolve(parent, { offset }, { collection }) {
         try {
           // throw new Error('arrrg');
-          let docs;
+          // let docs;
 
-          const col = db.collection('timezones');
-          docs = await col.find({ offset }).toArray();
+          const col = collection('timezones');
+          const docs = await col.find({ offset }).toArray();
+          console.log('dddddd', docs);
           assert.equal(1, docs.length);
           return docs[0];
 
 
 
         } catch (err) {
-          // console.log('sch', err.stack);
+          console.log('sch', err.stack);
           return err;
         }
       }

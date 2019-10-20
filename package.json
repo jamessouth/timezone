@@ -18,7 +18,7 @@
   "dependencies": {
     "core-js": "^3.3.2",
     "esm": "^3.2.25",
-    "graphql": "^14.5.8",
+    "graphql": "14.4.2",
     "mongodb": "^3.3.3",
     "parse5": "^5.1.0",
     "react": "^16.10.2",

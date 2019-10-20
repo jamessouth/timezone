@@ -16,14 +16,13 @@ const assert = require('assert');
 const MongoClient = require('mongodb').MongoClient;
 
 
-let db, client, offsets;
-let rrr = `
-{
-  timezone(offset: "UTC+08:45") {
-    places
-  }
-}
-`;
+// let rrr = `
+// {
+//   timezone(offset: "UTC+08:45") {
+//     places
+//   }
+// }
+// `;
 
 const server = http.createServer(serverCB).listen(3101, () => {
   console.log('server running on port 3101!', '\x07');// default beep
@@ -35,14 +34,15 @@ async function serverCB(reqt, resp) {
 
   if (reqt.method === 'POST') {
     try {
-      const client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
+      const client = new MongoClient(
+        'mongodb://localhost:27017',
+        {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+        }
+      );
       await client.connect();
-      db = client.db('tzs');
-    } catch (err) {
-
-      console.log('t33333333', err);
-
-    } finally {
+      const db = client.db('tzs');
       reqt.on('data', chk => {
         // console.log('ch ', chk);
         source += chk;
@@ -53,22 +53,20 @@ async function serverCB(reqt, resp) {
           data = await graphql({ schema, source, contextValue: db });
           // if (data.data) {
           // console.log('mys', data);
-            if (data.errors) {
-              throw data.errors[0];
+          if (data.errors) {
+            throw data.errors[0];
 
-            }
-            // console.log('hdhdhdhdhdhd');
-            // if (data.data.timezone) {
-
-              payload = Object.assign({}, data.data.timezone);
-            // }
+          }
 
 
 
-          // } else {
-          //   console.log('bad query');
 
-          // }
+
+
+
+
+          payload = Object.assign({}, data.data.timezone);
+
           console.log('fhfhfhfhfhfhf');
         } catch (err) {
           console.log('llllllllllllll', err);
@@ -77,10 +75,14 @@ async function serverCB(reqt, resp) {
           console.log('pl ', payload);
           console.log();
           client && client.close();
-          resp.writeHead('200', {'Access-Control-Allow-Origin': 'http://localhost:3100'});
+          resp.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
           resp.end(JSON.stringify(payload));
         }
       });
+    } catch (err) {
+
+      console.log('t33333333', err);
+
     }
   }
 
@@ -93,42 +95,37 @@ async function serverCB(reqt, resp) {
 
 
     try {
-      client = new MongoClient('mongodb://localhost:27017', { useNewUrlParser: true });
+      const client = new MongoClient(
+        'mongodb://localhost:27017',
+        {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+        }
+      );
       await client.connect();
-      db = client.db('tzs');
+      const db = client.db('tzs');
       console.log("Connected correctly to mongo server!");
-    } catch (err) {
-
-      console.log('tfctfctfctfc', err);
-
-    } finally {
       // https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
       //
       //   await makePipeline(chunks, seedDB(db)).catch(err => console.log(err));
       //   console.log('cc343453453434535ccc');
       //
       // });
-
-      (async function getData() {
-        // const file = fs.createReadStream('./tabledata');
-
-
+      // (async function getData() {
+        const file = fs.createReadStream('./tabledata');
         await makePipeline(file, seedDB(db));
         const col = db.collection('timezones');
-        offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
+        const offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
         client.close();
-
-
-
         console.log('cc343453453434535ccc');
-
-
         offsetsStream(offsets).pipe(resp);
 
+      // })();
+    } catch (err) {
 
-      })();
+      console.log('tfctfctfctfc', err);
+
     }
-
 
     // resp.write('done!!!', 'utf8');
 
