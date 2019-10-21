@@ -17,12 +17,12 @@ const RootQuery = new GraphQLObjectType({
     timezone: {
       type: TimezoneType,
       args: { offset: { type: GraphQLString }},
-      async resolve(parent, { offset }, { collection }) {
+      async resolve(parent, { offset }, db) {
         try {
           // throw new Error('arrrg');
           // let docs;
 
-          const col = collection('timezones');
+          const col = db.collection('timezones');
           const docs = await col.find({ offset }).toArray();
           console.log('dddddd', docs);
           assert.equal(1, docs.length);

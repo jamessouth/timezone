@@ -2,10 +2,19 @@ import React, { useState, useEffect, useReducer } from 'react';
 import Form from './components/Form';
 import List from './components/List';
 import { initialState, reducer } from './reducers/appState';
+import { intro } from './styles/index.css';
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const [offsetList, updateOffsetList] = useState(null);
+  const [
+    {
+      places,
+      offset,
+      msg,
+      offsetList,
+    },
+    dispatch,
+  ] = useReducer(reducer, initialState);
+  // const [offsetList, updateOffsetList] = useState(null);
 
   function sendMsg() {
     // .map(x => String.fromCharcode(x)
@@ -21,19 +30,20 @@ export default function App() {
     // console.log(new Date());
     fetch('http://localhost:3101')
     // .then(x => x.json())
-    .then(async res => {
-      let bod = '';
-      const readr = res.body.getReader();
-      const data = await readr.read();
-      async function processData({done, value}) {
-        if (done) {
-          return JSON.parse(bod);
+      .then(async res => {
+        let bod = '';
+        const readr = res.body.getReader();
+        const data = await readr.read();
+        async function processData({done, value}) {
+          if (done) {
+            return JSON.parse(bod);
+          }
+          bod += new TextDecoder('utf-8').decode(value);
+          return readr.read().then(processData);
         }
-        bod += new TextDecoder('utf-8').decode(value);
-        return readr.read().then(processData);
-      }
-      return await processData(data);
-    }).then(offsets => updateOffsetList(offsets));
+        return await processData(data);
+      })
+      .then(offsetList => dispatch({ type: 'offsetList', payload: { offsetList } }));
 
 
   }
@@ -48,7 +58,7 @@ export default function App() {
         data = await data.json();
         console.log(data);
 
-        dispatch({ data });
+        dispatch({ type: 'data', payload: data });
 
       } else {
         throw new Error('Network problem - response not ok');
@@ -62,17 +72,21 @@ export default function App() {
 
   return (
     <>
-      <div className="intro">Hello World</div>
-      <button type="button" onClick={sendMsg}>data</button>
-      <Form offsetList={offsetList} postQuery={postQuery}/>
+      <div className={ intro }>Hello World</div>
       {
-        state.offset && <p>{`Offset: ${state.offset}`}</p>
+        !offsetList && <button type="button" onClick={sendMsg}>data</button>
       }
       {
-        state.places && <List places={state.places}></List>
+        offsetList && <Form offsetList={offsetList} postQuery={postQuery}/>
       }
       {
-        state.msg && <p>{`There was an error: ${state.msg}.  Please try again.`}</p>
+        offset && <p>{`Offset: ${offset}`}</p>
+      }
+      {
+        places && <List places={places}></List>
+      }
+      {
+        msg && <p>{`There was an error: ${msg}.  Please try again.`}</p>
       }
 
     </>
