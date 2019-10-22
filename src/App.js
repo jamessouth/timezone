@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer } from 'react';
 import Form from './components/Form';
 import List from './components/List';
 import { initialState, reducer } from './reducers/appState';
-import { intro } from './styles/index.css';
+import { h1, button } from './styles/index.css';
 
 export default function App() {
   const [
@@ -72,9 +72,9 @@ export default function App() {
 
   return (
     <>
-      <h1 className={ intro }>Time Zones</h1>
+      <h1 className={ h1 }>Time Zones</h1>
       {
-        !offsetList && <button type="button" onClick={sendMsg}>data</button>
+        !offsetList && <button className={ button } type="button" onClick={sendMsg}>Get the latest time zone data from Wikipedia!</button>
       }
       {
         offsetList && <Form offsetList={offsetList} postQuery={postQuery}/>

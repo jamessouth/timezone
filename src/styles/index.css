@@ -6,16 +6,89 @@
 }
 body{
   min-height: 100vh;
-  /* background: linear-gradient(90deg, #013507a0, #00111fa0, #00120ca0); */
   background: linear-gradient(#e13507, #fdbb1f 70%, #ffad0c);
-  background: linear-gradient(#e13507ab, #fdbb1fab 70%, #ffad0cab),
-              linear-gradient(90deg, #F44336, #FFEB3B, #c18713ab);
+  background: linear-gradient(#e13507ab, #fdbb1fab 70%, #ffad0cab), linear-gradient(90deg, #F44336, #FFEB3B, #c18713ab);
 }
-.intro{
-  font-size: 8rem;
+.h1{
+  font-size: 4rem;
   font-weight: 400;
   text-align: center;
-  margin-top: .5em;
+  margin: .5em 0;
   color: #3e2723;
   font-family: 'Redressed', cursive;
 }
+.button{
+  margin: auto;
+  display: block;
+  font-size: 24px;
+  font-family: 'Trade Winds', cursive;
+  color: #3e2723;
+  background-color: palegoldenrod;
+  padding: 2px 12px;
+  width: 90%;
+  border: 8px inset #a9861a;
+  cursor: pointer;
+  outline: none;
+}
+.button:active{
+  color: #e83b17;
+}
+.button:focus,
+.button:hover{
+  filter: drop-shadow(-4px -11px 6px #3e2723);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (min-width: 360px){
+  .h1{
+    font-size: 5rem;
+  }
+}
+@media screen and (min-width: 414px){
+  .h1{
+    font-size: 6rem;
+  }
+}
+@media screen and (min-width: 533px){
+  .h1{
+    font-size: 7rem;
+  }
+}
+@media screen and (min-width: 768px){
+  .h1{
+    font-size: 8rem;
+  }
+}
+@media screen and (min-width: 1500px){
+  .h1{
+    font-size: 10rem;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 5 */
