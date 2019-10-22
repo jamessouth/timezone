@@ -6,8 +6,16 @@
 }
 body{
   min-height: 100vh;
+  /* background: linear-gradient(90deg, #013507a0, #00111fa0, #00120ca0); */
   background: linear-gradient(#e13507, #fdbb1f 70%, #ffad0c);
+  background: linear-gradient(#e13507ab, #fdbb1fab 70%, #ffad0cab),
+              linear-gradient(90deg, #F44336, #FFEB3B, #c18713ab);
 }
 .intro{
-  background-color: yellow;
+  font-size: 8rem;
+  font-weight: 400;
+  text-align: center;
+  margin-top: .5em;
+  color: #3e2723;
+  font-family: 'Redressed', cursive;
 }

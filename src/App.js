@@ -72,7 +72,7 @@ export default function App() {
 
   return (
     <>
-      <div className={ intro }>Hello World</div>
+      <h1 className={ intro }>Time Zones</h1>
       {
         !offsetList && <button type="button" onClick={sendMsg}>data</button>
       }
