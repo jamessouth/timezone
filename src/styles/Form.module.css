@@ -1,8 +1,8 @@
 .div{
   display: flex;
   flex-direction: column;
-  height: 360px;
-  width: 90%;
+  height: 400px;
+  width: 96%;
   margin: auto;
   justify-content: space-around;
   align-items: center;
@@ -12,7 +12,7 @@
   background-color: #3e2723;
   font-size: 14px;
   border-radius: 10px;
-  /* width: 50%; */
+  padding: 16px;
   -moz-user-select: none;
   user-select: none;
   line-height: 20px;
@@ -26,5 +26,52 @@
   height: 25px;
 }
 .checkdiv{
-  background: red;
+  width: 70%;
+  /* height: 80px; */
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-between;
+  align-items: center;
+}
+.checkdiv input{
+  height: 20px;
+  width: 20px;
+  vertical-align: middle;
+}
+.checkdiv label{
+  font-family: 'Redressed', cursive;
+  font-size: 30px;
+}
+.checkdiv label:nth-of-type(2n){
+  direction: rtl;
+}
+.checkdiv label:nth-of-type(odd) input{
+  margin-left: 6px;
+}
+.checkdiv label:nth-of-type(2n) input{
+  margin-right: 5px;
+}
+.button{
+  /* margin: auto; */
+  display: block;
+  font-size: 24px;
+  font-family: 'Trade Winds', cursive;
+  color: #3e2723;
+  background-color: palegoldenrod;
+  padding: 2px 12px;
+  width: 90%;
+  border: 8px inset #a9861a;
+  cursor: pointer;
+  outline: none;
+}
+.button:active{
+  color: #e83b17;
+}
+.button:focus,
+.button:hover{
+  filter: drop-shadow(-4px -11px 6px #3e2723);
+}
+.button:disabled{
+  cursor: not-allowed;
+  filter: contrast(0.25);
 }

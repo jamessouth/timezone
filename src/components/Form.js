@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { div, pre, select, checkdiv } from '../styles/Form.module.css';
+import { div, pre, select, checkdiv, button } from '../styles/Form.module.css';
 
 export default function Form({ offsetList, postQuery }) {
   const code1 = useRef('');
@@ -34,30 +34,29 @@ export default function Form({ offsetList, postQuery }) {
           </select>
 
           <div className={ checkdiv }>
-            <label htmlFor="offset">offset</label>
-            <input onChange={() => setOffsetCheckboxValue(val => !val)} type="checkbox" id="offset" name="fields" value={offsetCheckboxValue}/>
+            <label htmlFor="offset">offset<input onChange={() => setOffsetCheckboxValue(val => !val)} type="checkbox" id="offset" name="fields" value={offsetCheckboxValue}/></label>
 
-            <label htmlFor="places">places</label>
-            <input onChange={() => setPlacesCheckboxValue(val => !val)} type="checkbox" id="places" name="fields" value={placesCheckboxValue}/>
+            <label htmlFor="places">places<input onChange={() => setPlacesCheckboxValue(val => !val)} type="checkbox" id="places" name="fields" value={placesCheckboxValue}/></label>
           </div>
 
-                <pre className={ pre }>
-                  <code ref={ code1 } className="code">{`
-    {
-      timezone(offset: "${selectValue}") {
-        ${offsetCheckboxValue ? 'offset' : ''}
-        ${placesCheckboxValue ? 'places' : ''}
-      }
-    }
-                  `}</code>
-                </pre>
+  <pre className={ pre }>
+                  <code ref={ code1 } className="code">{`{
+  timezone(offset: "${selectValue}") {
+    ${offsetCheckboxValue ? 'offset' : ''}
+    ${placesCheckboxValue ? 'places' : ''}
+  }
+}`}</code>
+  </pre>
 
+              <button
+                type="button"
+                className={ button }
+                onClick={() => postQuery(queryText)}
+                { ...(selectValue == 'Select...' || !queryText || (!offsetCheckboxValue && !placesCheckboxValue) ? { 'disabled': true } : {}) }
+              >
+                submit query
+              </button>
 
-
-          {
-            selectValue !== 'Select...' && !!queryText && (offsetCheckboxValue || placesCheckboxValue) &&
-              <button type="button" onClick={() => postQuery(queryText)}>submit query</button>
-          }
         </div>
       </fieldset>
     </form>
