@@ -1,18 +1,30 @@
 .div{
-  color: white;
-  /* tab-size: 1.5em; */
-  background-color: #282c34;
-  border-radius: 10px;
-  width: 50%;
-  -moz-user-select: none;
-  user-select: none;
-  /* overflow: auto; */
+  display: flex;
+  flex-direction: column;
+  height: 360px;
+  width: 90%;
+  margin: auto;
+  justify-content: space-around;
+  align-items: center;
 }
 .pre{
+  color: white;
+  background-color: #3e2723;
   font-size: 14px;
+  border-radius: 10px;
+  /* width: 50%; */
+  -moz-user-select: none;
+  user-select: none;
   line-height: 20px;
   white-space: pre-wrap;
   word-break: break-word;
-  height: auto;
-  margin: 1rem;
+  /* height: auto;
+  margin: 1rem; */
+}
+.select{
+  width: 80%;
+  height: 25px;
+}
+.checkdiv{
+  background: red;
 }
