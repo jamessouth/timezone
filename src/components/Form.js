@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { div, pre, select, checkdiv, button } from '../styles/Form.module.css';
+import { div, pre, select, checkdiv, button, fieldset } from '../styles/Form.module.css';
 
 export default function Form({ offsetList, postQuery }) {
   const code1 = useRef('');
@@ -20,8 +20,8 @@ export default function Form({ offsetList, postQuery }) {
 
   return (
     <form>
-      <fieldset>
-        <legend>456</legend>
+      <fieldset className={ fieldset }>
+        <legend>Construct GraphQL Query</legend>
         <div className={ div }>
           <select
             value={selectValue}

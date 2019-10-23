@@ -21,6 +21,16 @@
   /* height: auto;
   margin: 1rem; */
 }
+.fieldset{
+  border: none;
+}
+.fieldset legend{
+  text-align: center;
+  font-family: 'Amarante', cursive;
+  font-size: 22px;
+  margin-bottom: .6em;
+  text-decoration: underline;
+}
 .select{
   width: 80%;
   height: 25px;
