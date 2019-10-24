@@ -6,7 +6,7 @@
 }
 body{
   min-height: 100vh;
-  background: linear-gradient(rgba(225, 53, 7, .92), rgba(253, 187, 31, .92)), url('../assets/images/map320x480.jpg') no-repeat center/cover;
+  background: linear-gradient(rgba(225, 53, 7, .92), rgba(253, 187, 31, .92)), url('../assets/images/mapbig.jpg') no-repeat center/cover;
 }
 .h1{
   font-size: 4rem;
