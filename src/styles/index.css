@@ -6,8 +6,7 @@
 }
 body{
   min-height: 100vh;
-  background: linear-gradient(#e13507, #fdbb1f 70%, #ffad0c);
-  background: linear-gradient(#e13507ab, #fdbb1fab 70%, #ffad0cab), linear-gradient(90deg, #F44336, #FFEB3B, #c18713ab);
+  background: linear-gradient(rgba(225, 53, 7, .92), rgba(253, 187, 31, .92)), url('../assets/images/map320x480.jpg') no-repeat center/cover;
 }
 .h1{
   font-size: 4rem;
@@ -26,7 +25,7 @@ body{
   background-color: palegoldenrod;
   padding: 2px 12px;
   width: 90%;
-  border: 8px inset #a9861a;
+  border: 8px inset #a77a1a;
   cursor: pointer;
   outline: none;
 }
