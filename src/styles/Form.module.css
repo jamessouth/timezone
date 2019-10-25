@@ -1,3 +1,6 @@
+form{
+  margin-bottom: 6em;
+}
 .div{
   display: flex;
   flex-direction: column;
@@ -27,13 +30,14 @@
 .fieldset legend{
   text-align: center;
   font-family: 'Amarante', cursive;
-  font-size: 22px;
+  font-size: 1.5rem;
   margin-bottom: .6em;
   text-decoration: underline;
 }
 .select{
   width: 80%;
   height: 25px;
+  max-width: 300px;
 }
 .checkdiv{
   width: 70%;
@@ -42,6 +46,7 @@
   /* flex-direction: column; */
   justify-content: space-between;
   align-items: center;
+  max-width: 300px;
 }
 .checkdiv input{
   height: 20px;
@@ -70,6 +75,7 @@
   background-color: palegoldenrod;
   padding: 2px 12px;
   width: 90%;
+  max-width: 300px;
   border: 8px inset #a9861a;
   cursor: pointer;
   outline: none;

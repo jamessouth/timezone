@@ -6,7 +6,7 @@
 }
 body{
   min-height: 100vh;
-  background: linear-gradient(rgba(225, 53, 7, .92), rgba(253, 187, 31, .92)), url('../assets/images/mapbig.jpg') no-repeat center/cover;
+  background: linear-gradient(rgba(225, 53, 7, .92), rgba(253, 187, 31, .92)), url('../assets/images/map411x731.jpg') no-repeat center/cover;
 }
 .h1{
   font-size: 4rem;
@@ -25,6 +25,7 @@ body{
   background-color: palegoldenrod;
   padding: 2px 12px;
   width: 90%;
+  max-width: 600px;
   border: 8px inset #a77a1a;
   cursor: pointer;
   outline: none;
@@ -36,7 +37,15 @@ body{
 .button:hover{
   filter: drop-shadow(-4px -11px 6px #3e2723);
 }
-
+.results{
+  color: red;
+}
+.results::before{
+  content: '--------';
+  width: 80%;
+  height: 10px;
+  color: blue;
+}
 
 
 
@@ -71,10 +80,16 @@ body{
   .h1{
     font-size: 8rem;
   }
+  body{
+    background: linear-gradient(rgba(225, 53, 7, .92), rgba(253, 187, 31, .92)), url('../assets/images/map768x1024.jpg') no-repeat center/cover;
+  }
 }
 @media screen and (min-width: 1500px){
   .h1{
     font-size: 10rem;
+  }
+  body{
+    background: linear-gradient(rgba(225, 53, 7, .92), rgba(253, 187, 31, .92)), url('../assets/images/map1920x1538.jpg') no-repeat center/cover;
   }
 }
 

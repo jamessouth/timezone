@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer } from 'react';
 import Form from './components/Form';
 import List from './components/List';
 import { initialState, reducer } from './reducers/appState';
-import { h1, button } from './styles/index.css';
+import { h1, button, results } from './styles/index.css';
 
 
 export default function App() {
@@ -79,6 +79,9 @@ export default function App() {
       }
       {
         offsetList && <Form offsetList={offsetList} postQuery={postQuery}/>
+      }
+      {
+        (offset || places) && <p className={ results }>{`Query Results:`}</p>
       }
       {
         offset && <p>{`Offset: ${offset}`}</p>
