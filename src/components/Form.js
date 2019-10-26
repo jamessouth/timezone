@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { div, pre, select, checkdiv, button } from '../styles/Form.module.css';
+import { checkdiv, button } from '../styles/Form.module.css';
 
 export default function Form({ offsetList, postQuery }) {
   const code1 = useRef('');
@@ -26,7 +26,6 @@ export default function Form({ offsetList, postQuery }) {
         <label htmlFor="offsets">Select offset:</label>
         <select
         value={selectValue}
-        className={ select }
         onChange={e => setSelectValue(e.target.value)}
         id="offsets"
         >
@@ -46,7 +45,7 @@ export default function Form({ offsetList, postQuery }) {
       </form>
 
   <p>Your query:</p>
-    <pre className={ pre }>
+    <pre>
                     <code ref={ code1 } className="code">{`{
   timezone(offset: "${selectValue}") {
     ${offsetCheckboxValue ? 'offset' : ''}
