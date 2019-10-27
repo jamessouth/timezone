@@ -1,0 +1,28 @@
+.h2{
+  /* color: red; */
+  padding-top: 1em;
+  border-top: 1px solid #3e2723;
+  width: 80%;
+  /* display: block; */
+  margin: 0 auto 1.5em;
+  /* font-family: 'Redressed', cursive;
+  font-size: 1.875rem;
+  text-align: center; */
+}
+
+h3{
+  /* color: red; */
+  font-family: 'Trade Winds', cursive;
+  text-align: center;
+  margin: 1em 0;
+}
+span{
+  text-align: center;
+  display: block;
+  font-family: 'Macondo', cursive;
+}
+li{
+  text-align: center;
+  margin-bottom: .5em;
+  font-family: 'Macondo', cursive;
+}

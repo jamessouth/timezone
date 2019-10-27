@@ -13,7 +13,7 @@ body{
   font-size: 4rem;
   font-weight: 400;
   text-align: center;
-  margin: .5em 0;
+  margin: .5em 0 .75em;
   /* color: #3e2723; */
   font-family: 'Redressed', cursive;
 }
@@ -38,15 +38,7 @@ body{
 .button:hover{
   filter: drop-shadow(-4px -11px 6px #3e2723);
 }
-.results{
-  color: red;
-}
-.results::before{
-  content: '--------';
-  width: 80%;
-  height: 10px;
-  color: blue;
-}
+
 
 
 

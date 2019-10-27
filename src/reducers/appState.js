@@ -6,7 +6,7 @@ const initialState = {
 };
 // { data: { places, offset, msg } }, offsetList
 function reducer(state, { type, payload: { offsetList, places, offset, msg } }) {
-  console.log('ppppppp', type, offsetList, places, offset, msg);
+  // console.log('ppppppp', type, offsetList, places, offset, msg);
 
   switch (type) {
     case 'offsetList':

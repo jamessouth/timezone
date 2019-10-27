@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { checkdiv, button } from '../styles/Form.module.css';
+import { checkdiv, selectdiv, button, p, sec } from '../styles/Form.module.css';
 
 export default function Form({ offsetList, postQuery }) {
   const code1 = useRef('');
@@ -19,34 +19,38 @@ export default function Form({ offsetList, postQuery }) {
   ]);
 
   return (
-    <>
+    <section className={ sec }>
+      <h2>Construct GraphQL Query</h2>
       <form>
-        <h2>Construct GraphQL Query</h2>
 
-        <label htmlFor="offsets">Select offset:</label>
-        <select
-        value={selectValue}
-        onChange={e => setSelectValue(e.target.value)}
-        id="offsets"
-        >
-        <option hidden>{selectValue}</option>
-        {offsetList.map(({ offset }, i) => <option key={i} value={offset}>{offset}</option>)}
-        </select>
+        <fieldset>
+          <div className={ selectdiv }>
+            <label htmlFor="offsets">Select offset:</label>
+            <select
+            value={ selectValue }
+            onChange={e => setSelectValue(e.target.value)}
+            id="offsets"
+            >
+              <option hidden>{ selectValue }</option>
+              {offsetList.map(({ offset }, i) => <option key={ i } value={ offset }>{ offset }</option>)}
+            </select>
+          </div>
+        </fieldset>
 
         <fieldset>
           <legend>Select data:</legend>
 
           <div className={ checkdiv }>
-            <label htmlFor="offset">offset<input onChange={() => setOffsetCheckboxValue(val => !val)} type="checkbox" id="offset" name="fields" value={offsetCheckboxValue}/></label>
+            <label htmlFor="offset">offset<input onChange={() => setOffsetCheckboxValue(val => !val)} type="checkbox" id="offset" name="fields" value={ offsetCheckboxValue }/></label>
 
-            <label htmlFor="places">places<input onChange={() => setPlacesCheckboxValue(val => !val)} type="checkbox" id="places" name="fields" value={placesCheckboxValue}/></label>
+            <label htmlFor="places">places<input onChange={() => setPlacesCheckboxValue(val => !val)} type="checkbox" id="places" name="fields" value={ placesCheckboxValue }/></label>
           </div>
         </fieldset>
       </form>
 
-  <p>Your query:</p>
+  <p className={ p }>Your query:</p>
     <pre>
-                    <code ref={ code1 } className="code">{`{
+                    <code ref={ code1 }>{`{
   timezone(offset: "${selectValue}") {
     ${offsetCheckboxValue ? 'offset' : ''}
     ${placesCheckboxValue ? 'places' : ''}
@@ -63,7 +67,7 @@ export default function Form({ offsetList, postQuery }) {
         submit query
       </button>
 
-    </>
+    </section>
   );
 
 }

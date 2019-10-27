@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import Form from './components/Form';
-import List from './components/List';
+import Results from './components/Results';
 import { initialState, reducer } from './reducers/appState';
-import { h1, button, results } from './styles/index.css';
-
+import { h1, button } from './styles/index.css';
 
 export default function App() {
   const [
@@ -72,28 +71,22 @@ export default function App() {
 // form validation
 
   return (
-    <>
+    <main>
       <h1 className={ h1 }>Time Zones</h1>
       {
-        !offsetList && <button className={ button } type="button" onClick={sendMsg}>Get the latest time zone data from Wikipedia!</button>
+        !offsetList && <button className={ button } type="button" onClick={ sendMsg }>Seed the database with the latest time zone data from Wikipedia!</button>
       }
       {
-        offsetList && <Form offsetList={offsetList} postQuery={postQuery}/>
+        offsetList && <Form offsetList={ offsetList } postQuery={ postQuery }/>
       }
       {
-        (offset || places) && <p className={ results }>{`Query Results:`}</p>
-      }
-      {
-        offset && <p>{`Offset: ${offset}`}</p>
-      }
-      {
-        places && <List places={places}></List>
+        (offset || places) && <Results offset={ offset } places={ places }></Results>
       }
       {
         msg && <p>{`There was an error: ${msg}.  Please try again.`}</p>
       }
 
-    </>
+    </main>
   );
 }
 
