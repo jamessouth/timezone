@@ -10,7 +10,7 @@ body{
   background: linear-gradient(rgba(225, 53, 7, .92), rgba(253, 187, 31, .92)), url('../assets/images/map411x731.jpg') no-repeat center/cover;
 }
 .h1{
-  font-size: 4rem;
+  font-size: 4.25rem;
   font-weight: 400;
   text-align: center;
   margin: .5em 0 .75em;

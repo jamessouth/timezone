@@ -8,10 +8,10 @@ export default function Results({ places, offset }) {
     <section>
       <h2 className={ h2 }>Query Results:</h2>
       {
-        offset && <><h3>Offset: </h3><span>{ offset }</span></>
+        offset && <><h3 className="font-effect-distressed-wood">Offset: </h3><span>{ offset }</span></>
       }
       {
-        places && <><h3>Places: </h3><ul>{ locations }</ul></>
+        places && <><h3 className="font-effect-distressed-wood">Places: </h3><ul>{ locations }</ul></>
       }
     </section>
   );
