@@ -61,7 +61,6 @@ module.exports = {
             options: {
               modules: true,
               sourceMap: true,
-
             },
           },
         ],

@@ -59,6 +59,17 @@ async function serverCB(reqt, resp) {
           }
 
 
+// mongod --dbpath="c:\data\db"
+
+
+
+
+
+
+
+
+
+
 
 
 

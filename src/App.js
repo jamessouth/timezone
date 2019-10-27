@@ -72,7 +72,7 @@ export default function App() {
 
   return (
     <main>
-      <h1 className={ h1 }>Time Zones</h1>
+      <h1 className={ [h1, 'font-effect-decaying'].join(' ') }>Time Zones</h1>
       {
         !offsetList && <button className={ button } type="button" onClick={ sendMsg }>Seed the database with the latest time zone data from Wikipedia!</button>
       }

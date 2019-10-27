@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { checkdiv, selectdiv, button, p, sec } from '../styles/Form.module.css';
+import { checkdiv, selectdiv, button, p } from '../styles/Form.module.css';
 
 export default function Form({ offsetList, postQuery }) {
   const code1 = useRef('');
@@ -19,7 +19,7 @@ export default function Form({ offsetList, postQuery }) {
   ]);
 
   return (
-    <section className={ sec }>
+    <section>
       <h2>Construct GraphQL Query</h2>
       <form>
 
