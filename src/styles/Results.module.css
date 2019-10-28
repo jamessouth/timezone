@@ -1,8 +1,7 @@
-.h2{
-  /* color: red; */
+.h22{
   padding-top: 1em;
   border-top: 1px solid #3e2723;
-  width: 80%;
+  /* width: 80%; */
   /* display: block; */
   margin: 0 auto 1.5em;
   /* font-family: 'Redressed', cursive;
@@ -10,11 +9,16 @@
   text-align: center; */
 }
 
-h3{
+.h3{
   color: #3e2723;
+  font-size: 1.75rem;
   font-family: 'Trade Winds', cursive;
   text-align: center;
   margin: 1.5em 0 .8em;
+}
+ul{
+  width: 85%;
+  margin: auto;
 }
 li,
 span{
