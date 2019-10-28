@@ -34,9 +34,9 @@ legend{
   font-size: 1.875rem;
   text-align: center;
 }
-label[for="offsets"]{
+/* label[for="offsets"]{
   margin-bottom: -1.875rem;
-}
+} */
 .selectdiv{
   height: 70px;
   display: flex;
@@ -78,7 +78,7 @@ pre{
   line-height: 20px;
   white-space: pre-wrap;
   word-break: break-word;
-  width: 96%;
+  width: 302px;
   margin: 0 auto 4rem;
 }
 code{
@@ -111,3 +111,45 @@ code{
 section{
   margin-bottom: 4rem;
 }
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (min-width: 768px){
+  .h2{
+    font-size: 2.25rem;
+    width: 75%;
+  }
+  label,
+  .p,
+  legend{
+    font-size: 2.25rem;
+  }
+  form{
+    flex-direction: row;
+    height: 220px;
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 15 */

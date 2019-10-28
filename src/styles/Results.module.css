@@ -35,3 +35,32 @@ li{
   margin-bottom: .5em;
 
 }
+
+
+
+
+
+
+@media screen and (min-width: 768px){
+  .h3{
+
+    font-size: 2.125rem;
+
+  }
+  li,
+  span{
+    /* font-family: 'Macondo', cursive; */
+    font-size: 2rem;
+    margin-bottom: 0;
+    /* text-align: center; */
+    /* font-weight: bold; */
+  }
+  ul{
+    width: 80%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(292px, 1fr));
+    grid-column-gap: 30px;
+    grid-row-gap: 50px;
+  }
+}
