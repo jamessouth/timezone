@@ -3,7 +3,7 @@
 #### Very much a work-in-progress.  Not even sure what all it is going to do.  Just playing and building with TDD, React, Node, GraphQL, MongoDB.
 -------------------------------------------------------------------------------
 
-The determined programmer will be able to re-enable it if they want, but right now, for dev purposes, hitting the Wikipedia API for the time zone data (yes, it does change - in May 2018 North Korea abandoned its formerly unique time zone to join South Korea, Japan, etc., in their time zone, and in April 2018 the country of Swaziland changed its name to Eswatini) is disabled in favor of using an uncommitted script file to stream said data to another uncommitted file on my local.  When needed, I stream from this file to seed the DB and go from there.
+The determined programmer will be able to re-enable it if they want, but right now, for dev purposes, hitting the Wikipedia API for the time zone data (yes, it does change - in May 2018 North Korea abandoned its formerly unique time zone to join South Korea, Japan, etc., in their time zone, and in April 2018 Swaziland changed its name to Eswatini) is disabled in favor of using an uncommitted script file to stream said data to another uncommitted file on my local.  When needed, I stream from this file to seed the DB and go from there.
 
 Latest additions:
 
