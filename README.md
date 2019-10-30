@@ -1,12 +1,14 @@
 # timezones
 
-#### Very much a work-in-progress.  Hasn't been styled much yet.  Not even sure what all it is going to do.  Just playing and building with TDD, React, Node, GraphQL, MongoDB, PouchDB.
+#### Very much a work-in-progress.  Not even sure what all it is going to do.  Just playing and building with TDD, React, Node, GraphQL, MongoDB.
 -------------------------------------------------------------------------------
 
-The determined programmer will be able to re-enable it if they want, but right now, for dev purposes, hitting the Wikipedia API for the time zone data is disabled in favor of using an uncommitted script file to stream said data to another uncommitted file on my local.  When needed, I stream from this file to seed the DB and go from there.
+The determined programmer will be able to re-enable it if they want, but right now, for dev purposes, hitting the Wikipedia API for the time zone data (yes, it does change - in May 2018 North Korea abandoned its formerly unique time zone to join South Korea, Japan, etc., in their time zone, and in April 2018 the country of Swaziland changed its name to Eswatini) is disabled in favor of using an uncommitted script file to stream said data to another uncommitted file on my local.  When needed, I stream from this file to seed the DB and go from there.
 
 Latest additions:
 
+*  Styles added
+*  In anticipation of deploying this somewhere like Heroku where it can have a back-end, the PouchDB fallback has been removed
 *  Replaced the `<textarea>` element used for entering GraphQL queries with a preformatted code block with time zone interpolated
 *  Since the user can no longer issue empty, malformed, or other erroneous queries, revised error handling
 *  When the DB is seeded, I now immediately read from it to gather the UTC offsets and send them to the front-end to populate a `<select>` dropdown menu
