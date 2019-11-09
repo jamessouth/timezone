@@ -132,9 +132,20 @@ section{
   legend{
     font-size: 2.25rem;
   }
+  .selectdiv{
+    height: 86px;
+  }
+  select{
+    height: 28px;
+    font-size: 1.125rem;
+    padding: 2px 0 1px;
+  }
   form{
-    flex-direction: row;
-    height: 220px;
+    /* flex-direction: row; */
+    height: 300px;
+  }
+  .p{
+    margin-bottom: 1rem;
   }
 
 }
