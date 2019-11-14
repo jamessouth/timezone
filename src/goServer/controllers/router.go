@@ -5,7 +5,7 @@ import (
 
 	"net/http"
 
-	"github.com/jamessouth/timezones/src/go/handlers"
+	"github.com/jamessouth/timezones/src/goServer/handlers"
 )
 
 type myController struct {

@@ -1,8 +1,8 @@
 package main
 
 import (
+	"github.com/jamessouth/timezones/src/goServer/controllers"
 	"net/http"
-	"github.com/jamessouth/timezones/src/go/controllers"
 )
 
 func main() {
