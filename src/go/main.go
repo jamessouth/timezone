@@ -1,6 +1,9 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+	"github.com/jamessouth/timezones/src/go/controllers"
+)
 
 func main() {
 	controllers.RegisterControllers()

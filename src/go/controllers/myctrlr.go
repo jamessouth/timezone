@@ -9,7 +9,7 @@ type myController struct {
 }
 
 func (mc myController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if URL.Path == "/" {
+	if r.URL.Path == "/" {
 		switch r.Method {
 		case http.MethodGet: //todo
 		case http.MethodPost: //todo
@@ -22,5 +22,11 @@ func (mc myController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotFound)
 			return
 		}
+	}
+}
+
+func newMyController() *myController {
+	return &myController{
+		myRoute: regexp.MustCompile(`/`),
 	}
 }
