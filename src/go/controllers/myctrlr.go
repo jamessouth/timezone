@@ -1,8 +1,12 @@
 package controllers
 
-import "regexp"
+import (
+	"regexp"
 
-import "net/http"
+	"net/http"
+
+	"github.com/jamessouth/timezones/src/go/handlers"
+)
 
 type myController struct {
 	myRoute *regexp.Regexp
@@ -11,8 +15,10 @@ type myController struct {
 func (mc myController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/" {
 		switch r.Method {
-		case http.MethodGet: //todo
-		case http.MethodPost: //todo
+		case http.MethodGet:
+			mc.getRoute()
+		case http.MethodPost:
+			mc.postRoute()
 		default:
 			w.WriteHeader(http.StatusNotImplemented)
 		}
@@ -23,6 +29,14 @@ func (mc myController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+}
+
+func (mc *myController) getRoute() {
+	handlers.GetHandler()
+}
+
+func (mc *myController) postRoute() {
+	handlers.PostHandler()
 }
 
 func newMyController() *myController {
