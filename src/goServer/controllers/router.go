@@ -16,9 +16,9 @@ func (mc myController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/" {
 		switch r.Method {
 		case http.MethodGet:
-			mc.getRoute()
+			mc.getMethod(w, r)
 		case http.MethodPost:
-			mc.postRoute()
+			mc.postMethod(w, r)
 		default:
 			w.WriteHeader(http.StatusNotImplemented)
 		}
@@ -31,12 +31,12 @@ func (mc myController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (mc *myController) getRoute() {
-	handlers.GetHandler()
+func (mc *myController) getMethod(w http.ResponseWriter, r *http.Request) {
+	handlers.GetHandler(w, r)
 }
 
-func (mc *myController) postRoute() {
-	handlers.PostHandler()
+func (mc *myController) postMethod(w http.ResponseWriter, r *http.Request) {
+	handlers.PostHandler(w, r)
 }
 
 func newMyController() *myController {

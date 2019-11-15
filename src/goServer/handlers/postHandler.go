@@ -1,8 +1,14 @@
 package handlers
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+)
 
-func PostHandler() {
+/*
+PostHandler handles a post method request sent to the server
+*/
+func PostHandler(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("post")
 }
