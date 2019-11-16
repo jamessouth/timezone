@@ -1,11 +1,13 @@
 package main
 
 import (
-	"github.com/jamessouth/timezones/src/goServer/controllers"
+	"log"
 	"net/http"
+
+	"github.com/jamessouth/timezones/src/goServer/controllers"
 )
 
 func main() {
 	controllers.RegisterControllers()
-	http.ListenAndServe(":3101", nil)
+	log.Fatal(http.ListenAndServe(":3101", nil))
 }
