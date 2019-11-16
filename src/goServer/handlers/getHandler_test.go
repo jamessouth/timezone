@@ -26,10 +26,10 @@ func TestGetHandler(t *testing.T) {
 	}
 
 	headers := rr.Result().Header
-	_, accCtrlOk := headers["Access-Control-Allow-Origin"]
+	v, accCtrlOk := headers["Access-Control-Allow-Origin"]
 
-	if !accCtrlOk {
-		t.Error("handler did not return the Access-Control-Allow-Origin header")
+	if !accCtrlOk || v != "http://localhost:3100" {
+		t.Errorf("handler did not return the Access-Control-Allow-Origin header with value %v", v)
 	}
 
 	// fmt.Printf("header: %v", headers)
