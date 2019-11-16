@@ -21,15 +21,18 @@ func TestGetHandler(t *testing.T) {
 	status := rr.Code
 
 	if status != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusOK)
+		t.Errorf("handler returned wrong status code: wanted %v but got %v", http.StatusOK, status)
 	}
 
 	headers := rr.Result().Header
-	v, accCtrlOk := headers["Access-Control-Allow-Origin"]
+	accCtrlVal, accCtrl := headers["Access-Control-Allow-Origin"]
 
-	if !accCtrlOk || v != "http://localhost:3100" {
-		t.Errorf("handler did not return the Access-Control-Allow-Origin header with value %v", v)
+	if !accCtrl {
+		t.Fatal("handler did not return Access-Control-Allow-Origin header")
+	}
+
+	if accCtrlVal[0] != "http://localhost:3100" {
+		t.Errorf("handler returned wrong value for ACAO header: wanted %v but got %v", "http://localhost:3100", accCtrlVal[0])
 	}
 
 	// fmt.Printf("header: %v", headers)
