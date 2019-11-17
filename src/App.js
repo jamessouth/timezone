@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer } from 'react';
 import Form from './components/Form';
 import Results from './components/Results';
 import { initialState, reducer } from './reducers/appState';
-import { h1, button } from './styles/index.css';
+import { h1, button, err } from './styles/index.css';
 
 export default function App() {
   const [
@@ -36,7 +36,13 @@ export default function App() {
         const data = await readr.read();
         async function processData({done, value}) {
           if (done) {
-            return JSON.parse(bod);
+            try {
+              return JSON.parse(bod);
+            } catch (err) {
+              console.log(bod);
+              const data = { msg: bod };
+              return dispatch({ type: 'data', payload: data });
+            }
           }
           bod += new TextDecoder('utf-8').decode(value);
           return readr.read().then(processData);
@@ -83,7 +89,7 @@ export default function App() {
         (offset || places) && <Results offset={ offset } places={ places }></Results>
       }
       {
-        msg && <p>{`There was an error: ${msg}.  Please try again.`}</p>
+        msg && <p className={ err }>{ msg }</p>
       }
 
     </main>
