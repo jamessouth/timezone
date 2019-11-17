@@ -20,31 +20,27 @@ func GetHandler(w http.ResponseWriter, r *http.Request) {
 
 	// w.Write([]byte("connecting......"))
 
-	client, ctx, err := GetMongoClient()
+	client, ctx, collection := GetMongoClient()
+	fmt.Println(client, ctx, collection)
 
-	if err != nil {
-		fmt.Println("There was an error: ", err)
-		w.Write([]byte("There was an error.  Please try again."))
+	if collection != nil {
+
+		res, err := collection.InsertOne(context.Background(), bson.M{"hello": "world"})
+		fmt.Println(res)
+		if err != nil {
+			fmt.Println("There was an error:", err)
+			// w.Write([]byte("thre was n error"))
+		}
 	} else {
-		fmt.Println("no error........", err)
-	}
 
-	collection := client.Database("tzs").Collection("timezones")
-
-	fmt.Println("collection: ", collection)
-	w.Write([]byte("collection...."))
-
-	res, err2 := collection.InsertOne(context.Background(), bson.M{"hello": "world"})
-	if err2 != nil {
-		fmt.Println("err2_fired", err2)
-		w.Write([]byte("thre was n error"))
+		w.Write([]byte("Error connecting to database. Please try again."))
 	}
-	id := res.InsertedID
-	fmt.Println(id)
-	err3 := client.Disconnect(ctx)
-	if err3 != nil {
-		fmt.Print("err3", err3)
-	}
-	fmt.Println("closed")
-	return
+	// id := res.InsertedID
+	// fmt.Println(id)
+	// err3 := client.Disconnect(ctx)
+	// if err3 != nil {
+	// 	fmt.Print("err3", err3)
+	// }
+	// fmt.Println("closed")
+	// return
 }
