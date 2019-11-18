@@ -38,6 +38,14 @@ body{
 .button:hover{
   filter: drop-shadow(-4px -11px 6px #3e2723);
 }
+.err{
+  text-align: center;
+  margin: 2em auto;
+  font-size: 2rem;
+  background-color: palegoldenrod;
+  font-family: monospace;
+  width: 80%;
+}
 
 
 

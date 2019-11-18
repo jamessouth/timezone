@@ -22,7 +22,7 @@ function reducer(state, { type, payload: { offsetList, places, offset, msg } }) 
         msg
       };
     default:
-      throw new Error('action type not recognized');
+      throw new Error('Reducer action type not recognized');
   }
 
 

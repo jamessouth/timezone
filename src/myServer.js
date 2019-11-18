@@ -16,6 +16,8 @@ const assert = require('assert');
 const MongoClient = require('mongodb').MongoClient;
 
 
+
+
 // let rrr = `
 // {
 //   timezone(offset: "UTC+08:45") {
@@ -73,6 +75,7 @@ async function serverCB(reqt, resp) {
 
 
 
+
           // MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 unpipe listeners added. Use emitter.setMaxListeners() to increase limit
 
 
@@ -85,7 +88,7 @@ async function serverCB(reqt, resp) {
           console.log('fhfhfhfhfhfhf');
         } catch (err) {
           console.log('llllllllllllll', err);
-          payload = { msg: err.message };
+          payload = { msg: `Assertion error: ${err.message}. Number of documents retrieved not equal to 1.` };
         } finally {
           console.log('pl ', payload);
           console.log();
@@ -95,15 +98,17 @@ async function serverCB(reqt, resp) {
         }
       });
     } catch (err) {
-
+      payload = { msg: `Error connecting to database: ${err.message}. Please try again.` };
+      resp.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
       console.log('t33333333', err);
-
+      // resp.write('Error connecting to database. Please try again.', 'utf8');
+      resp.end(JSON.stringify(payload));
     }
   }
 
 
   if (reqt.method === 'GET' && reqt.url === '/') {
-    resp.writeHead(200, '7777777', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
+    resp.writeHead(200, { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
 
     // resp.write('event: ping\ndata: grabbing data...');
     // , 'Connection': 'keep-alive', 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache'
@@ -139,10 +144,11 @@ async function serverCB(reqt, resp) {
     } catch (err) {
 
       console.log('tfctfctfctfc', err);
+      resp.write('Error connecting to database. Please try again.', 'utf8');
+      resp.end();
 
     }
 
-    // resp.write('done!!!', 'utf8');
 
   }
 };
