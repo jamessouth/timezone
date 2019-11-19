@@ -115,6 +115,8 @@ async function serverCB(reqt, resp) {
     // , 'Connection': 'keep-alive', 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache'
 
 
+
+
     try {
       const client = new MongoClient(
         'mongodb://localhost:27017',
@@ -126,6 +128,7 @@ async function serverCB(reqt, resp) {
       await client.connect();
       const db = client.db('tzs');
       console.log("Connected correctly to mongo server!");
+      db.dropCollection('timezones').then(res => console.log(res));
       // https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
       //
       //   await makePipeline(chunks, seedDB(db)).catch(err => console.log(err));
@@ -133,6 +136,7 @@ async function serverCB(reqt, resp) {
       //
       // });
       // (async function getData() {
+      console.log('here');
         const file = fs.createReadStream('./tabledata');
         await makePipeline(file, seedDB(db));
         const col = db.collection('timezones');
