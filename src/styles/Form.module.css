@@ -22,6 +22,10 @@ select{
   background-color: #ededed;
   /* max-width: 300px; */
 }
+select:focus,
+select:hover{
+  filter: drop-shadow(-4px -11px 6px #3e2723);
+}
 fieldset{
   border: none;
   width: 80%;
@@ -55,6 +59,10 @@ legend{
   height: 20px;
   width: 20px;
   vertical-align: middle;
+}
+.checkdiv input:hover,
+.checkdiv input:focus{
+  filter: drop-shadow(-4px -11px 6px #3e2723);
 }
 .checkdiv label:nth-of-type(2n){
   direction: rtl;
