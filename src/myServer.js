@@ -7,24 +7,37 @@ import seedDB from './streams/seedDB';
 import makePipeline from './streams/makePipeline';
 import offsetsStream from './streams/offsetsStream';
 
+import getDB from './MongoDBController';
+
 // const { Readable } = require('stream');
 const http = require('http');
 const fs = require('fs');
 const https = require('https');
 const assert = require('assert');
 // const { parse } = require('querystring');
-const MongoClient = require('mongodb').MongoClient;
+
+
+let db, client;
+
+getDB().then(clnt => {
+  client = clnt;
+  db = client.db('tzs');
+  console.log("Connected correctly to mongo server!");
+}).catch(err => {
+
+  console.log('tfctfctfctfc', err);
+  // resp.write('Error connecting to database. Please try again.', 'utf8');
+  // resp.end();
+  process.exit(1);
+});
 
 
 
 
-// let rrr = `
-// {
-//   timezone(offset: "UTC+08:45") {
-//     places
-//   }
-// }
-// `;
+
+
+
+
 
 const server = http.createServer(serverCB).listen(3101, () => {
   console.log('server running on port 3101!', '\x07');// default beep
@@ -117,17 +130,15 @@ async function serverCB(reqt, resp) {
 
 
 
-    try {
-      const client = new MongoClient(
-        'mongodb://localhost:27017',
-        {
-          useNewUrlParser: true,
-          useUnifiedTopology: true,
-        }
-      );
-      await client.connect();
-      const db = client.db('tzs');
-      console.log("Connected correctly to mongo server!");
+
+
+
+    console.log(db);
+
+
+
+
+
       db.dropCollection('timezones').then(res => console.log(res));
       // https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
       //
@@ -146,13 +157,7 @@ async function serverCB(reqt, resp) {
         offsetsStream(offsets).pipe(resp);
 
       // })();
-    } catch (err) {
 
-      console.log('tfctfctfctfc', err);
-      resp.write('Error connecting to database. Please try again.', 'utf8');
-      resp.end();
-
-    }
 
 
   }
