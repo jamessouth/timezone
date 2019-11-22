@@ -13,9 +13,13 @@ let db = null;
 
 export default function getDB() {
   if (db) return db;
-  return new Promise((res, rej) => {
-    client.connect().then(connection => {res(connection); db = connection;}).catch(err => rej(err));
-
+  return new Promise(async (res, rej) => {
+    try {
+      const connection = await client.connect();
+      res(connection);
+      db = connection;
+    } catch (err) {
+      rej(err);
+    }
   });
-
 }
