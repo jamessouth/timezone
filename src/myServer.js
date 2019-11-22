@@ -17,17 +17,63 @@ const assert = require('assert');
 // const { parse } = require('querystring');
 
 
+
+
+
+
+
+
+  // if (req.url.includes('favicon')) {
+  //   res.writeHead(204);
+  //   res.end();
+  // }
+
+  // if (/.css$/.test(req.url)) {
+  //   fs.readFile(path.join(__dirname, '/dist', req.url), 'utf8', (err, css) => {
+  //     res.writeHead(200, { 'Content-Type': 'text/css' });
+  //     res.end(css);
+  //   });
+  // }
+  // if (req.url.includes('.js')) {
+  //   fs.readFile(path.join(__dirname, '/dist', req.url), 'utf8', (err, js) => {
+  //     res.writeHead(200, { 'Content-Type': 'application/javascript' });
+  //     res.end(js);
+  //   });
+  // }
+  // if (req.url.includes('/images/') && /(\.png|\.svg|\.jpg|\.gif)/.test(req.url)) {
+  //   let ext = req.url.includes('.jpg') ? 'jpeg' : path.extname(req.url).substring(1);
+  //   ext = req.url.includes('.svg') ? 'svg+xml' : ext;
+  //   fs.readFile(path.join(__dirname, '/dist', req.url), (err, img) => {
+  //     res.writeHead(200, { 'Content-Type': `image/${ext}` });
+  //     res.end(img);
+  //   });
+  // }
+
+
+
+
+
+
+
+
+
 let db, client;
 
 getDB().then(clnt => {
   client = clnt;
   db = client.db('tzs');
   console.log("Connected correctly to mongo server!");
+
+  const server = http.createServer(serverCB).listen(3101, () => {
+    console.log('server running on port 3101!', '\x07');// default beep
+  });
+
+
 }).catch(err => {
 
   console.log('tfctfctfctfc', err);
-  // resp.write('Error connecting to database. Please try again.', 'utf8');
-  // resp.end();
+  // res.write('Error connecting to database. Please try again.', 'utf8');
+  // res.end();
   process.exit(1);
 });
 
@@ -39,15 +85,11 @@ getDB().then(clnt => {
 
 
 
-const server = http.createServer(serverCB).listen(3101, () => {
-  console.log('server running on port 3101!', '\x07');// default beep
-});
-
-async function serverCB(reqt, resp) {
+async function serverCB(req, res) {
   let source = '';
   let payload, data;
 
-  if (reqt.method === 'POST') {
+  if (req.method === 'POST') {
     try {
       const client = new MongoClient(
         'mongodb://localhost:27017',
@@ -58,11 +100,11 @@ async function serverCB(reqt, resp) {
       );
       await client.connect();
       const db = client.db('tzs');
-      reqt.on('data', chk => {
+      req.on('data', chk => {
         // console.log('ch ', chk);
         source += chk;
       });
-      reqt.on('end', async () => {
+      req.on('end', async () => {
         // console.log('src ', source);
         try {
           data = await graphql({ schema, source, contextValue: db });
@@ -107,28 +149,34 @@ async function serverCB(reqt, resp) {
           console.log('pl ', payload);
           console.log();
           client && client.close();
-          resp.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
-          resp.end(JSON.stringify(payload));
+          res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
+          res.end(JSON.stringify(payload));
         }
       });
     } catch (err) {
       payload = { msg: `Error connecting to database: ${err.message}. Please try again.` };
-      resp.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
+      res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
       console.log('t33333333', err);
-      // resp.write('Error connecting to database. Please try again.', 'utf8');
-      resp.end(JSON.stringify(payload));
+      // res.write('Error connecting to database. Please try again.', 'utf8');
+      res.end(JSON.stringify(payload));
     }
   }
 
+ // && req.url === '/'
+  if (req.method === 'GET') {
+    // res.writeHead(200, { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
 
-  if (reqt.method === 'GET' && reqt.url === '/') {
-    resp.writeHead(200, { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
-
-    // resp.write('event: ping\ndata: grabbing data...');
+    // res.write('event: ping\ndata: grabbing data...');
     // , 'Connection': 'keep-alive', 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache'
 
 
-
+    console.log(req.url);
+    if (req.url === '/') {
+      fs.readFile('dist/index.html', 'utf8', (err, html) => {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(html);
+      });
+    }
 
 
 
@@ -139,7 +187,7 @@ async function serverCB(reqt, resp) {
 
 
 
-      db.dropCollection('timezones').then(res => console.log(res));
+      // db.dropCollection('timezones').then(res => console.log(res));
       // https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
       //
       //   await makePipeline(chunks, seedDB(db)).catch(err => console.log(err));
@@ -147,14 +195,14 @@ async function serverCB(reqt, resp) {
       //
       // });
       // (async function getData() {
-      console.log('here');
-        const file = fs.createReadStream('./tabledata');
-        await makePipeline(file, seedDB(db));
-        const col = db.collection('timezones');
-        const offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
-        client.close();
-        console.log('cc343453453434535ccc');
-        offsetsStream(offsets).pipe(resp);
+      // console.log('here');
+      //   const file = fs.createReadStream('./tabledata');
+      //   await makePipeline(file, seedDB(db));
+      //   const col = db.collection('timezones');
+      //   const offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
+      //   client.close();
+      //   console.log('cc343453453434535ccc');
+      //   offsetsStream(offsets).pipe(res);
 
       // })();
 

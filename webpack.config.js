@@ -6,17 +6,17 @@ const ScriptExtHTMLWebpackPlugin = require('script-ext-html-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
-  devtool: 'inline-source-map',
-  // mode: 'production',
-  // devtool: 'source-map',
+  // mode: 'development',
+  // devtool: 'inline-source-map',
+  mode: 'production',
+  devtool: 'source-map',
   entry: {
     main: './src/index.js',
   },
   output: {
     filename: '[name].[contenthash].js',
     chunkFilename: '[name].[contenthash].js',
-    path: path.resolve(__dirname, 'docs'),
+    path: path.resolve(__dirname, 'dist'),
   },
   module: {
     rules: [
@@ -34,7 +34,7 @@ module.exports = {
                 '@babel/preset-env',
                 {
                   'useBuiltIns': 'usage',
-                  'corejs': '3.1.1',
+                  'corejs': '3.3.2',
                 },
               ],
               [
@@ -95,7 +95,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HTMLWebpackPlugin({
       template: './src/index.html',
-      title: 'timezones',
+      title: 'Time Zones',
     }),
     new ScriptExtHTMLWebpackPlugin({
       defaultAttribute: 'async',
