@@ -13,6 +13,7 @@ import getDB from './MongoDBController';
 const http = require('http');
 const fs = require('fs');
 const https = require('https');
+const path = require('path');
 const assert = require('assert');
 // const { parse } = require('querystring');
 
@@ -23,10 +24,6 @@ const assert = require('assert');
 
 
 
-  // if (req.url.includes('favicon')) {
-  //   res.writeHead(204);
-  //   res.end();
-  // }
 
   // if (/.css$/.test(req.url)) {
   //   fs.readFile(path.join(__dirname, '/dist', req.url), 'utf8', (err, css) => {
@@ -34,12 +31,7 @@ const assert = require('assert');
   //     res.end(css);
   //   });
   // }
-  // if (req.url.includes('.js')) {
-  //   fs.readFile(path.join(__dirname, '/dist', req.url), 'utf8', (err, js) => {
-  //     res.writeHead(200, { 'Content-Type': 'application/javascript' });
-  //     res.end(js);
-  //   });
-  // }
+  //
   // if (req.url.includes('/images/') && /(\.png|\.svg|\.jpg|\.gif)/.test(req.url)) {
   //   let ext = req.url.includes('.jpg') ? 'jpeg' : path.extname(req.url).substring(1);
   //   ext = req.url.includes('.svg') ? 'svg+xml' : ext;
@@ -89,7 +81,7 @@ async function serverCB(req, res) {
   let source = '';
   let payload, data;
 
-  if (req.method === 'POST') {
+  if (req.method == 'POST') {
     try {
       const client = new MongoClient(
         'mongodb://localhost:27017',
@@ -163,25 +155,44 @@ async function serverCB(req, res) {
   }
 
  // && req.url === '/'
-  if (req.method === 'GET') {
+  if (req.method == 'GET') {
     // res.writeHead(200, { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
 
     // res.write('event: ping\ndata: grabbing data...');
     // , 'Connection': 'keep-alive', 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache'
 
 
+
     console.log(req.url);
-    if (req.url === '/') {
+    if (req.url == '/') {
       fs.readFile('dist/index.html', 'utf8', (err, html) => {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.end(html);
       });
     }
+    if (/.js$/.test(req.url)) {
+      fs.readFile(path.join(__dirname, '/dist', req.url), 'utf8', (err, js) => {
+        res.writeHead(200, { 'Content-Type': 'application/javascript' });
+        res.end(js);
+      });
+    }
+    if (/favicon/.test(req.url)) {
+      // res.writeHead(204);
+      // res.end();
+
+
+      fs.readFile(path.join(__dirname, '/dist/icons', req.url), (err, img) => {
+        res.writeHead(200, { 'Content-Type': 'image/png' });
+        res.end(img);
+      });
 
 
 
+    }
 
-    console.log(db);
+
+
+    // console.log(db);
 
 
 
