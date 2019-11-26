@@ -171,7 +171,8 @@ async function serverCB(req, res) {
       });
     }
     if (/.js$/.test(req.url)) {
-      fs.readFile(path.join(__dirname, '/dist', req.url), 'utf8', (err, js) => {
+      fs.readFile(path.join('dist', req.url), 'utf8', (err, js) => {
+        if (err) throw err;
         res.writeHead(200, { 'Content-Type': 'application/javascript' });
         res.end(js);
       });
@@ -181,7 +182,7 @@ async function serverCB(req, res) {
       // res.end();
 
 
-      fs.readFile(path.join(__dirname, '/dist/icons', req.url), (err, img) => {
+      fs.readFile(path.join('dist/icons', req.url), (err, img) => {
         res.writeHead(200, { 'Content-Type': 'image/png' });
         res.end(img);
       });
