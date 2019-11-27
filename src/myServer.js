@@ -48,31 +48,11 @@ const assert = require('assert');
 
 
 
-
-let db, client;
-
-getDB().then(clnt => {
-  client = clnt;
-  db = client.db('tzs');
-  console.log("Connected correctly to mongo server!");
-
-  const server = http.createServer(serverCB).listen(3101, () => {
-    console.log('server running on port 3101!', '\x07');// default beep
-  });
-
-
-}).catch(err => {
-
-  console.log('tfctfctfctfc', err);
-  // res.write('Error connecting to database. Please try again.', 'utf8');
-  // res.end();
-  process.exit(1);
+const server = http.createServer(serverCB).listen(3101, () => {
+  console.log('server running on port 3101!', '\x07');// default beep
 });
 
-
-
-
-
+let db, client;
 
 
 
@@ -80,6 +60,7 @@ getDB().then(clnt => {
 async function serverCB(req, res) {
   let source = '';
   let payload, data;
+  console.log(req);
 
   if (req.method == 'POST') {
     try {
@@ -154,21 +135,53 @@ async function serverCB(req, res) {
     }
   }
 
- // && req.url === '/'
+
+
+  if (req.method == 'GET' && req.url === '/es') {
+    res.writeHead(200, { 'Connection': 'keep-alive', 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' });
+    res.write('event: ping\ndata: grabbing data...\n\n\n');
+
+  }
+
   if (req.method == 'GET') {
     // res.writeHead(200, { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
 
-    // res.write('event: ping\ndata: grabbing data...');
-    // , 'Connection': 'keep-alive', 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache'
 
 
 
-    console.log(req.url);
+
+
+
+    res.write('event: ping\ndata: gfj83ja8h...\n\n\n');
+
+
     if (req.url == '/') {
+
+
       fs.readFile('dist/index.html', 'utf8', (err, html) => {
+        if (err) {
+          res.statusCode = 404;
+          res.end(err.message + '. Please try again.');
+        }
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.end(html);
+
+        getDB().then(clnt => {
+          client = clnt;
+          db = client.db('tzs');
+          console.log("Connected correctly to mongo server!");
+
+
+        }).catch(err => {
+
+          console.log('tfctfctfctfc', err);
+          // res.write();
+          res.end('Error connecting to database. Please try again.', 'utf8');
+          process.exit(1);
+        });
+
       });
+
     }
     if (/.js$/.test(req.url)) {
       fs.readFile(path.join('dist', req.url), 'utf8', (err, js) => {

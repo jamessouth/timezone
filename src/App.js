@@ -16,15 +16,21 @@ export default function App() {
   ] = useReducer(reducer, initialState);
   // const [offsetList, updateOffsetList] = useState(null);
 
+  useEffect(() => {
+    const evtSource = new EventSource('http://localhost:3101/es');
+    evtSource.addEventListener('ping', function(e) {
+      console.log('p ', e);
+    }, false);
+    evtSource.addEventListener('error', function(e) {
+      console.log('err ', e);
+    });
+
+  }, []);
+
+
+
   function sendMsg() {
     // .map(x => String.fromCharcode(x)
-    // const evtSource = new EventSource('http://localhost:3101');
-    // evtSource.addEventListener('ping', function(e) {
-    //   console.log('p ', e);
-    // }, false);
-    // evtSource.addEventListener('error', function(e) {
-    //   console.log('err ', e);
-    // });
 
 
 
