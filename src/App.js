@@ -17,8 +17,10 @@ export default function App() {
   // const [offsetList, updateOffsetList] = useState(null);
 
   useEffect(() => {
+    // console.log('ddd ', Date.now());
     const evtSource = new EventSource('http://localhost:3101/es');
     evtSource.addEventListener('ping', function(e) {
+      // console.log('eee ', Date.now());
       console.log('p ', e);
     }, false);
     evtSource.addEventListener('error', function(e) {

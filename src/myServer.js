@@ -11,6 +11,7 @@ import getDB from './MongoDBController';
 
 // const { Readable } = require('stream');
 const http = require('http');
+const EventEmitter = require('events');
 const fs = require('fs');
 const https = require('https');
 const path = require('path');
@@ -21,8 +22,8 @@ const assert = require('assert');
 
 
 
-
-
+class ProgressEmitter extends EventEmitter {}
+const prog = new ProgressEmitter();
 
 
   // if (/.css$/.test(req.url)) {
@@ -54,13 +55,13 @@ const server = http.createServer(serverCB).listen(3101, () => {
 
 let db, client;
 
-
+// mongod --dbpath="c:\data\db"
 
 
 async function serverCB(req, res) {
   let source = '';
   let payload, data;
-  console.log(req);
+  // console.log(req.url);
 
   if (req.method == 'POST') {
     try {
@@ -87,20 +88,6 @@ async function serverCB(req, res) {
             throw data.errors[0];
 
           }
-
-
-// mongod --dbpath="c:\data\db"
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -138,8 +125,12 @@ async function serverCB(req, res) {
 
 
   if (req.method == 'GET' && req.url === '/es') {
+    // console.log('ccc ', Date.now());
     res.writeHead(200, { 'Connection': 'keep-alive', 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' });
-    res.write('event: ping\ndata: grabbing data...\n\n\n');
+    prog.once('connect', () => {
+
+      res.write('event: ping\ndata: connected to db\n\n\n');
+    });
 
   }
 
@@ -148,14 +139,8 @@ async function serverCB(req, res) {
 
 
 
-
-
-
-
-    res.write('event: ping\ndata: gfj83ja8h...\n\n\n');
-
-
     if (req.url == '/') {
+
 
 
       fs.readFile('dist/index.html', 'utf8', (err, html) => {
@@ -166,19 +151,8 @@ async function serverCB(req, res) {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.end(html);
 
-        getDB().then(clnt => {
-          client = clnt;
-          db = client.db('tzs');
-          console.log("Connected correctly to mongo server!");
 
 
-        }).catch(err => {
-
-          console.log('tfctfctfctfc', err);
-          // res.write();
-          res.end('Error connecting to database. Please try again.', 'utf8');
-          process.exit(1);
-        });
 
       });
 
@@ -186,6 +160,25 @@ async function serverCB(req, res) {
     if (/.js$/.test(req.url)) {
       fs.readFile(path.join('dist', req.url), 'utf8', (err, js) => {
         if (err) throw err;
+        if (req.url.startsWith('/main')) {
+
+          getDB().then(clnt => {
+
+            client = clnt;
+            db = client.db('tzs');
+            console.log("Connected correctly to mongo server!");
+            prog.emit('connect');
+
+          }).catch(err => {
+
+            console.log('tfctfctfctfc', err);
+            // res.write();
+            res.end('Error connecting to database. Please try again.', 'utf8');
+            process.exit(1);
+          });
+
+
+        }
         res.writeHead(200, { 'Content-Type': 'application/javascript' });
         res.end(js);
       });
