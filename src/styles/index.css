@@ -39,6 +39,10 @@ body{
 .button:hover{
   filter: drop-shadow(-4px -11px 6px #3e2723);
 }
+.button:disabled{
+  cursor: not-allowed;
+  filter: contrast(0.25);
+}
 .err{
   text-align: center;
   margin: 2em auto;

@@ -53,7 +53,7 @@ const server = http.createServer(serverCB).listen(3101, () => {
   console.log('server running on port 3101!', '\x07');// default beep
 });
 
-let db, client;
+let db, client, dbConnect = false;
 
 // mongod --dbpath="c:\data\db"
 
@@ -124,13 +124,44 @@ async function serverCB(req, res) {
 
 
 
-  if (req.method == 'GET' && req.url === '/es') {
-    // console.log('ccc ', Date.now());
-    res.writeHead(200, { 'Connection': 'keep-alive', 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache' });
-    prog.once('connect', () => {
+  if (req.method == 'GET' && req.url == '/es') {
+    console.log('ccc ', Date.now());
 
-      res.write('event: ping\ndata: connected to db\n\n\n');
+
+    res.writeHead(200, {
+      'Connection': 'keep-alive',
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache'
     });
+
+    setInterval(() => {
+
+      res.write(':keepalive\n\n\n');
+    }, 119562);//2 minute timeout in chrome
+
+    if (!dbConnect) {
+      console.log('cftf', Date.now());
+      dbConnect = true;
+
+      prog.once('connect', () => {
+        res.write('event: ping\ndata: connected to db\n\n\n');
+      });
+
+      getDB().then(clnt => {
+
+        client = clnt;
+        db = client.db('tzs');
+        console.log("Connected correctly to mongo server!");
+        prog.emit('connect');
+
+      }).catch(err => {
+
+        console.log('tfctfctfctfc', err);
+        // res.write();
+        res.end('Error connecting to database. Please try again.', 'utf8');
+        process.exit(1);
+      });
+    }
 
   }
 
@@ -162,20 +193,7 @@ async function serverCB(req, res) {
         if (err) throw err;
         if (req.url.startsWith('/main')) {
 
-          getDB().then(clnt => {
 
-            client = clnt;
-            db = client.db('tzs');
-            console.log("Connected correctly to mongo server!");
-            prog.emit('connect');
-
-          }).catch(err => {
-
-            console.log('tfctfctfctfc', err);
-            // res.write();
-            res.end('Error connecting to database. Please try again.', 'utf8');
-            process.exit(1);
-          });
 
 
         }

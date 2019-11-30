@@ -17,11 +17,14 @@ export default function App() {
   // const [offsetList, updateOffsetList] = useState(null);
 
   useEffect(() => {
-    // console.log('ddd ', Date.now());
+    console.log('ddd ', Date.now());
+    const ul = document.querySelector('ul');
+    console.log(ul);
     const evtSource = new EventSource('http://localhost:3101/es');
     evtSource.addEventListener('ping', function(e) {
       // console.log('eee ', Date.now());
       console.log('p ', e);
+      dispatch({ type: 'data', payload: { msg: e.data } })
     }, false);
     evtSource.addEventListener('error', function(e) {
       console.log('err ', e);
@@ -33,12 +36,6 @@ export default function App() {
 
   function sendMsg() {
     // .map(x => String.fromCharcode(x)
-
-
-
-
-
-
 
 
     // console.log(new Date());
@@ -106,8 +103,17 @@ export default function App() {
     <main>
       <h1 className={ [h1, 'font-effect-decaying'].join(' ') }>Time Zones</h1>
       {
-        !offsetList && <button className={ button } type="button" onClick={ sendMsg }>Seed the database with the latest time zone data from Wikipedia!</button>
+        !offsetList &&
+          <button
+            className={ button }
+            type="button"
+            onClick={ sendMsg }
+            { ...(msg ? { 'disabled': true } : {}) }
+          >
+            Seed the database with the latest time zone data from Wikipedia!
+          </button>
       }
+      <ul></ul>
       {
         offsetList && <Form offsetList={ offsetList } postQuery={ postQuery }/>
       }
