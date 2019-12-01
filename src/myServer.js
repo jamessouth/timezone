@@ -9,7 +9,7 @@ import offsetsStream from './streams/offsetsStream';
 
 import getDB from './MongoDBController';
 
-// const { Readable } = require('stream');
+const { pipeline } = require('stream');
 const http = require('http');
 const EventEmitter = require('events');
 const fs = require('fs');
@@ -178,35 +178,40 @@ async function serverCB(req, res) {
 
     if (req.url == '/') {
 
-
-
-      fs.readFile('dist/index.html', 'utf8', (err, html) => {
-        if (err) {
-          res.statusCode = 404;
-          res.end(err.message + '. Please try again.');
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      pipeline(
+        fs.createReadStream('dist/index.html'),
+        res,
+        (err) => {
+          if (err) {
+            console.error('Pipeline failed.', err);
+          } else {
+            console.log('Pipeline succeeded.');
+          }
         }
-        res.writeHead(200, { 'Content-Type': 'text/html' });
-        res.end(html);
-
-
-
-
-      });
+      );
 
     }
+
+
     if (/.js$/.test(req.url)) {
-      fs.readFile(path.join('dist', req.url), 'utf8', (err, js) => {
-        if (err) throw err;
-        if (req.url.startsWith('/main')) {
 
-
-
-
+      res.writeHead(200, { 'Content-Type': 'application/javascript' });
+      pipeline(
+        fs.createReadStream(path.join('dist', req.url)),
+        res,
+        (err) => {
+          if (err) {
+            console.error('Pipeline failed.', err);
+          } else {
+            console.log('Pipeline succeeded.');
+          }
         }
-        res.writeHead(200, { 'Content-Type': 'application/javascript' });
-        res.end(js);
-      });
+      );
+
     }
+
+
     if (/favicon/.test(req.url)) {
       // res.writeHead(204);
       // res.end();
