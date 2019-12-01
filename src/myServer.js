@@ -53,8 +53,8 @@ const server = http.createServer(serverCB).listen(3101, () => {
   console.log('server running on port 3101!', '\x07');// default beep
 });
 
-let db, client, dbConnect = false;
-
+let db, client;
+// , dbConnect = false
 // mongod --dbpath="c:\data\db"
 
 
@@ -139,15 +139,19 @@ async function serverCB(req, res) {
       res.write(':keepalive\n\n\n');
     }, 119562);//2 minute timeout in chrome
 
-    if (!dbConnect) {
-      console.log('cftf', Date.now());
-      dbConnect = true;
+    // if (!dbConnect) {
+      // dbConnect = true;
+
 
       prog.once('connect', () => {
-        res.write('event: ping\ndata: connected to db\n\n\n');
+        res.write('event: status\ndata: Connected to database!\n\n\n');
       });
 
+
+      res.write('event: status\ndata: Connecting to database...\n\n\n');
+
       getDB().then(clnt => {
+        console.log('cftf', Date.now());
 
         client = clnt;
         db = client.db('tzs');
@@ -158,10 +162,12 @@ async function serverCB(req, res) {
 
         console.log('tfctfctfctfc', err);
         // res.write();
-        res.end('Error connecting to database. Please try again.', 'utf8');
-        process.exit(1);
+        res.write('event: error\ndata: Error connecting to database. Please try again.\n\n\n');
+
+
       });
-    }
+    // }
+
 
   }
 

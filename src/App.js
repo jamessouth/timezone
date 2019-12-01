@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import Form from './components/Form';
 import Results from './components/Results';
+import Status from './components/Status';
 import { initialState, reducer } from './reducers/appState';
 import { h1, button, err } from './styles/index.css';
 
@@ -9,8 +10,9 @@ export default function App() {
     {
       places,
       offset,
-      msg,
+      errorMsg,
       offsetList,
+      statuses,
     },
     dispatch,
   ] = useReducer(reducer, initialState);
@@ -18,17 +20,25 @@ export default function App() {
 
   useEffect(() => {
     console.log('ddd ', Date.now());
-    const ul = document.querySelector('ul');
-    console.log(ul);
+
     const evtSource = new EventSource('http://localhost:3101/es');
-    evtSource.addEventListener('ping', function(e) {
+
+    evtSource.addEventListener('error', function(e) {
+      // console.log('eee ', Date.now());
+      console.log('eeeeeeee ', e);
+      dispatch({ type: 'data', payload: { errorMsg: e.data } })
+      dispatch({ type: 'statuses', payload: { status: 'x' } })
+    }, false);
+
+    evtSource.addEventListener('status', function(e) {
       // console.log('eee ', Date.now());
       console.log('p ', e);
-      dispatch({ type: 'data', payload: { msg: e.data } })
+      dispatch({ type: 'statuses', payload: { status: e.data } })
     }, false);
-    evtSource.addEventListener('error', function(e) {
-      console.log('err ', e);
-    });
+
+    // evtSource.addEventListener('error', function(e) {
+    //   console.log('err ', e);
+    // }, false);
 
   }, []);
 
@@ -51,7 +61,7 @@ export default function App() {
               return JSON.parse(bod);
             } catch (err) {
               console.log(bod);
-              const data = { msg: bod };
+              const data = { errorMsg: bod };
               return dispatch({ type: 'data', payload: data });
             }
           }
@@ -62,7 +72,7 @@ export default function App() {
       })
       .then(offsetList => {
         dispatch({ type: 'offsetList', payload: { offsetList } });
-        if (msg) dispatch({ type: 'data', payload: {} });
+        if (errorMsg) dispatch({ type: 'data', payload: {} });
       });
 
 
@@ -89,14 +99,6 @@ export default function App() {
   }
 
 
-
-
-
-
-
-
-
-
 // form validation
 
   return (
@@ -108,12 +110,15 @@ export default function App() {
             className={ button }
             type="button"
             onClick={ sendMsg }
-            { ...(msg ? { 'disabled': true } : {}) }
+            { ...(statuses.length < 2 ? { 'disabled': true } : {}) }
           >
             Seed the database with the latest time zone data from Wikipedia!
           </button>
       }
-      <ul></ul>
+      {
+        statuses.length > 0 && <Status statuses={ statuses }/>
+      }
+
       {
         offsetList && <Form offsetList={ offsetList } postQuery={ postQuery }/>
       }
@@ -121,7 +126,7 @@ export default function App() {
         (offset || places) && <Results offset={ offset } places={ places }></Results>
       }
       {
-        msg && <p className={ err }>{ msg }</p>
+        errorMsg && <p className={ err }>{ errorMsg }</p>
       }
 
     </main>

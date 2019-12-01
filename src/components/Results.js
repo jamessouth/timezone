@@ -1,9 +1,9 @@
 import React from 'react';
 import { h2 } from '../styles/Form.module.css';
-import { h22, h3 } from '../styles/Results.module.css';
+import { h22, h3, li } from '../styles/Results.module.css';
 
 export default function Results({ places, offset }) {
-  const locations = places ? places.map((place, ind) => <li key={ ind }>{ place }</li>) : null;
+  const locations = places ? places.map((place, ind) => <li className={ li } key={ ind }>{ place }</li>) : null;
 
   return (
     <section>

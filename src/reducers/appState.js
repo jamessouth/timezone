@@ -1,12 +1,13 @@
 const initialState = {
   places: null,
   offset: null,
-  msg: null,
+  errorMsg: null,
   offsetList: null,
+  statuses: [],
 };
-// { data: { places, offset, msg } }, offsetList
-function reducer(state, { type, payload: { offsetList, places, offset, msg } }) {
-  // console.log('ppppppp', type, offsetList, places, offset, msg);
+// { data: { places, offset, errorMsg } }, offsetList
+function reducer(state, { type, payload: { offsetList, places, offset, errorMsg, status } }) {
+  // console.log('ppppppp', type, offsetList, places, offset, errorMsg);
 
   switch (type) {
     case 'offsetList':
@@ -19,8 +20,20 @@ function reducer(state, { type, payload: { offsetList, places, offset, msg } }) 
         ...state,
         places,
         offset,
-        msg
+        errorMsg
       };
+    case 'statuses':
+      if (status == 'x') {
+        return {
+          ...state,
+          statuses: []
+        }
+      } else {
+        return {
+          ...state,
+          statuses: [...state.statuses, status]
+        };
+      }
     default:
       throw new Error('Reducer action type not recognized');
   }

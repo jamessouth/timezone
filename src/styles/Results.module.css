@@ -20,7 +20,7 @@ ul{
   width: 85%;
   margin: auto;
 }
-li,
+.li,
 span{
   font-family: 'Macondo', cursive;
   font-size: 1.625rem;
@@ -30,7 +30,7 @@ span{
 span{
   display: block;
 }
-li{
+.li{
   /* text-align: center; */
   margin-bottom: .5em;
 
@@ -47,7 +47,7 @@ li{
     font-size: 2.125rem;
 
   }
-  li,
+  .li,
   span{
     /* font-family: 'Macondo', cursive; */
     font-size: 2rem;
