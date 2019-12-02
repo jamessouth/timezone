@@ -148,7 +148,7 @@ async function serverCB(req, res) {
       });
 
 
-      res.write('event: status\ndata: Connecting to database...\n\n\n');
+      res.write('event: status\ndata: Connecting to database\n\n\n');
 
       getDB().then(clnt => {
         console.log('cftf', Date.now());

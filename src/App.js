@@ -19,29 +19,29 @@ export default function App() {
   ] = useReducer(reducer, initialState);
   // const [offsetList, updateOffsetList] = useState(null);
 
-  // useEffect(() => {
-  //   console.log('ddd ', Date.now());
-  //
-  //   const evtSource = new EventSource('http://localhost:3101/es');
-  //
-  //   evtSource.addEventListener('error', function(e) {
-  //     // console.log('eee ', Date.now());
-  //     console.log('eeeeeeee ', e);
-  //     dispatch({ type: 'data', payload: { errorMsg: e.data } })
-  //     dispatch({ type: 'statuses', payload: { status: 'x' } })
-  //   }, false);
-  //
-  //   evtSource.addEventListener('status', function(e) {
-  //     // console.log('eee ', Date.now());
-  //     console.log('p ', e);
-  //     dispatch({ type: 'statuses', payload: { status: e.data } })
-  //   }, false);
-  //
-  //   // evtSource.addEventListener('error', function(e) {
-  //   //   console.log('err ', e);
-  //   // }, false);
-  //
-  // }, []);
+  useEffect(() => {
+    console.log('ddd ', Date.now());
+
+    const evtSource = new EventSource('http://localhost:3101/es');
+
+    evtSource.addEventListener('error', function(e) {
+      // console.log('eee ', Date.now());
+      console.log('eeeeeeee ', e);
+      dispatch({ type: 'data', payload: { errorMsg: e.data } })
+      dispatch({ type: 'statuses', payload: { status: 'x' } })
+    }, false);
+
+    evtSource.addEventListener('status', function(e) {
+      // console.log('eee ', Date.now());
+      console.log('p ', e);
+      dispatch({ type: 'statuses', payload: { status: e.data } })
+    }, false);
+
+    // evtSource.addEventListener('error', function(e) {
+    //   console.log('err ', e);
+    // }, false);
+
+  }, []);
 
 
 
@@ -105,7 +105,6 @@ export default function App() {
   return (
     <main>
       <h1 className={ [h1, 'font-effect-decaying'].join(' ') }>Time Zones</h1>
-      <Loading/>
       {
         !offsetList &&
           <button
@@ -118,7 +117,11 @@ export default function App() {
           </button>
       }
       {
-        statuses.length > 0 && <Status statuses={ statuses }/>
+        statuses.length > 0 &&
+          <>
+            <Status statuses={ statuses }/>
+            <Loading/>
+          </>
       }
 
       {

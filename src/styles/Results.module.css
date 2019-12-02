@@ -16,7 +16,7 @@
   text-align: center;
   margin: 1.5em 0 .8em;
 }
-ul{
+.ul{
   width: 85%;
   margin: auto;
 }
@@ -55,7 +55,7 @@ ul{
     /* text-align: center; */
     /* font-weight: bold; */
   }
-  ul{
+  .ul{
     width: 80%;
     margin: auto;
     display: grid;

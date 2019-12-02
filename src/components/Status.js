@@ -1,17 +1,15 @@
 import React from 'react';
-// import { h2 } from '../styles/Form.module.css';
-// import { h22, h3 } from '../styles/Results.module.css';
-import { err } from '../styles/index.css';
+import { ul, li } from '../styles/Status.module.css';
 
 export default function Status({ statuses }) {
-  const messages = statuses ? statuses.map((status, ind) => <li className={ err } key={ ind }>{ status }</li>) : null;
+  const messages = statuses ? statuses.map((status, ind) => <li className={ li } key={ ind }>{ status }</li>) : null;
 
   return (
-    <section>
+    <div>
       {
-        statuses && <ul>{ messages }</ul>
+        statuses && <ul className={ ul }>{ messages }</ul>
       }
-    </section>
+    </div>
   );
 
 }
