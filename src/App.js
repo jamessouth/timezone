@@ -11,9 +11,9 @@ export default function App() {
     {
       places,
       offset,
-      errorMsg,
+      error,
       offsetList,
-      statuses,
+      status,
     },
     dispatch,
   ] = useReducer(reducer, initialState);
@@ -24,22 +24,26 @@ export default function App() {
 
     const evtSource = new EventSource('http://localhost:3101/es');
 
-    evtSource.addEventListener('error', function(e) {
-      // console.log('eee ', Date.now());
-      console.log('eeeeeeee ', e);
-      dispatch({ type: 'data', payload: { errorMsg: e.data } })
-      dispatch({ type: 'statuses', payload: { status: 'x' } })
-    }, false);
-
-    evtSource.addEventListener('status', function(e) {
-      // console.log('eee ', Date.now());
-      console.log('p ', e);
-      dispatch({ type: 'statuses', payload: { status: e.data } })
-    }, false);
-
     // evtSource.addEventListener('error', function(e) {
-    //   console.log('err ', e);
+    //   // console.log('eee ', Date.now());
+    //   console.log('eeeeeeee ', e);
+    //   dispatch({ type: 'data', payload: { error: e.data } })
+    //   dispatch({ type: 'status', payload: { status: 'clear' } })
     // }, false);
+    //
+    // evtSource.addEventListener('status', function(e) {
+    //   // console.log('eee ', Date.now());
+    //   console.log('p ', e);
+    //   dispatch({ type: 'status', payload: { status: e.data } })
+    // }, false);
+
+    ['status', 'error', 'shift', 'clear'].forEach((action) => {
+      evtSource.addEventListener(action, function (e) {
+        console.log(action, Date.now());
+        dispatch({ type: action, payload: { [action]: e.data } })
+      }, false);
+    });
+
 
   }, []);
 
@@ -62,7 +66,7 @@ export default function App() {
               return JSON.parse(bod);
             } catch (err) {
               console.log(bod);
-              const data = { errorMsg: bod };
+              const data = { error: bod };
               return dispatch({ type: 'data', payload: data });
             }
           }
@@ -73,7 +77,7 @@ export default function App() {
       })
       .then(offsetList => {
         dispatch({ type: 'offsetList', payload: { offsetList } });
-        if (errorMsg) dispatch({ type: 'data', payload: {} });
+        if (error) dispatch({ type: 'data', payload: {} });
       });
 
 
@@ -111,19 +115,17 @@ export default function App() {
             className={ button }
             type="button"
             onClick={ sendMsg }
-            { ...(statuses.length < 2 ? { 'disabled': true } : {}) }
+            { ...(status[0] != 'Connecting to database' ? { 'disabled': true } : {}) }
           >
             Seed the database with the latest time zone data from Wikipedia!
           </button>
       }
       {
-        statuses.length > 0 &&
-          <>
-            <Status statuses={ statuses }/>
-            <Loading/>
-          </>
+        status.length > 0 && <Status statuses={ status }/>
       }
-
+      {
+        status[0] == 'Connecting to database' && <Loading/>
+      }
       {
         offsetList && <Form offsetList={ offsetList } postQuery={ postQuery }/>
       }
@@ -131,7 +133,7 @@ export default function App() {
         (offset || places) && <Results offset={ offset } places={ places }></Results>
       }
       {
-        errorMsg && <p className={ err }>{ errorMsg }</p>
+        error && <p className={ err }>{ error }</p>
       }
 
     </main>

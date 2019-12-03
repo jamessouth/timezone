@@ -143,29 +143,32 @@ async function serverCB(req, res) {
       // dbConnect = true;
 
 
-      prog.once('connect', () => {
-        res.write('event: status\ndata: Connected to database!\n\n\n');
-      });
+    prog.once('connect', () => {
+      res.write('event: status\ndata: Connected to database!\n\n\n');
+      setTimeout(() => res.write('event: shift\ndata: \n\n\n'), 1500);
+      setTimeout(() => res.write('event: clear\ndata: \n\n\n'), 3500);
+    });
 
 
-      res.write('event: status\ndata: Connecting to database\n\n\n');
+    res.write('event: status\ndata: Connecting to database\n\n\n');
 
-      getDB().then(clnt => {
-        console.log('cftf', Date.now());
+    getDB().then(clnt => {
+      console.log('cftf', Date.now());
 
-        client = clnt;
-        db = client.db('tzs');
-        console.log("Connected correctly to mongo server!");
-        prog.emit('connect');
+      client = clnt;
+      db = client.db('tzs');
+      console.log("Connected correctly to mongo server!");
+      prog.emit('connect');
 
-      }).catch(err => {
+    }).catch(err => {
 
-        console.log('tfctfctfctfc', err);
-        // res.write();
-        res.write('event: error\ndata: Error connecting to database. Please try again.\n\n\n');
+      console.log('tfctfctfctfc', err);
+      // res.write();
+      res.write('event: error\ndata: Error connecting to database. Please try again.\n\n\n');
+      res.write('event: clear\ndata: \n\n\n');
 
 
-      });
+    });
     // }
 
 
