@@ -14,6 +14,7 @@ export default function App() {
       error,
       offsetList,
       status,
+      readyToSeedDB,
     },
     dispatch,
   ] = useReducer(reducer, initialState);
@@ -115,7 +116,7 @@ export default function App() {
             className={ button }
             type="button"
             onClick={ sendMsg }
-            { ...(status[0] != 'Connecting to database' ? { 'disabled': true } : {}) }
+            { ...(!readyToSeedDB ? { 'disabled': true } : {}) }
           >
             Seed the database with the latest time zone data from Wikipedia!
           </button>
@@ -124,7 +125,7 @@ export default function App() {
         status.length > 0 && <Status statuses={ status }/>
       }
       {
-        status[0] == 'Connecting to database' && <Loading/>
+        status[0] == 'Connecting to database' && !readyToSeedDB && <Loading/>
       }
       {
         offsetList && <Form offsetList={ offsetList } postQuery={ postQuery }/>

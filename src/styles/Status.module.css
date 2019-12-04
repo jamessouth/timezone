@@ -3,7 +3,7 @@
 }
 .li{
   text-align: center;
-  margin: auto;
+  margin: 0 auto .25em;
   font-size: 2rem;
   background-color: palegoldenrod;
   font-family: monospace;

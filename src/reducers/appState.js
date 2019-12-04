@@ -27,10 +27,18 @@ function reducer(state, { type, payload: { offsetList, places, offset, error, st
       };
 
     case 'status':
-      return {
-        ...state,
-        status: [...state.status, status]
-      };
+      if (status.startsWith('Connected')) {
+        return {
+          ...state,
+          readyToSeedDB: true,
+          status: [...state.status, status]
+        };
+      } else {
+        return {
+          ...state,
+          status: [...state.status, status]
+        };
+      }
 
     case 'error':
       return {

@@ -145,8 +145,8 @@ async function serverCB(req, res) {
 
     prog.once('connect', () => {
       res.write('event: status\ndata: Connected to database!\n\n\n');
-      setTimeout(() => res.write('event: shift\ndata: \n\n\n'), 1500);
-      setTimeout(() => res.write('event: clear\ndata: \n\n\n'), 3500);
+      setTimeout(() => res.write('event: shift\ndata: \n\n\n'), 2500);
+      setTimeout(() => res.write('event: clear\ndata: \n\n\n'), 5000);
     });
 
 
