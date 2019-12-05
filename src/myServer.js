@@ -145,8 +145,7 @@ async function serverCB(req, res) {
 
     prog.once('connect', () => {
       res.write('event: status\ndata: Connected to database!\n\n\n');
-      setTimeout(() => res.write('event: shift\ndata: \n\n\n'), 2500);
-      setTimeout(() => res.write('event: clear\ndata: \n\n\n'), 5000);
+      setTimeout(() => res.write('event: status\ndata: \n\n\n'), 2500);
     });
 
 
@@ -165,7 +164,7 @@ async function serverCB(req, res) {
       console.log('tfctfctfctfc', err);
       // res.write();
       res.write('event: error\ndata: Error connecting to database. Please try again.\n\n\n');
-      res.write('event: clear\ndata: \n\n\n');
+      res.write('event: status\ndata: \n\n\n');
 
 
     });

@@ -1,20 +1,12 @@
 import React from 'react';
-import { ul, li } from '../styles/Status.module.css';
+import { p } from '../styles/Status.module.css';
 
-export default function Status({ statuses }) {
-  const messages = statuses ?
-    statuses
-      // .map((status, ind, arr) => )
-      .map((status, ind, arr) => {
-
-        return <li className={ li } key={ ind }>{ status }</li>;
-      }) :
-    null;
+export default function Status({ status }) {
 
   return (
     <div>
       {
-        statuses && <ul className={ ul }>{ messages }</ul>
+        status && <p className={ p }>{ status }</p>
       }
     </div>
   );

@@ -38,7 +38,7 @@ export default function App() {
     //   dispatch({ type: 'status', payload: { status: e.data } })
     // }, false);
 
-    ['status', 'error', 'shift', 'clear'].forEach((action) => {
+    ['status', 'error'].forEach((action) => {
       evtSource.addEventListener(action, function (e) {
         console.log(action, Date.now());
         dispatch({ type: action, payload: { [action]: e.data } })
@@ -122,10 +122,10 @@ export default function App() {
           </button>
       }
       {
-        status.length > 0 && <Status statuses={ status }/>
+        status && <p className={ err }>{ status }</p>
       }
       {
-        status[0] == 'Connecting to database' && !readyToSeedDB && <Loading/>
+        status == 'Connecting to database' && !readyToSeedDB && <Loading/>
       }
       {
         offsetList && <Form offsetList={ offsetList } postQuery={ postQuery }/>

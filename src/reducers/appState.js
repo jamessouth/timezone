@@ -3,7 +3,7 @@ const initialState = {
   offset: null,
   error: null,
   offsetList: null,
-  status: [],
+  status: null,
   readyToSeedDB: false,
 };
 // { data: { places, offset, error } }, offsetList
@@ -27,36 +27,17 @@ function reducer(state, { type, payload: { offsetList, places, offset, error, st
       };
 
     case 'status':
-      if (status.startsWith('Connected')) {
-        return {
-          ...state,
-          readyToSeedDB: true,
-          status: [...state.status, status]
-        };
-      } else {
-        return {
-          ...state,
-          status: [...state.status, status]
-        };
-      }
+      const done = status.startsWith('Connected');
+      return {
+        ...state,
+        readyToSeedDB: done,
+        status
+      };
 
     case 'error':
       return {
         ...state,
         error
-      };
-
-    case 'shift':
-      state.status.shift();
-      return {
-        ...state,
-        status: [...state.status]
-      };
-
-    case 'clear':
-      return {
-        ...state,
-        status: []
       };
 
     default:
