@@ -50,6 +50,11 @@ async function serverCB(req, res) {
   let payload, data;
   // console.log(req.url);
 
+
+// TODO: fix client for post route
+
+
+
   if (req.method == 'POST') {
     try {
       const client = new MongoClient(
@@ -175,7 +180,7 @@ async function serverCB(req, res) {
 
     if (/.js$/.test(req.url)) {
 
-      res.writeHead(200, { 'Content-Type': 'application/javascript' });
+      res.writeHead(200, { 'Content-Type': 'text/javascript' });
       pipeline(
         fs.createReadStream(path.join('dist', req.url)),
         res,
@@ -206,13 +211,21 @@ async function serverCB(req, res) {
     }
 
 
-    if (req.url.includes('/images/') && /(\.png|\.svg|\.jpg|\.gif)/.test(req.url)) {
-      let ext = req.url.includes('.jpg') ? 'jpeg' : path.extname(req.url).substring(1);
-      ext = req.url.includes('.svg') ? 'svg+xml' : ext;
-      fs.readFile(path.join(__dirname, '/dist', req.url), (err, img) => {
-        res.writeHead(200, { 'Content-Type': `image/${ext}` });
-        res.end(img);
-      });
+    if (/.jpg$/.test(req.url)) {
+
+      res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+      pipeline(
+        fs.createReadStream(path.join('dist', req.url)),
+        res,
+        (err) => {
+          if (err) {
+            console.error('Pipeline failed.', err);
+          } else {
+            console.log('Pipeline succeeded.');
+          }
+        }
+      );
+
     }
 
     // console.log(db);
