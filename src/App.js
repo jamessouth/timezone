@@ -7,6 +7,8 @@ import { initialState, reducer } from './reducers/appState';
 import { h1, button, err } from './styles/index.css';
 
 export default function App() {
+  const server = 'http://localhost:3101';
+
   const [
     {
       places,
@@ -23,28 +25,14 @@ export default function App() {
   useEffect(() => {
     console.log('ddd ', Date.now());
 
-    const evtSource = new EventSource('http://localhost:3101/es');
-
-    // evtSource.addEventListener('error', function(e) {
-    //   // console.log('eee ', Date.now());
-    //   console.log('eeeeeeee ', e);
-    //   dispatch({ type: 'data', payload: { error: e.data } })
-    //   dispatch({ type: 'status', payload: { status: 'clear' } })
-    // }, false);
-    //
-    // evtSource.addEventListener('status', function(e) {
-    //   // console.log('eee ', Date.now());
-    //   console.log('p ', e);
-    //   dispatch({ type: 'status', payload: { status: e.data } })
-    // }, false);
+    const evtSource = new EventSource(server + '/connect');
 
     ['status', 'error'].forEach((action) => {
       evtSource.addEventListener(action, function (e) {
         console.log(action, Date.now());
-        dispatch({ type: action, payload: { [action]: e.data } })
+        dispatch({ type: action, payload: { [action]: e.data } });
       }, false);
     });
-
 
   }, []);
 
@@ -52,10 +40,10 @@ export default function App() {
 
   function sendMsg() {
     // .map(x => String.fromCharcode(x)
-
+    dispatch({ type: 'status', payload: { 'status': '' } });
 
     // console.log(new Date());
-    fetch('http://localhost:3101')
+    fetch(server + '/seed')
     // .then(x => x.json())
       .then(async res => {
         let bod = '';
@@ -86,7 +74,7 @@ export default function App() {
 
   async function postQuery(body) {
     try {
-      let data = await fetch('http://localhost:3101', {
+      let data = await fetch(server, {
         method: 'POST',
         body
       });

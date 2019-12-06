@@ -32,19 +32,6 @@ const prog = new ProgressEmitter();
   //     res.end(css);
   //   });
   // }
-  //
-  // if (req.url.includes('/images/') && /(\.png|\.svg|\.jpg|\.gif)/.test(req.url)) {
-  //   let ext = req.url.includes('.jpg') ? 'jpeg' : path.extname(req.url).substring(1);
-  //   ext = req.url.includes('.svg') ? 'svg+xml' : ext;
-  //   fs.readFile(path.join(__dirname, '/dist', req.url), (err, img) => {
-  //     res.writeHead(200, { 'Content-Type': `image/${ext}` });
-  //     res.end(img);
-  //   });
-  // }
-
-
-
-
 
 
 
@@ -124,57 +111,47 @@ async function serverCB(req, res) {
 
 
 
-  if (req.method == 'GET' && req.url == '/es') {
-    console.log('ccc ', Date.now());
 
-
-    res.writeHead(200, {
-      'Connection': 'keep-alive',
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache'
-    });
-
-    setInterval(() => {
-
-      res.write(':keepalive\n\n\n');
-    }, 119562);//2 minute timeout in chrome
-
-    // if (!dbConnect) {
-      // dbConnect = true;
-
-
-    prog.once('connect', () => {
-      res.write('event: status\ndata: Connected to database!\n\n\n');
-      setTimeout(() => res.write('event: status\ndata: \n\n\n'), 2500);
-    });
-
-
-    res.write('event: status\ndata: Connecting to database\n\n\n');
-
-    getDB().then(clnt => {
-      console.log('cftf', Date.now());
-
-      client = clnt;
-      db = client.db('tzs');
-      console.log("Connected correctly to mongo server!");
-      prog.emit('connect');
-
-    }).catch(err => {
-
-      console.log('tfctfctfctfc', err);
-      // res.write();
-      res.write('event: error\ndata: Error connecting to database. Please try again.\n\n\n');
-      res.write('event: status\ndata: \n\n\n');
-
-
-    });
-    // }
-
-
-  }
 
   if (req.method == 'GET') {
     // res.writeHead(200, { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
+
+    if (req.url == '/connect') {
+      console.log('es route ', Date.now());
+
+      res.writeHead(200, {
+        'Connection': 'keep-alive',
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache'
+      });
+
+      setInterval(() => {
+        res.write(':keepalive\n\n\n');
+      }, 119562);//2 minute timeout in chrome
+
+      prog.once('connect', () => {
+        res.write('event: status\ndata: Connected to database!\n\n\n');
+      });
+
+      res.write('event: status\ndata: Connecting to database\n\n\n');
+
+      getDB().then(clnt => {
+        console.log('cftf', Date.now());
+
+        client = clnt;
+        db = client.db('tzs');
+        console.log("Connected correctly to mongo server!");
+        prog.emit('connect');
+
+      }).catch(err => {
+
+        console.log('tfctfctfctfc', err);
+        // res.write();
+        res.write('event: error\ndata: Error connecting to database. Please try again.\n\n\n');
+        res.write('event: status\ndata: \n\n\n');
+
+      });
+    }
 
 
 
@@ -229,10 +206,18 @@ async function serverCB(req, res) {
     }
 
 
+    if (req.url.includes('/images/') && /(\.png|\.svg|\.jpg|\.gif)/.test(req.url)) {
+      let ext = req.url.includes('.jpg') ? 'jpeg' : path.extname(req.url).substring(1);
+      ext = req.url.includes('.svg') ? 'svg+xml' : ext;
+      fs.readFile(path.join(__dirname, '/dist', req.url), (err, img) => {
+        res.writeHead(200, { 'Content-Type': `image/${ext}` });
+        res.end(img);
+      });
+    }
 
     // console.log(db);
 
-
+    if (req.url == '/seed') {
 
 
 
@@ -244,17 +229,17 @@ async function serverCB(req, res) {
       //
       // });
       // (async function getData() {
-      // console.log('here');
-      //   const file = fs.createReadStream('./tabledata');
-      //   await makePipeline(file, seedDB(db));
-      //   const col = db.collection('timezones');
-      //   const offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
-      //   client.close();
-      //   console.log('cc343453453434535ccc');
-      //   offsetsStream(offsets).pipe(res);
+      console.log('here');
+      const file = fs.createReadStream('./tabledata');
+      await makePipeline(file, seedDB(db));
+      const col = db.collection('timezones');
+      const offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
+      client.close();
+      console.log('cc343453453434535ccc');
+      offsetsStream(offsets).pipe(res);
 
       // })();
-
+    }
 
 
   }
