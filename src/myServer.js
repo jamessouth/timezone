@@ -57,15 +57,15 @@ async function serverCB(req, res) {
 
   if (req.method == 'POST') {
     try {
-      const client = new MongoClient(
-        'mongodb://localhost:27017',
-        {
-          useNewUrlParser: true,
-          useUnifiedTopology: true,
-        }
-      );
-      await client.connect();
-      const db = client.db('tzs');
+      // const client = new MongoClient(
+      //   'mongodb://localhost:27017',
+      //   {
+      //     useNewUrlParser: true,
+      //     useUnifiedTopology: true,
+      //   }
+      // );
+      // await client.connect();
+      // const db = client.db('tzs');
       req.on('data', chk => {
         // console.log('ch ', chk);
         source += chk;
@@ -100,14 +100,14 @@ async function serverCB(req, res) {
         } finally {
           console.log('pl ', payload);
           console.log();
-          client && client.close();
-          res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
+          // client && client.close();
+          // res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
           res.end(JSON.stringify(payload));
         }
       });
     } catch (err) {
       payload = { msg: `Error connecting to database: ${err.message}. Please try again.` };
-      res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
+      // res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
       console.log('t33333333', err);
       // res.write('Error connecting to database. Please try again.', 'utf8');
       res.end(JSON.stringify(payload));

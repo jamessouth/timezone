@@ -23,12 +23,11 @@ body{
   display: block;
   font-size: 24px;
   font-family: 'Trade Winds', cursive;
-  /* color: #3e2723; */
-  background-color: palegoldenrod;
+  background: radial-gradient(palegoldenrod 30%, transparent 90%);
   padding: 2px 12px;
   width: 90%;
   max-width: 600px;
-  border: 8px inset #ea661c;
+  border: 8px inset #9b1d20;
   cursor: pointer;
   outline: none;
 }
@@ -37,7 +36,7 @@ body{
 }
 .button:focus,
 .button:hover{
-  filter: drop-shadow(-4px -11px 6px #3e2723);
+  box-shadow: -4px -11px 9px 1px #3e2723;
 }
 .button:disabled{
   cursor: not-allowed;
