@@ -18,7 +18,15 @@ body{
   color: #3e2723;
   font-family: 'Redressed', cursive;
 }
+.show{
+  opacity: 1;
+  transition: opacity 4s ease-in;
+}
+.hide{
+  opacity: 0;
+}
 .button{
+  /* opacity: 0; */
   margin: auto;
   display: block;
   font-size: 24px;
@@ -27,7 +35,7 @@ body{
   padding: 2px 12px;
   width: 90%;
   max-width: 600px;
-  border: 8px inset #9b1d20;
+  border: 8px inset #9b1d14;
   cursor: pointer;
   outline: none;
 }
@@ -40,7 +48,7 @@ body{
 }
 .button:disabled{
   cursor: not-allowed;
-  filter: contrast(0.25);
+  /* filter: contrast(0.25); */
 }
 .err{
   text-align: center;

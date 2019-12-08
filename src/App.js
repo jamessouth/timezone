@@ -4,7 +4,7 @@ import Loading from './components/Loading';
 import Results from './components/Results';
 import Status from './components/Status';
 import { initialState, reducer } from './reducers/appState';
-import { h1, button, err } from './styles/index.css';
+import { h1, button, err, show, hide } from './styles/index.css';
 
 export default function App() {
   const server = 'http://localhost:3101';
@@ -101,10 +101,11 @@ export default function App() {
       {
         !offsetList &&
           <button
-            className={ button }
+            className={ readyToSeedDB ? [button, show].join(' ') : [button, hide].join(' ') }
             type="button"
             onClick={ sendMsg }
             { ...(!readyToSeedDB ? { 'disabled': true } : {}) }
+            // style={{ opacity: readyToSeedDB ? 1 : 0 }}
           >
             Seed the database with the latest time zone data from Wikipedia!
           </button>
@@ -133,7 +134,7 @@ export default function App() {
 
 
 
-
+// !offsetList &&
 // {
 //   places && places.length == 0 && <p>Please enter a valid time zone</p>
 // }
