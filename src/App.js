@@ -40,7 +40,6 @@ export default function App() {
 
   function sendMsg() {
     // .map(x => String.fromCharcode(x)
-    dispatch({ type: 'status', payload: { 'status': '' } });
 
     // console.log(new Date());
     fetch(server + '/seed')
@@ -65,6 +64,7 @@ export default function App() {
         return await processData(data);
       })
       .then(offsetList => {
+        dispatch({ type: 'status', payload: { 'status': '' } });
         dispatch({ type: 'offsetList', payload: { offsetList } });
         if (error) dispatch({ type: 'data', payload: {} });
       });

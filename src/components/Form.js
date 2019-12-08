@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { h2, checkdiv, selectdiv, button, p } from '../styles/Form.module.css';
+import { h2, checkdiv, selectdiv, p } from '../styles/Form.module.css';
+import { button } from '../styles/index.css';
 
 export default function Form({ offsetList, postQuery }) {
   const code1 = useRef('');
@@ -61,6 +62,7 @@ export default function Form({ offsetList, postQuery }) {
       <button
         type="button"
         className={ button }
+        style={{ maxWidth: 300 }}
         onClick={() => postQuery(queryText)}
         { ...(selectValue == 'UTC+/-...' || !queryText || (!offsetCheckboxValue && !placesCheckboxValue) ? { 'disabled': true } : {}) }
       >

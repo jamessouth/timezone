@@ -56,7 +56,7 @@ async function serverCB(req, res) {
 
 
   if (req.method == 'POST') {
-    try {
+    // try {
       // const client = new MongoClient(
       //   'mongodb://localhost:27017',
       //   {
@@ -72,6 +72,9 @@ async function serverCB(req, res) {
       });
       req.on('end', async () => {
         // console.log('src ', source);
+        console.log();
+        console.log(db);
+        console.log();
         try {
           data = await graphql({ schema, source, contextValue: db });
           // if (data.data) {
@@ -82,21 +85,12 @@ async function serverCB(req, res) {
           }
 
 
-
-
-          // MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 unpipe listeners added. Use emitter.setMaxListeners() to increase limit
-
-
-// Image by <a href="https://pixabay.com/users/TheDigitalArtist-202249/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4181261">Pete Linforth</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4181261">Pixabay</a>
-
-
-
           payload = Object.assign({}, data.data.timezone);
 
           console.log('fhfhfhfhfhfhf');
         } catch (err) {
           console.log('llllllllllllll', err);
-          payload = { msg: `Assertion error: ${err.message}. Number of documents retrieved not equal to 1.` };
+          payload = { error: `Assertion error: ${err.message}. Number of documents retrieved not equal to 1.` };
         } finally {
           console.log('pl ', payload);
           console.log();
@@ -105,18 +99,14 @@ async function serverCB(req, res) {
           res.end(JSON.stringify(payload));
         }
       });
-    } catch (err) {
-      payload = { msg: `Error connecting to database: ${err.message}. Please try again.` };
+    // } catch (err) {
+    //   payload = { error: `Error connecting to database: ${err.message}. Please try again.` };
       // res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
-      console.log('t33333333', err);
+      // console.log('t33333333', err);
       // res.write('Error connecting to database. Please try again.', 'utf8');
-      res.end(JSON.stringify(payload));
-    }
+      // res.end(JSON.stringify(payload));
+    // }
   }
-
-
-
-
 
   if (req.method == 'GET') {
     // res.writeHead(200, { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
@@ -145,6 +135,9 @@ async function serverCB(req, res) {
 
         client = clnt;
         db = client.db('tzs');
+        console.log();
+        console.log(db);
+        console.log();
         console.log("Connected correctly to mongo server!");
         prog.emit('connect');
 
@@ -247,7 +240,7 @@ async function serverCB(req, res) {
       await makePipeline(file, seedDB(db));
       const col = db.collection('timezones');
       const offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
-      client.close();
+      // client.close();
       console.log('cc343453453434535ccc');
       offsetsStream(offsets).pipe(res);
 
@@ -257,3 +250,8 @@ async function serverCB(req, res) {
 
   }
 };
+
+// MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 unpipe listeners added. Use emitter.setMaxListeners() to increase limit
+
+
+// Image by <a href="https://pixabay.com/users/TheDigitalArtist-202249/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4181261">Pete Linforth</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4181261">Pixabay</a>
