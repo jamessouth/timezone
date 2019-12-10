@@ -130,25 +130,37 @@ async function serverCB(req, res) {
 
       res.write('event: status\ndata: Connecting to database\n\n\n');
 
-      getDB().then(clnt => {
-        console.log('cftf', Date.now());
+      if (!db) {
 
-        client = clnt;
-        db = client.db('tzs');
-        console.log();
-        console.log(db);
-        console.log();
-        console.log("Connected correctly to mongo server!");
+
+        getDB().then(clnt => {
+          console.log('cftf', Date.now());
+
+          client = clnt;
+          db = client.db('tzs');
+
+          console.log("Connected correctly to mongo server!");
+          prog.emit('connect');
+
+        }).catch(err => {
+
+          console.log('tfctfctfctfc', err);
+          // res.write();
+          res.write('event: error\ndata: Error connecting to database. Please try again.\n\n\n');
+          res.write('event: status\ndata: \n\n\n');
+
+        });
+
+      } else {
         prog.emit('connect');
 
-      }).catch(err => {
 
-        console.log('tfctfctfctfc', err);
-        // res.write();
-        res.write('event: error\ndata: Error connecting to database. Please try again.\n\n\n');
-        res.write('event: status\ndata: \n\n\n');
 
-      });
+
+
+      }
+
+
     }
 
 
