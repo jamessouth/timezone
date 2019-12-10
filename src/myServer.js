@@ -119,8 +119,8 @@ async function serverCB(req, res) {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache'
       });
-
-      setInterval(() => {
+      // TODO: try catch....?
+      const eventInt = setInterval(() => {
         res.write(':keepalive\n\n\n');
       }, 119562);//2 minute timeout in chrome
 
@@ -154,11 +154,13 @@ async function serverCB(req, res) {
       } else {
         prog.emit('connect');
 
-
-
-
-
       }
+
+      req.on('close', () => {
+        // clearInterval(eventInt);
+        console.log('close', Date.now());
+        res.end();
+      });
 
 
     }

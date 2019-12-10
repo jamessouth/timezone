@@ -34,6 +34,10 @@ export default function App() {
       }, false);
     });
 
+    return function cleanup() {
+      evtSource.close();
+    };
+
   }, []);
 
 
