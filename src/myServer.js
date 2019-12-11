@@ -7,7 +7,7 @@ import seedDB from './streams/seedDB';
 import makePipeline from './streams/makePipeline';
 import offsetsStream from './streams/offsetsStream';
 
-import getDB from './MongoDBController';
+// import getDB from './MongoDBController';
 
 const { pipeline } = require('stream');
 const http = require('http');
@@ -18,7 +18,16 @@ const path = require('path');
 const assert = require('assert');
 // const { parse } = require('querystring');
 
+const MongoClient = require('mongodb').MongoClient;
 
+
+const client = new MongoClient(
+  'mongodb://localhost:27017',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+);
 
 
 
@@ -43,8 +52,8 @@ const server = http.createServer(serverCB).listen(3101, () => {
 // , dbConnect = false
 // mongod --dbpath="c:\data\db"
 
-
-let db, client;
+// , client
+let db;
 async function serverCB(req, res) {
   let source = '';
   let payload, data;
@@ -128,15 +137,15 @@ async function serverCB(req, res) {
         res.write('event: status\ndata: Connected to database!\n\n\n');
       });
 
-console.log('mlkmlkmlk', db);
+        console.log('mlkmlkmlk', db);
       // if (!db) {
 
         res.write('event: status\ndata: Connecting to database\n\n\n');
 
-        getDB().then(clnt => {
+        client.connect().then(() => {
           console.log('cftf', Date.now());
 
-          client = clnt;
+          // client = clnt;
           db = client.db('tzs');
 
           console.log("Connected correctly to mongo server!", db);
@@ -255,6 +264,7 @@ console.log('mlkmlkmlk', db);
       const file = fs.createReadStream('./tabledata');
       await makePipeline(file, seedDB(db));
       const col = db.collection('timezones');
+      console.log(col);
       const offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
       // client.close();
       console.log('cc343453453434535ccc');
