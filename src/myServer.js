@@ -40,11 +40,11 @@ const server = http.createServer(serverCB).listen(3101, () => {
   console.log('server running on port 3101!', '\x07');// default beep
 });
 
-let db, client;
 // , dbConnect = false
 // mongod --dbpath="c:\data\db"
 
 
+let db, client;
 async function serverCB(req, res) {
   let source = '';
   let payload, data;
@@ -119,19 +119,19 @@ async function serverCB(req, res) {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache'
       });
-      // TODO: try catch....?
+
       const eventInt = setInterval(() => {
         res.write(':keepalive\n\n\n');
-      }, 119562);//2 minute timeout in chrome
+      }, 19562);//2 minute timeout in chrome
 
       prog.once('connect', () => {
         res.write('event: status\ndata: Connected to database!\n\n\n');
       });
 
-      res.write('event: status\ndata: Connecting to database\n\n\n');
+console.log('mlkmlkmlk', db);
+      // if (!db) {
 
-      if (!db) {
-
+        res.write('event: status\ndata: Connecting to database\n\n\n');
 
         getDB().then(clnt => {
           console.log('cftf', Date.now());
@@ -139,7 +139,7 @@ async function serverCB(req, res) {
           client = clnt;
           db = client.db('tzs');
 
-          console.log("Connected correctly to mongo server!");
+          console.log("Connected correctly to mongo server!", db);
           prog.emit('connect');
 
         }).catch(err => {
@@ -151,14 +151,16 @@ async function serverCB(req, res) {
 
         });
 
-      } else {
-        prog.emit('connect');
-
-      }
+      // } else {
+      //   prog.emit('connect');
+      //
+      // }
 
       req.on('close', () => {
-        // clearInterval(eventInt);
-        console.log('close', Date.now());
+        clearInterval(eventInt);
+        client.close();
+        // db = null;
+        console.log('close', Date.now(), db);
         res.end();
       });
 
@@ -249,7 +251,7 @@ async function serverCB(req, res) {
       //
       // });
       // (async function getData() {
-      console.log('here');
+      console.log('here', db);
       const file = fs.createReadStream('./tabledata');
       await makePipeline(file, seedDB(db));
       const col = db.collection('timezones');

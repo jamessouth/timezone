@@ -9,15 +9,15 @@ const client = new MongoClient(
   }
 );
 
-let db = null;
+// let db = null;
 
 export default function getDB() {
-  if (db) return db;
+  // if (db) return Promise.resolve(db);
   return new Promise(async (res, rej) => {
     try {
       const connection = await client.connect();
       res(connection);
-      db = connection;
+      // db = connection;
     } catch (err) {
       rej(err);
     }
