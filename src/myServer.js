@@ -137,8 +137,8 @@ async function serverCB(req, res) {
         res.write('event: status\ndata: Connected to database!\n\n\n');
       });
 
-        console.log('mlkmlkmlk', db);
-      // if (!db) {
+        console.log('mlkmlkmlk', !!db);
+      if (!db) {
 
         res.write('event: status\ndata: Connecting to database\n\n\n');
 
@@ -148,7 +148,7 @@ async function serverCB(req, res) {
           // client = clnt;
           db = client.db('tzs');
 
-          console.log("Connected correctly to mongo server!", db);
+          console.log("Connected correctly to mongo server!", !!db);
           prog.emit('connect');
 
         }).catch(err => {
@@ -160,16 +160,16 @@ async function serverCB(req, res) {
 
         });
 
-      // } else {
-      //   prog.emit('connect');
-      //
-      // }
+      } else {
+        prog.emit('connect');
+
+      }
 
       req.on('close', () => {
         clearInterval(eventInt);
-        client.close();
+        // client.close();
         // db = null;
-        console.log('close', Date.now(), db);
+        console.log('close', Date.now(), !!db);
         res.end();
       });
 
@@ -260,11 +260,11 @@ async function serverCB(req, res) {
       //
       // });
       // (async function getData() {
-      console.log('here', db);
+      console.log('here', !!db);
       const file = fs.createReadStream('./tabledata');
       await makePipeline(file, seedDB(db));
       const col = db.collection('timezones');
-      console.log(col);
+      console.log(!!col);
       const offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
       // client.close();
       console.log('cc343453453434535ccc');
