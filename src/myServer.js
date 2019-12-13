@@ -21,13 +21,7 @@ const assert = require('assert');
 const MongoClient = require('mongodb').MongoClient;
 
 
-const client = new MongoClient(
-  'mongodb://localhost:27017',
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+
 
 
 
@@ -52,11 +46,11 @@ const server = http.createServer(serverCB).listen(3101, () => {
 // , dbConnect = false
 // mongod --dbpath="c:\data\db"
 
-// , client
-let db;
+
+let db, client;
 async function serverCB(req, res) {
   let source = '';
-  let payload, data;
+  let payload, data, file;
   // console.log(req.url);
 
 
@@ -123,6 +117,14 @@ async function serverCB(req, res) {
     if (req.url == '/connect') {
       console.log('es route ', Date.now());
 
+      client = new MongoClient(
+        'mongodb://localhost:27017',
+        {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+        }
+      );
+
       res.writeHead(200, {
         'Connection': 'keep-alive',
         'Content-Type': 'text/event-stream',
@@ -138,7 +140,7 @@ async function serverCB(req, res) {
       });
 
         console.log('mlkmlkmlk', !!db);
-      if (!db) {
+      // if (!db) {
 
         res.write('event: status\ndata: Connecting to database\n\n\n');
 
@@ -160,17 +162,20 @@ async function serverCB(req, res) {
 
         });
 
-      } else {
-        prog.emit('connect');
-
-      }
+      // } else {
+      //   prog.emit('connect');
+      //
+      // }
 
       req.on('close', () => {
         clearInterval(eventInt);
-        // client.close();
-        // db = null;
-        console.log('close', Date.now(), !!db);
-        res.end();
+        client.close().then(() => {
+          client = null;
+          db = null;
+          file = null;
+          console.log('close', Date.now(), !!db);
+          res.end();
+        });
       });
 
 
@@ -261,14 +266,23 @@ async function serverCB(req, res) {
       // });
       // (async function getData() {
       console.log('here', !!db);
-      const file = fs.createReadStream('./tabledata');
-      await makePipeline(file, seedDB(db));
+      file = fs.createReadStream('./tabledata', { emitClose: true });
+      file.pipe(process.stdout);
+      await makePipeline(file, seedDB(db)).catch(err => console.log('pipe err', err));
       const col = db.collection('timezones');
       console.log(!!col);
       const offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
       // client.close();
       console.log('cc343453453434535ccc');
       offsetsStream(offsets).pipe(res);
+      file.on('close', (err) => {
+        if (err) console.log(err);
+        console.log('fs close', Date.now());
+      });
+      file.on('end', (err) => {
+        if (err) console.log(err);
+        console.log('fs end', Date.now());
+      });
 
       // })();
     }

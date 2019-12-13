@@ -15,14 +15,10 @@ export default function seedDB(database, mongo = true) {
         places: chArray.slice(1)
       };
       if(count > 0) {
+        
         mongo && database.collection('timezones').insertOne(data, (err, r) => {
           assert.equal(null, err);
           assert.equal(1, r.insertedCount);
-          cb();
-        });
-        !mongo && database.post(data, (err, r) => {
-          assert.equal(null, err);
-          assert.equal(true, r.ok);
           cb();
         });
       } else {
