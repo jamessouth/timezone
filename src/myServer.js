@@ -267,14 +267,6 @@ async function serverCB(req, res) {
       // (async function getData() {
       console.log('here', !!db);
       file = fs.createReadStream('./tabledata', { emitClose: true });
-      file.pipe(process.stdout);
-      await makePipeline(file, seedDB(db)).catch(err => console.log('pipe err', err));
-      const col = db.collection('timezones');
-      console.log(!!col);
-      const offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
-      // client.close();
-      console.log('cc343453453434535ccc');
-      offsetsStream(offsets).pipe(res);
       file.on('close', (err) => {
         if (err) console.log(err);
         console.log('fs close', Date.now());
@@ -283,6 +275,15 @@ async function serverCB(req, res) {
         if (err) console.log(err);
         console.log('fs end', Date.now());
       });
+      file.pipe(process.stdout);
+      await makePipeline(file, seedDB(db)).catch(err => console.log('pipe err', err));
+      const col = db.collection('timezones');
+      console.log(!!col);
+      const offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
+      // client.close();
+      file.destroy();
+      console.log('cc343453453434535ccc');
+      offsetsStream(offsets).pipe(res);
 
       // })();
     }
