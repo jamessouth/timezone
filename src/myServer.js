@@ -29,15 +29,6 @@ class ProgressEmitter extends EventEmitter {}
 const prog = new ProgressEmitter();
 
 
-  // if (/.css$/.test(req.url)) {
-  //   fs.readFile(path.join(__dirname, '/dist', req.url), 'utf8', (err, css) => {
-  //     res.writeHead(200, { 'Content-Type': 'text/css' });
-  //     res.end(css);
-  //   });
-  // }
-
-
-
 
 const server = http.createServer(serverCB).listen(3101, () => {
   console.log('server running on port 3101!', '\x07');// default beep
@@ -50,7 +41,7 @@ const server = http.createServer(serverCB).listen(3101, () => {
 let db, client;
 async function serverCB(req, res) {
   let source = '';
-  let payload, data, file;
+  let payload, data;
   // console.log(req.url);
 
 
@@ -133,7 +124,7 @@ async function serverCB(req, res) {
 
       const eventInt = setInterval(() => {
         res.write(':keepalive\n\n\n');
-      }, 19562);//2 minute timeout in chrome
+      }, 119562);//2 minute timeout in chrome
 
       prog.once('connect', () => {
         res.write('event: status\ndata: Connected to database!\n\n\n');
@@ -172,7 +163,6 @@ async function serverCB(req, res) {
         client.close().then(() => {
           client = null;
           db = null;
-          file = null;
           console.log('close', Date.now(), !!db);
           res.end();
         });
@@ -253,39 +243,22 @@ async function serverCB(req, res) {
 
     // console.log(db);
 
-    if (req.url == '/seed') {
-
-
+    if (req.url == '/populateOffsets') {
 
       // db.dropCollection('timezones').then(res => console.log(res));
       // https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
-      //
-      //   await makePipeline(chunks, seedDB(db)).catch(err => console.log(err));
-      //   console.log('cc343453453434535ccc');
-      //
-      // });
-      // (async function getData() {
-      console.log('here', !!db);
-      file = fs.createReadStream('./tabledata', { emitClose: true });
-      file.on('close', (err) => {
-        if (err) console.log(err);
-        console.log('fs close', Date.now());
-      });
-      file.on('end', (err) => {
-        if (err) console.log(err);
-        console.log('fs end', Date.now());
-      });
-      file.pipe(process.stdout);
-      await makePipeline(file, seedDB(db)).catch(err => console.log('pipe err', err));
-      const col = db.collection('timezones');
-      console.log(!!col);
-      const offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
-      // client.close();
-      file.destroy();
-      console.log('cc343453453434535ccc');
-      offsetsStream(offsets).pipe(res);
 
-      // })();
+        // await makePipeline(chunks, seedDB(db)).catch(err => console.log(err));
+
+        const col = db.collection('timezones');
+
+        const offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
+
+        console.log('cc343453453434535ccc');
+        offsetsStream(offsets).pipe(res);
+      // });
+
+
     }
 
 

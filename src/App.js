@@ -42,11 +42,19 @@ export default function App() {
 
 
 
+  useEffect(() => {
+    console.log('use eff', Date.now());
+    sendMsg();
+
+  }, [readyToSeedDB]);
+
+
+
   function sendMsg() {
     // .map(x => String.fromCharcode(x)
 
     // console.log(new Date());
-    fetch(server + '/seed')
+    fetch(server + '/populateOffsets')
     // .then(x => x.json())
       .then(async res => {
         let bod = '';
@@ -102,18 +110,7 @@ export default function App() {
   return (
     <main>
       <h1 className={ [h1, 'font-effect-decaying'].join(' ') }>Time Zones</h1>
-      {
-        !offsetList &&
-          <button
-            className={ readyToSeedDB ? [button, show].join(' ') : [button, hide].join(' ') }
-            type="button"
-            onClick={ sendMsg }
-            { ...(!readyToSeedDB ? { 'disabled': true } : {}) }
-            // style={{ opacity: readyToSeedDB ? 1 : 0 }}
-          >
-            Seed the database with the latest time zone data from Wikipedia!
-          </button>
-      }
+
       {
         status && <p className={ err }>{ status }</p>
       }
@@ -135,7 +132,17 @@ export default function App() {
 }
 
 
-
+// {
+//   !offsetList &&
+//     <button
+//       className={ readyToSeedDB ? [button, show].join(' ') : [button, hide].join(' ') }
+//       type="button"
+//       onClick={ sendMsg }
+//       { ...(!readyToSeedDB ? { 'disabled': true } : {}) }
+//     >
+//       Seed the database with the latest time zone data from Wikipedia!
+//     </button>
+// }
 
 
 // !offsetList &&
