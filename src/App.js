@@ -27,7 +27,7 @@ export default function App() {
 
     const evtSource = new EventSource(server + '/connect');
 
-    ['status', 'error'].forEach((action) => {
+    ['status', 'offsetList', 'error'].forEach((action) => {
       evtSource.addEventListener(action, function (e) {
         console.log(action, Date.now());
         dispatch({ type: action, payload: { [action]: e.data } });
