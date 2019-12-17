@@ -130,41 +130,32 @@ async function serverCB(req, res) {
         res.write('event: status\ndata: Connected...getting time zones\n\n\n');
       });
 
-        console.log('in conn route', !!db);
-      // if (!db) {
 
         res.write('event: status\ndata: Connecting to database\n\n\n');
 
-        client.connect().then(() => {
-          console.log('after connect', Date.now());
-
-          // client = clnt;
+        try {
+          await client.connect();
           db = client.db('tzs');
-
           console.log("Connected correctly to mongo server!", !!db);
           prog.emit('connected');
-
           const col = db.collection('timezones');
-
           const offsets = await col
-                                .find({})
-                                .project({ offset: 1 })
-                                .toArray()
-                                .sort('no', 1);
-
-        }).catch(err => {
+            .find({})
+            .project({ offset: 1 })
+            .toArray()
+            .sort('no', 1);
+          res.write(`event: offsetList\ndata: ${JSON.stringify(offsets)}\n\n\n`);
+          res.write('event: status\ndata: \n\n\n');
+        } catch (e) {
 
           console.log('conn err', err);
           // res.write();
           res.write('event: error\ndata: Error connecting to database. Please try again.\n\n\n');
           res.write('event: status\ndata: \n\n\n');
+        }
 
-        });
 
-      // } else {
-      //   prog.emit('connect');
-      //
-      // }
+
 
       req.on('close', () => {
         clearInterval(eventInt);
