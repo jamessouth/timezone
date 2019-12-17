@@ -42,11 +42,11 @@ export default function App() {
 
 
 
-  useEffect(() => {
-    console.log('use eff', Date.now());
-    sendMsg();
-
-  }, [readyToSeedDB]);
+  // useEffect(() => {
+  //   console.log('use eff', Date.now());
+  //   sendMsg();
+  //
+  // }, [readyToSeedDB]);
 
 
 
@@ -106,10 +106,12 @@ export default function App() {
 
 
 // form validation
+// [h1, 'font-effect-decaying'].join(' ')
+
 
   return (
     <main>
-      <h1 className={ [h1, 'font-effect-decaying'].join(' ') }>Time Zones</h1>
+      <h1 className={ h1 }>Time Zones</h1>
 
       {
         status && <p className={ err }>{ status }</p>

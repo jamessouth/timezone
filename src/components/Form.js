@@ -19,9 +19,11 @@ export default function Form({ offsetList, postQuery }) {
     placesCheckboxValue,
   ]);
 
+  // [h2, 'font-effect-decaying'].join(' ')
+
   return (
     <section>
-      <h2 className={ [h2, 'font-effect-decaying'].join(' ') }>Construct GraphQL Query</h2>
+      <h2 className={ h2 }>Construct GraphQL Query</h2>
       <form>
 
         <fieldset>

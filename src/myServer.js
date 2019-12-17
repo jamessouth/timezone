@@ -126,27 +126,35 @@ async function serverCB(req, res) {
         res.write(':keepalive\n\n\n');
       }, 119562);//2 minute timeout in chrome
 
-      prog.once('connect', () => {
-        res.write('event: status\ndata: Connected to database!\n\n\n');
+      prog.once('connected', () => {
+        res.write('event: status\ndata: Connected...getting time zones\n\n\n');
       });
 
-        console.log('mlkmlkmlk', !!db);
+        console.log('in conn route', !!db);
       // if (!db) {
 
         res.write('event: status\ndata: Connecting to database\n\n\n');
 
         client.connect().then(() => {
-          console.log('cftf', Date.now());
+          console.log('after connect', Date.now());
 
           // client = clnt;
           db = client.db('tzs');
 
           console.log("Connected correctly to mongo server!", !!db);
-          prog.emit('connect');
+          prog.emit('connected');
+
+          const col = db.collection('timezones');
+
+          const offsets = await col
+                                .find({})
+                                .project({ offset: 1 })
+                                .toArray()
+                                .sort('no', 1);
 
         }).catch(err => {
 
-          console.log('tfctfctfctfc', err);
+          console.log('conn err', err);
           // res.write();
           res.write('event: error\ndata: Error connecting to database. Please try again.\n\n\n');
           res.write('event: status\ndata: \n\n\n');
@@ -249,12 +257,10 @@ async function serverCB(req, res) {
       // https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
 
         // await makePipeline(chunks, seedDB(db)).catch(err => console.log(err));
+// , _id: 0
 
-        const col = db.collection('timezones');
 
-        const offsets = await col.find({}).project({ offset: 1, _id: 0 }).toArray();
-
-        console.log('cc343453453434535ccc');
+        console.log('pop offs route');
         offsetsStream(offsets).pipe(res);
       // });
 
