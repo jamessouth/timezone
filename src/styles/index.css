@@ -17,6 +17,7 @@ body{
   margin: .5em 0 .75em;
   color: #3e2723;
   font-family: 'Redressed', cursive;
+  -webkit-mask-image: url('../assets/masks/decaying.png');
 }
 .show{
   opacity: 1;
