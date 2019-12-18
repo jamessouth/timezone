@@ -31,7 +31,7 @@ const RootQuery = new GraphQLObjectType({
 
 
         } catch (err) {
-          console.log('sch', err.stack);
+          console.log('sch', err.name, err.message);
           return err;
         }
       }

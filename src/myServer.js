@@ -66,17 +66,18 @@ async function serverCB(req, res) {
       });
       req.on('end', async () => {
         // console.log('src ', source);
-        console.log();
-        console.log(db);
-        console.log();
         try {
           data = await graphql({ schema, source, contextValue: db });
           // if (data.data) {
           // console.log('mys', data);
           if (data.errors) {
+            console.log();
+            console.log(data.errors);
+            console.log();
             throw data.errors[0];
 
           }
+
 
 
           payload = Object.assign({}, data.data.timezone);
@@ -84,7 +85,7 @@ async function serverCB(req, res) {
           console.log('fhfhfhfhfhfhf');
         } catch (err) {
           console.log('llllllllllllll', err);
-          payload = { status: `Assertion error: ${err.message}. Number of documents retrieved not equal to 1.` };
+          payload = { status: `${err.name}: ${err.message}. Number of documents retrieved not equal to 1.` };
         } finally {
           console.log('pl ', payload);
           console.log();
@@ -150,15 +151,14 @@ async function serverCB(req, res) {
             .project({ offset: 1, _id: 0 })
             .sort('no', 1)
             .toArray();
-console.log(offsets);
+
           if (offsets.length == 0) {
             throw new Error('Database error: Data not available');
           }
 
           setTimeout(() => {
             prog.emit('offsetsfetched', offsets);
-
-          }, 2865);
+          }, 2865);//gratuitous timeout to show status
         } catch (err) {
 
           console.log('conn err', err.message, err);
