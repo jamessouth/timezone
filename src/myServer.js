@@ -84,7 +84,7 @@ async function serverCB(req, res) {
           console.log('fhfhfhfhfhfhf');
         } catch (err) {
           console.log('llllllllllllll', err);
-          payload = { error: `Assertion error: ${err.message}. Number of documents retrieved not equal to 1.` };
+          payload = { status: `Assertion error: ${err.message}. Number of documents retrieved not equal to 1.` };
         } finally {
           console.log('pl ', payload);
           console.log();
@@ -130,6 +130,12 @@ async function serverCB(req, res) {
         res.write('event: status\ndata: Connected...getting time zones\n\n\n');
       });
 
+      prog.once('offsetsfetched', (arr) => {
+        res.write(`event: offsetList\ndata: ${JSON.stringify(arr)}\n\n\n`);
+        res.write('event: status\ndata: \n\n\n');
+      });
+
+
 
         res.write('event: status\ndata: Connecting to database\n\n\n');
 
@@ -142,16 +148,18 @@ async function serverCB(req, res) {
           const offsets = await col
             .find({})
             .project({ offset: 1 })
-            .toArray()
-            .sort('no', 1);
-          res.write(`event: offsetList\ndata: ${JSON.stringify(offsets)}\n\n\n`);
-          res.write('event: status\ndata: \n\n\n');
-        } catch (e) {
+            .sort('no', 1)
+            .toArray();
+          setTimeout(() => {
+            prog.emit('offsetsfetched', offsets);
+
+          }, 4565);
+        } catch (err) {
 
           console.log('conn err', err);
           // res.write();
-          res.write('event: error\ndata: Error connecting to database. Please try again.\n\n\n');
-          res.write('event: status\ndata: \n\n\n');
+          res.write('event: status\ndata: Error connecting to database. Please try again.\n\n\n');
+          // res.write('event: status\ndata: \n\n\n');
         }
 
 

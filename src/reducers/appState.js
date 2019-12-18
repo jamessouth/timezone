@@ -1,13 +1,11 @@
 const initialState = {
   places: null,
   offset: null,
-  error: null,
   offsetList: null,
   status: null,
-  readyToSeedDB: false,
 };
 // { data: { places, offset, error } }, offsetList
-function reducer(state, { type, payload: { offsetList, places, offset, error, status } }) {
+function reducer(state, { type, payload: { offsetList, places, offset, status } }) {
   // console.log('ppppppp', type, offsetList, places, offset, error);
 
   switch (type) {
@@ -15,7 +13,7 @@ function reducer(state, { type, payload: { offsetList, places, offset, error, st
     case 'offsetList':
       return {
         ...state,
-        offsetList
+        offsetList: JSON.parse(offsetList)
       };
 
     case 'data':
@@ -23,21 +21,13 @@ function reducer(state, { type, payload: { offsetList, places, offset, error, st
         ...state,
         places,
         offset,
-        error
-      };
-
-    case 'status':
-      const done = status.startsWith('Connected');
-      return {
-        ...state,
-        readyToSeedDB: done,
         status
       };
 
-    case 'error':
+    case 'status':
       return {
         ...state,
-        error
+        status
       };
 
     default:

@@ -4,7 +4,7 @@ import Loading from './components/Loading';
 import Results from './components/Results';
 import Status from './components/Status';
 import { initialState, reducer } from './reducers/appState';
-import { h1, button, err, show, hide } from './styles/index.css';
+import { h1, button, msg, show, hide } from './styles/index.css';
 
 export default function App() {
   const server = 'http://localhost:3101';
@@ -13,10 +13,8 @@ export default function App() {
     {
       places,
       offset,
-      error,
       offsetList,
       status,
-      readyToSeedDB,
     },
     dispatch,
   ] = useReducer(reducer, initialState);
@@ -27,7 +25,7 @@ export default function App() {
 
     const evtSource = new EventSource(server + '/connect');
 
-    ['status', 'offsetList', 'error'].forEach((action) => {
+    ['status', 'offsetList'].forEach((action) => {
       evtSource.addEventListener(action, function (e) {
         console.log(action, Date.now());
         dispatch({ type: action, payload: { [action]: e.data } });
@@ -46,7 +44,7 @@ export default function App() {
   //   console.log('use eff', Date.now());
   //   sendMsg();
   //
-  // }, [readyToSeedDB]);
+  // }, []);
 
 
 
@@ -114,19 +112,16 @@ export default function App() {
       <h1 className={ h1 }>Time Zones</h1>
 
       {
-        status && <p className={ err }>{ status }</p>
+        status && <p className={ msg }>{ status }</p>
       }
       {
-        status == 'Connecting to database' && !readyToSeedDB && <Loading/>
+        !!status && status.startsWith('Conn') && <Loading/>
       }
       {
         offsetList && <Form offsetList={ offsetList } postQuery={ postQuery }/>
       }
       {
         (offset || places) && <Results offset={ offset } places={ places }></Results>
-      }
-      {
-        error && <p className={ err }>{ error }</p>
       }
 
     </main>
@@ -137,10 +132,10 @@ export default function App() {
 // {
 //   !offsetList &&
 //     <button
-//       className={ readyToSeedDB ? [button, show].join(' ') : [button, hide].join(' ') }
+//       className={  ? [button, show].join(' ') : [button, hide].join(' ') }
 //       type="button"
 //       onClick={ sendMsg }
-//       { ...(!readyToSeedDB ? { 'disabled': true } : {}) }
+//       { ...(! ? { 'disabled': true } : {}) }
 //     >
 //       Seed the database with the latest time zone data from Wikipedia!
 //     </button>
