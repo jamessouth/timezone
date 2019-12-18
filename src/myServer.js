@@ -147,19 +147,28 @@ async function serverCB(req, res) {
           const col = db.collection('timezones');
           const offsets = await col
             .find({})
-            .project({ offset: 1 })
+            .project({ offset: 1, _id: 0 })
             .sort('no', 1)
             .toArray();
+console.log(offsets);
+          if (offsets.length == 0) {
+            throw new Error('Database error: Data not available');
+          }
+
           setTimeout(() => {
             prog.emit('offsetsfetched', offsets);
 
-          }, 4565);
+          }, 2865);
         } catch (err) {
 
-          console.log('conn err', err);
-          // res.write();
-          res.write('event: status\ndata: Error connecting to database. Please try again.\n\n\n');
-          // res.write('event: status\ndata: \n\n\n');
+          console.log('conn err', err.message, err);
+          if (err.name == 'MongoTimeoutError') {
+            res.write(`event: status\ndata: Error connecting to database: ${err.message}. Please try again.\n\n\n`);
+
+          } else {
+            res.write(`event: status\ndata: ${err.message}. Please try again.\n\n\n`);
+          }
+
         }
 
 
@@ -267,21 +276,7 @@ async function serverCB(req, res) {
 
     // console.log(db);
 
-    if (req.url == '/populateOffsets') {
 
-      // db.dropCollection('timezones').then(res => console.log(res));
-      // https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', async chunks => {
-
-        // await makePipeline(chunks, seedDB(db)).catch(err => console.log(err));
-// , _id: 0
-
-
-        console.log('pop offs route');
-        offsetsStream(offsets).pipe(res);
-      // });
-
-
-    }
 
 
   }

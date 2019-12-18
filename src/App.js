@@ -40,12 +40,6 @@ export default function App() {
 
 
 
-  // useEffect(() => {
-  //   console.log('use eff', Date.now());
-  //   sendMsg();
-  //
-  // }, []);
-
 
 
   function sendMsg() {
