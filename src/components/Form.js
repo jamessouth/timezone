@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { h2, checkdiv, selectdiv, p } from '../styles/Form.module.css';
-import { button } from '../styles/index.css';
+import { h2, button, checkdiv, selectdiv, p } from '../styles/Form.module.css';
 
 export default function Form({ offsetList, postQuery }) {
   const code1 = useRef('');

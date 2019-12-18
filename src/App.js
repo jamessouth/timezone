@@ -4,7 +4,7 @@ import Loading from './components/Loading';
 import Results from './components/Results';
 import Status from './components/Status';
 import { initialState, reducer } from './reducers/appState';
-import { h1, button, msg, show, hide } from './styles/index.css';
+import { h1, msg } from './styles/index.css';
 
 export default function App() {
   const server = 'http://localhost:3101';
