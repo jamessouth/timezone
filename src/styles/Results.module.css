@@ -15,6 +15,8 @@
   font-family: 'Trade Winds', cursive;
   text-align: center;
   margin: 1.5em 0 .8em;
+  -webkit-mask-image: url('../assets/masks/distressed-wood.png');
+  /* self-host google font effect mask image due to cors bug introduced with chrome 79 */
 }
 .ul{
   width: 85%;

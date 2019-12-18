@@ -18,6 +18,7 @@ body{
   color: #3e2723;
   font-family: 'Redressed', cursive;
   -webkit-mask-image: url('../assets/masks/decaying.png');
+  /* self-host google font effect mask image due to cors bug introduced with chrome 79 */
 }
 .show{
   opacity: 1;

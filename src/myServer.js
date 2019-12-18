@@ -248,6 +248,23 @@ async function serverCB(req, res) {
 
     }
 
+    if (/.png$/.test(req.url)) {
+
+      res.writeHead(200, { 'Content-Type': 'image/png' });
+      pipeline(
+        fs.createReadStream(path.join('dist', req.url)),
+        res,
+        (err) => {
+          if (err) {
+            console.error('Pipeline failed.', err);
+          } else {
+            console.log('Pipeline succeeded.');
+          }
+        }
+      );
+
+    }
+
     // console.log(db);
 
     if (req.url == '/populateOffsets') {
