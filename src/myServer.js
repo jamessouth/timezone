@@ -274,8 +274,6 @@ async function serverCB(req, res) {
 
     }
 
-    // console.log(db);
-
 
 
 
