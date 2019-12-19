@@ -3,7 +3,7 @@ import { graphql } from 'graphql';
 import schema from './graphql/schema';
 
 import prog from './utils/ProgressEmitter';
-
+import pipeError from './utils/pipeError';
 
 
 const { pipeline } = require('stream');
@@ -32,14 +32,7 @@ let db, client;
 async function serverCB(req, res) {
   let payload, data;
 
-  prog.once('connected', () => {
-    res.write('event: status\ndata: Connected...getting time zones\n\n\n');
-  });
 
-  prog.once('offsetsfetched', (arr) => {
-    res.write(`event: offsetList\ndata: ${JSON.stringify(arr)}\n\n\n`);
-    res.write('event: status\ndata: \n\n\n');
-  });
 
   if (req.method == 'POST') {
     let source = '';
@@ -101,6 +94,15 @@ async function serverCB(req, res) {
 
     if (req.url == '/connect') {
       console.log('es route ', Date.now());
+
+      prog.once('connected', () => {
+        res.write('event: status\ndata: Connected...getting time zones\n\n\n');
+      });
+
+      prog.once('offsetsfetched', (arr) => {
+        res.write(`event: offsetList\ndata: ${JSON.stringify(arr)}\n\n\n`);
+        res.write('event: status\ndata: \n\n\n');
+      });
 
       client = new MongoClient(
         'mongodb://localhost:27017',
@@ -181,13 +183,7 @@ async function serverCB(req, res) {
       pipeline(
         fs.createReadStream('dist/index.html'),
         res,
-        (err) => {
-          if (err) {
-            console.error('Pipeline failed.', err);
-          } else {
-            console.log('Pipeline succeeded.');
-          }
-        }
+        (err) => pipeError(err, req.url)
       );
 
     }
@@ -199,49 +195,11 @@ async function serverCB(req, res) {
       pipeline(
         fs.createReadStream(path.join('dist', req.url)),
         res,
-        (err) => {
-          if (err) {
-            console.error('Pipeline failed.', err);
-          } else {
-            console.log('Pipeline succeeded.');
-          }
-        }
+        (err) => pipeError(err, req.url)
       );
 
     }
 
-
-    if (/favicon/.test(req.url)) {
-      // res.writeHead(204);
-      // res.end();
-
-
-      fs.readFile(path.join('dist/icons', req.url), (err, img) => {
-        res.writeHead(200, { 'Content-Type': 'image/png' });
-        res.end(img);
-      });
-
-
-
-    }
-
-
-    if (/.jpg$/.test(req.url)) {
-
-      res.writeHead(200, { 'Content-Type': 'image/jpeg' });
-      pipeline(
-        fs.createReadStream(path.join('dist', req.url)),
-        res,
-        (err) => {
-          if (err) {
-            console.error('Pipeline failed.', err);
-          } else {
-            console.log('Pipeline succeeded.');
-          }
-        }
-      );
-
-    }
 
     if (/.png$/.test(req.url)) {
 
@@ -249,13 +207,18 @@ async function serverCB(req, res) {
       pipeline(
         fs.createReadStream(path.join('dist', req.url)),
         res,
-        (err) => {
-          if (err) {
-            console.error('Pipeline failed.', err);
-          } else {
-            console.log('Pipeline succeeded.');
-          }
-        }
+        (err) => pipeError(err, req.url)
+      );
+
+    }
+
+    if (/.jpg$/.test(req.url)) {
+
+      res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+      pipeline(
+        fs.createReadStream(path.join('dist', req.url)),
+        res,
+        (err) => pipeError(err, req.url)
       );
 
     }
@@ -263,9 +226,10 @@ async function serverCB(req, res) {
 
 
 
+
   }
 };
-
+process.on('warning', e => console.warn(e.stack));
 // MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 unpipe listeners added. Use emitter.setMaxListeners() to increase limit
 
 
