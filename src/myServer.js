@@ -2,16 +2,14 @@
 import { graphql } from 'graphql';
 import schema from './graphql/schema';
 
-import seedDB from './streams/seedDB';
+import prog from './utils/ProgressEmitter';
 
-import makePipeline from './streams/makePipeline';
-import offsetsStream from './streams/offsetsStream';
 
 // import getDB from './MongoDBController';
 
 const { pipeline } = require('stream');
 const http = require('http');
-const EventEmitter = require('events');
+
 const fs = require('fs');
 const https = require('https');
 const path = require('path');
@@ -20,13 +18,6 @@ const assert = require('assert');
 
 const MongoClient = require('mongodb').MongoClient;
 
-
-
-
-
-
-class ProgressEmitter extends EventEmitter {}
-const prog = new ProgressEmitter();
 
 
 
@@ -40,7 +31,6 @@ const server = http.createServer(serverCB).listen(3101, () => {
 
 let db, client;
 async function serverCB(req, res) {
-  let source = '';
   let payload, data;
   // console.log(req.url);
 
@@ -50,6 +40,7 @@ async function serverCB(req, res) {
 
 
   if (req.method == 'POST') {
+    let source = '';
     // try {
       // const client = new MongoClient(
       //   'mongodb://localhost:27017',
