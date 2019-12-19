@@ -23,3 +23,8 @@ export default function getDB() {
     }
   });
 }
+
+db.timezones.update({ offset: "UTC+02:00"}, {$push: {places: {$each: ["Åland Islands"],$position: 0}}})
+
+
+ db.timezones.update({ offset: "UTC+02:00"}, {$pull: {places: "Åland Islands"}})
