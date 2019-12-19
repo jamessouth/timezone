@@ -5,7 +5,6 @@ import schema from './graphql/schema';
 import prog from './utils/ProgressEmitter';
 
 
-// import getDB from './MongoDBController';
 
 const { pipeline } = require('stream');
 const http = require('http');
@@ -14,7 +13,7 @@ const fs = require('fs');
 const https = require('https');
 const path = require('path');
 const assert = require('assert');
-// const { parse } = require('querystring');
+
 
 const MongoClient = require('mongodb').MongoClient;
 
@@ -32,12 +31,15 @@ const server = http.createServer(serverCB).listen(3101, () => {
 let db, client;
 async function serverCB(req, res) {
   let payload, data;
-  // console.log(req.url);
 
+  prog.once('connected', () => {
+    res.write('event: status\ndata: Connected...getting time zones\n\n\n');
+  });
 
-// TODO: fix client for post route
-
-
+  prog.once('offsetsfetched', (arr) => {
+    res.write(`event: offsetList\ndata: ${JSON.stringify(arr)}\n\n\n`);
+    res.write('event: status\ndata: \n\n\n');
+  });
 
   if (req.method == 'POST') {
     let source = '';
@@ -118,14 +120,7 @@ async function serverCB(req, res) {
         res.write(':keepalive\n\n\n');
       }, 119562);//2 minute timeout in chrome
 
-      prog.once('connected', () => {
-        res.write('event: status\ndata: Connected...getting time zones\n\n\n');
-      });
 
-      prog.once('offsetsfetched', (arr) => {
-        res.write(`event: offsetList\ndata: ${JSON.stringify(arr)}\n\n\n`);
-        res.write('event: status\ndata: \n\n\n');
-      });
 
 
 
