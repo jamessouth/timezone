@@ -200,6 +200,17 @@ async function serverCB(req, res) {
 
     }
 
+    if (/.js.map$/.test(req.url)) {
+    
+      res.writeHead(200, { 'Content-Type': 'application/octet-stream' });
+      pipeline(
+        fs.createReadStream(path.join('dist', req.url)),
+        res,
+        (err) => pipeError(err, req.url)
+      );
+
+    }
+
 
     if (/.png$/.test(req.url)) {
 
