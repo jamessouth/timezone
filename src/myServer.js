@@ -34,7 +34,6 @@ const server = http.createServer(serverCB).listen(3101, () => {
 let db, client;
 async function serverCB(req, res) {
   let payload, data;
-  const route = routePipe(req.url, res);
 
 
   if (req.method == 'POST') {
@@ -93,7 +92,12 @@ async function serverCB(req, res) {
   }
 
   if (req.method == 'GET') {
-    // res.writeHead(200, { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
+
+
+    if (req.url == '/') {
+      req.url = '/index.html';
+    }
+    
 
     if (req.url == '/connect') {
       console.log('es route ', Date.now());
@@ -176,9 +180,8 @@ async function serverCB(req, res) {
       });
 
 
-    } else if (req.url == '/') {
-      routePipe('/index.html', res)('text/html');
     } else {
+      const route = routePipe(req.url, res);
       route(routeMap[path.extname(req.url)]);
     }
 
