@@ -94,10 +94,7 @@ async function serverCB(req, res) {
   if (req.method == 'GET') {
 
 
-    if (req.url == '/') {
-      req.url = '/index.html';
-    }
-    
+
 
     if (req.url == '/connect') {
       console.log('es route ', Date.now());
@@ -181,6 +178,7 @@ async function serverCB(req, res) {
 
 
     } else {
+      if (req.url == '/') req.url = '/index.html';
       const route = routePipe(req.url, res);
       route(routeMap[path.extname(req.url)]);
     }
