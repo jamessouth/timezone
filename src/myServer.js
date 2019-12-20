@@ -5,6 +5,8 @@ import schema from './graphql/schema';
 import prog from './utils/ProgressEmitter';
 import pipeError from './utils/pipeError';
 
+import routePipe from './utils/routePipe';
+
 
 const { pipeline } = require('stream');
 const http = require('http');
@@ -31,7 +33,7 @@ const server = http.createServer(serverCB).listen(3101, () => {
 let db, client;
 async function serverCB(req, res) {
   let payload, data;
-
+  const route = routePipe(req.url, res);
 
 
   if (req.method == 'POST') {
@@ -178,70 +180,28 @@ async function serverCB(req, res) {
 
 
     if (req.url == '/') {
-
-      res.writeHead(200, { 'Content-Type': 'text/html' });
-      pipeline(
-        fs.createReadStream('dist/index.html'),
-        res,
-        (err) => pipeError(err, req.url)
-      );
-
+      routePipe('/index.html', res)('text/html');
     }
 
 
     if (/.js$/.test(req.url)) {
-
-      res.writeHead(200, { 'Content-Type': 'text/javascript' });
-      pipeline(
-        fs.createReadStream(path.join('dist', req.url)),
-        res,
-        (err) => pipeError(err, req.url)
-      );
-
+      route('text/javascript');
     }
 
     if (/.js.map$/.test(req.url)) {
-    
-      res.writeHead(200, { 'Content-Type': 'application/octet-stream' });
-      pipeline(
-        fs.createReadStream(path.join('dist', req.url)),
-        res,
-        (err) => pipeError(err, req.url)
-      );
-
+      route('application/octet-stream');
     }
 
-
     if (/.png$/.test(req.url)) {
-
-      res.writeHead(200, { 'Content-Type': 'image/png' });
-      pipeline(
-        fs.createReadStream(path.join('dist', req.url)),
-        res,
-        (err) => pipeError(err, req.url)
-      );
-
+      route('image/png');
     }
 
     if (/.jpg$/.test(req.url)) {
-
-      res.writeHead(200, { 'Content-Type': 'image/jpeg' });
-      pipeline(
-        fs.createReadStream(path.join('dist', req.url)),
-        res,
-        (err) => pipeError(err, req.url)
-      );
-
+      route('image/jpeg');
     }
-
-
-
-
 
   }
 };
-process.on('warning', e => console.warn(e.stack));
-// MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 unpipe listeners added. Use emitter.setMaxListeners() to increase limit
 
 
 // Image by <a href="https://pixabay.com/users/TheDigitalArtist-202249/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4181261">Pete Linforth</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4181261">Pixabay</a>
