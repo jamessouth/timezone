@@ -122,9 +122,7 @@ async function serverCB(req, res) {
         'Cache-Control': 'no-cache'
       });
 
-      const eventInt = setInterval(() => {
-        res.write(':keepalive\n\n\n');
-      }, 119562);//2 minute timeout in chrome
+      const eventInterval = setInterval(() => res.write(':keepalive\n\n\n'), 119562);//2 minute timeout in chrome
 
 
 
@@ -137,8 +135,8 @@ async function serverCB(req, res) {
           db = client.db('tzs');
           console.log("Connected correctly to mongo server!", !!db);
           prog.emit('connected');
-          const col = db.collection('timezones');
-          const offsets = await col
+          const offsets = await db
+            .collection('timezones')
             .find({})
             .project({ offset: 1, _id: 0 })
             .sort('no', 1)
@@ -148,9 +146,9 @@ async function serverCB(req, res) {
             throw new Error('Database error: Data not available');
           }
 
-          setTimeout(() => {
-            prog.emit('offsetsfetched', offsets);
-          }, 2865);//gratuitous timeout to show status
+          const eventTimeout = setTimeout(() => prog.emit('offsetsfetched', offsets), 12165);//gratuitous timeout to show status
+
+
         } catch (err) {
 
           console.log('conn err', err.message, err);
@@ -166,14 +164,25 @@ async function serverCB(req, res) {
 
 
 
-      req.on('close', () => {
-        clearInterval(eventInt);
-        client.close().then(() => {
+      req.on('close', async () => {
+
+        try {
+          clearInterval(eventInterval);
+          // clearTimeout(eventTimeout);
+          await client.close();
           client = null;
           db = null;
           console.log('close', Date.now(), !!db);
+
+        } catch (err) {
+          console.log(err);
+        } finally {
           res.end();
-        });
+
+        }
+
+
+
       });
 
 
