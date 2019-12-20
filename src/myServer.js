@@ -6,6 +6,7 @@ import prog from './utils/ProgressEmitter';
 import pipeError from './utils/pipeError';
 
 import routePipe from './utils/routePipe';
+import routeMap from './utils/routeMap';
 
 
 const { pipeline } = require('stream');
@@ -175,30 +176,13 @@ async function serverCB(req, res) {
       });
 
 
-    }
-
-
-
-    if (req.url == '/') {
+    } else if (req.url == '/') {
       routePipe('/index.html', res)('text/html');
+    } else {
+      route(routeMap[path.extname(req.url)]);
     }
 
 
-    if (/.js$/.test(req.url)) {
-      route('text/javascript');
-    }
-
-    if (/.js.map$/.test(req.url)) {
-      route('application/octet-stream');
-    }
-
-    if (/.png$/.test(req.url)) {
-      route('image/png');
-    }
-
-    if (/.jpg$/.test(req.url)) {
-      route('image/jpeg');
-    }
 
   }
 };
