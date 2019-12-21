@@ -9,7 +9,7 @@
     "lint": "eslint src/ && echo 'Linted!'",
     "dev:front": "webpack-dev-server",
     "dev:back": "nodemon --watch src/myServer.js -r esm src/myServer.js",
-    "build": "webpack && cp src/favicon.ico dist/favicon.ico && cp -r src/assets/icons/ dist/",
+    "build": "webpack && cp -r src/assets/icons/ dist/",
     "test": "nyc riteway -r @babel/register -r @babel/polyfill src/**/*.test.js | tap-nirvana",
     "watch": "watch \"clear && npm run -s lint && npm run -s test\" src/"
   },
