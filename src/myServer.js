@@ -144,9 +144,11 @@ async function serverCB(req, res) {
 
           if (offsets.length == 0) {
             throw new Error('Database error: Data not available');
+          } else {
+            
+            prog.emit('offsetsfetched', offsets);
           }
 
-          const eventTimeout = setTimeout(() => prog.emit('offsetsfetched', offsets), 12165);//gratuitous timeout to show status
 
 
         } catch (err) {
@@ -168,7 +170,6 @@ async function serverCB(req, res) {
 
         try {
           clearInterval(eventInterval);
-          // clearTimeout(eventTimeout);
           await client.close();
           client = null;
           db = null;
