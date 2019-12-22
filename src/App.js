@@ -12,6 +12,7 @@ export default function App() {
   const [
     {
       places,
+      flags,
       offset,
       offsetList,
       status,
@@ -115,28 +116,9 @@ export default function App() {
         offsetList && <Form offsetList={ offsetList } postQuery={ postQuery }/>
       }
       {
-        (offset || places) && <Results offset={ offset } places={ places }></Results>
+        (offset || places || flags) && <Results offset={ offset } places={ places } flags={ flags }></Results>
       }
 
     </main>
   );
 }
-
-
-// {
-//   !offsetList &&
-//     <button
-//       className={  ? [button, show].join(' ') : [button, hide].join(' ') }
-//       type="button"
-//       onClick={ sendMsg }
-//       { ...(! ? { 'disabled': true } : {}) }
-//     >
-//       Seed the database with the latest time zone data from Wikipedia!
-//     </button>
-// }
-
-
-// !offsetList &&
-// {
-//   places && places.length == 0 && <p>Please enter a valid time zone</p>
-// }

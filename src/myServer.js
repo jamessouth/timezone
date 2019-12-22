@@ -67,8 +67,19 @@ async function serverCB(req, res) {
           }
 
 
+          const flags = await db
+            .collection('flags')
+            .find({})
+            .project({ flags: 1, _id: 0 })
+            .toArray();
 
-          payload = Object.assign({}, data.data.timezone);
+            console.log(flags);
+
+
+
+
+
+          payload = Object.assign({}, data.data.timezone, flags[0]);
 
           console.log('fhfhfhfhfhfhf');
         } catch (err) {
@@ -125,9 +136,6 @@ async function serverCB(req, res) {
       const eventInterval = setInterval(() => res.write(':keepalive\n\n\n'), 119562);//2 minute timeout in chrome
 
 
-
-
-
         res.write('event: status\ndata: Connecting to database\n\n\n');
 
         try {
@@ -145,9 +153,13 @@ async function serverCB(req, res) {
           if (offsets.length == 0) {
             throw new Error('Database error: Data not available');
           } else {
-            
+
             prog.emit('offsetsfetched', offsets);
           }
+
+
+
+
 
 
 

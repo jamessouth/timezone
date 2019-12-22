@@ -1,12 +1,13 @@
 const initialState = {
   places: null,
+  flags: null,
   offset: null,
   offsetList: null,
   status: null,
 };
-// { data: { places, offset, error } }, offsetList
-function reducer(state, { type, payload: { offsetList, places, offset, status } }) {
-  // console.log('ppppppp', type, offsetList, places, offset, error);
+
+function reducer(state, { type, payload: { offsetList, places, flags, offset, status } }) {
+
 
   switch (type) {
 
@@ -20,6 +21,7 @@ function reducer(state, { type, payload: { offsetList, places, offset, status } 
       return {
         ...state,
         places,
+        flags,
         offset,
         status
       };

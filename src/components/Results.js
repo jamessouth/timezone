@@ -1,10 +1,18 @@
 import React from 'react';
 import { h2 } from '../styles/Form.module.css';
 import { h22, h3, ul, li, span, p, img } from '../styles/Results.module.css';
-import bville from '../assets/bville.png';
+// import bville from '../assets/bville.png';
 
-export default function Results({ places, offset }) {
-  const locations = places ? places.map((place, ind) => <li className={ li } key={ ind }><img className={ img } src={ bville }/><p className={ p }>{ place }</p></li>) : null;
+export default function Results({ places, offset, flags }) {
+  const locations = places ?
+    places.map((place, ind) =>
+      <li className={ li } key={ ind }>
+        <img className={ img } src={ 'data:image/png;base64,' + flags[ind] }/>
+        <p className={ p }>
+          { place }
+        </p>
+      </li>) :
+    null;
 
 
 // , 'font-effect-decaying'
