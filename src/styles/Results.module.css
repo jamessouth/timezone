@@ -18,11 +18,14 @@
   -webkit-mask-image: url('../assets/masks/distressed-wood.png');
   /* self-host google font effect mask image due to cors bug introduced with chrome 79 */
 }
+.h3:last-of-type{
+  margin-bottom: 1.75em;
+}
 .ul{
   width: 85%;
   margin: auto;
 }
-.li,
+.p,
 .span{
   font-family: 'Macondo', cursive;
   font-size: 1.625rem;
@@ -34,16 +37,41 @@
 }
 .li{
   /* text-align: center; */
-  margin-bottom: .5em;
-
+  margin-bottom: 1.25em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.img{
+  margin-right: 10px;
+  width: 45px;
+  height: 30px;
 }
 
 
 
 
 
+@media screen and (min-width: 650px){
+  .li{
+    margin-bottom: 0;
+  }
+  .ul{
+    width: 98%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(292px, 1fr));
+    grid-column-gap: 30px;
+    grid-row-gap: 50px;
+  }
+}
 
-@media screen and (min-width: 768px){
+@media screen and (min-width: 750px){
+  .img{
+    margin-right: 12px;
+    /* width: 45px;
+    height: 30px; */
+  }
   .h3{
 
     font-size: 2.125rem;
@@ -52,17 +80,28 @@
   .li,
   .span{
     /* font-family: 'Macondo', cursive; */
-    font-size: 2rem;
     margin-bottom: 0;
     /* text-align: center; */
     /* font-weight: bold; */
   }
+
+  .p,
+  .span{
+    font-size: 2rem;
+
+  }
+}
+
+@media screen and (min-width: 950px){
   .ul{
-    width: 80%;
-    margin: auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(292px, 1fr));
-    grid-column-gap: 30px;
-    grid-row-gap: 50px;
+    width: 85%;
+    /* margin: auto; */
+  }
+}
+
+@media screen and (min-width: 1345px){
+  .ul{
+    width: 90%;
+    /* margin: auto; */
   }
 }
