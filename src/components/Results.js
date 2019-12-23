@@ -1,7 +1,6 @@
 import React from 'react';
 import { h2 } from '../styles/Form.module.css';
 import { h22, h3, ul, li, span, p, img } from '../styles/Results.module.css';
-// import bville from '../assets/bville.png';
 
 export default function Results({ places, offset, flags }) {
   const locations = places ?

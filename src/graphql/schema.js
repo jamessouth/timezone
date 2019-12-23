@@ -22,8 +22,10 @@ const RootQuery = new GraphQLObjectType({
           // throw new Error('arrrg');
           // let docs;
 
-          const col = db.collection('timezones');
-          const docs = await col.find({ offset }).toArray();
+          const docs = await db
+            .collection('timezones')
+            .find({ offset })
+            .toArray();
           console.log('dddddd', docs);
           assert.equal(1, docs.length);
           return docs[0];
