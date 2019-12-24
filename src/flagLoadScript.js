@@ -1,4 +1,4 @@
-// const https = require('https');
+const https = require('https');
 const fs = require('fs');
 // const file = fs.createWriteStream('./flagdata');
 
@@ -7,6 +7,7 @@ const treeAdapters = require('parse5/lib/tree-adapters/default.js');
 
 import help1 from './help1';
 import td from '../tabledata';
+import './polyfills/flatMap';
 // https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', chunks => chunks.pipe(file));
 
 
@@ -31,16 +32,16 @@ const arr = ancAndPara[0].childNodes
     .flatMap(d => d.nodeName == 'a' ? d.childNodes : d)
     .flatMap(e => e.attrs)
     .filter(f => f.name == 'srcset')
-    .map(g => g.value.split(', \/\/')[1].replace(/ 2x/, ''))
+    .map(g => 'https:' + g.value.split(', ')[1].replace(/ 2x/, ''))
   );
 
 arr[0].push(arr[0][0])
 
-// console.log(arr.flat().length);
+// console.log(arr[0]);
 
-// https.get(arr[0][0], async chunks => {
-//
-//   await makePipeline(chunks, seedDB(db)).catch(err => console.log(err));
-//   console.log('cc343453453434535ccc');
-//
-// });
+https.get(arr[0][0], chunks => {
+
+  chunks.pipe(help1).pipe(process.stdout);
+
+
+});

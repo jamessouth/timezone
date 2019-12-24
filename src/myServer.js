@@ -73,7 +73,7 @@ async function serverCB(req, res) {
             .project({ flags: 1, _id: 0 })
             .toArray();
 
-            console.log(flags);
+            // console.log(flags);
 
 
 
