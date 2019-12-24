@@ -2,7 +2,7 @@ const { Transform } = require('stream');
 const parse5 = require('parse5');
 const treeAdapters = require('parse5/lib/tree-adapters/default.js');
 
-import '../polyfills/flatMap';
+import './polyfills/flatMap';
 // import getNames from '../utils/getNames';
 // export default function filterPlaceNames(arr) {
 //   const parsedHTML = parse5.parseFragment(arr[1]);
@@ -20,9 +20,13 @@ const help1 = new Transform({
 
     const parsedHTML = parse5.parseFragment(ch.toString());
     const ancAndPara = treeAdapters.getChildNodes(parsedHTML);
+    // console.log(ancAndPara.length);
     const chil = ancAndPara
-      .filter(x => x.nodeName == 'img')
-      // .flatMap((v,i) => i != 1 ? v.childNodes : [])
+      // .filter(x => {
+      //   x.nodeName == 'tbody';
+      //   // console.log(x);
+      // })
+      .flatMap((v,i) => v)
       // .filter(u => ['a', 'p'].includes(u.nodeName))
       // .map(getNames)
       // .filter(w => )
