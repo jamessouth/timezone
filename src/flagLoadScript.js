@@ -32,7 +32,15 @@ const arr = ancAndPara[0].childNodes
     .flatMap(e => e.attrs)
     .filter(f => f.name == 'srcset')
     .map(g => g.value.split(', \/\/')[1].replace(/ 2x/, ''))
-  )
-  ;
+  );
 
-console.log(arr);
+arr[0].push(arr[0][0])
+
+// console.log(arr.flat().length);
+
+// https.get(arr[0][0], async chunks => {
+//
+//   await makePipeline(chunks, seedDB(db)).catch(err => console.log(err));
+//   console.log('cc343453453434535ccc');
+//
+// });
