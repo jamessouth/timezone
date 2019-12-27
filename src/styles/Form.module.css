@@ -57,7 +57,7 @@ fieldset{
   width: 80%;
   max-width: 300px;
 }
-label,
+/* label, */
 .p,
 legend{
   font-family: 'Redressed', cursive;
@@ -76,10 +76,17 @@ legend{
   /* max-width: 300px; */
 }
 .checkdiv{
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  /* max-width: 300px; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 30px;
+  grid-row-gap: 8px;
+  margin-top: 0.25em;
+
+}
+.checkdiv label{
+  font-family: 'Redressed', cursive;
+  font-size: 1.875rem;
+  justify-self: end;
 }
 .checkdiv input{
   height: 20px;
@@ -92,6 +99,7 @@ legend{
 }
 .checkdiv label:nth-of-type(2n){
   direction: rtl;
+  justify-self: start;
 }
 .checkdiv label:nth-of-type(odd) input{
   margin-left: 6px;
@@ -100,7 +108,7 @@ legend{
   margin-right: 5px;
 }
 .p{
-  margin-bottom: .5rem;
+  margin-bottom: .75rem;
 }
 pre{
   background-color: #3e2723;
@@ -163,11 +171,20 @@ section{
 
 
 
+@media screen and (min-width: 1024px){
 
 
 
+  .checkdiv{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 80px;
+    grid-row-gap: 20px;
+    margin-top: 0.75em;
 
+  }
 
+}
 
 
 

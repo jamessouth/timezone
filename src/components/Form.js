@@ -8,6 +8,7 @@ export default function Form({ offsetList, postQuery }) {
   // const [radioValue, setRadioValue] = useState(null);
   const [offsetCheckboxValue, setOffsetCheckboxValue] = useState(false);
   const [placesCheckboxValue, setPlacesCheckboxValue] = useState(false);
+  const [flagsCheckboxValue, setFlagsCheckboxValue] = useState(false);
 
   useEffect(() => {
     setQueryText(code1.current.textContent);
@@ -16,6 +17,7 @@ export default function Form({ offsetList, postQuery }) {
     selectValue,
     offsetCheckboxValue,
     placesCheckboxValue,
+    flagsCheckboxValue,
   ]);
 
   // [h2, 'font-effect-decaying'].join(' ')
@@ -25,19 +27,6 @@ export default function Form({ offsetList, postQuery }) {
       <h2 className={ h2 }>Construct GraphQL Query</h2>
       <form>
 
-        <fieldset>
-          <div className={ selectdiv }>
-            <label htmlFor="offsets">Select offset:</label>
-            <select
-            value={ selectValue }
-            onChange={e => setSelectValue(e.target.value)}
-            id="offsets"
-            >
-              <option hidden>{ selectValue }</option>
-              {offsetList.map(({ offset }, i) => <option key={ i } value={ offset }>{ offset }</option>)}
-            </select>
-          </div>
-        </fieldset>
 
         <fieldset>
           <legend>Select data:</legend>
@@ -46,6 +35,8 @@ export default function Form({ offsetList, postQuery }) {
             <label htmlFor="offset">offset<input onChange={() => setOffsetCheckboxValue(val => !val)} type="checkbox" id="offset" name="fields" value={ offsetCheckboxValue }/></label>
 
             <label htmlFor="places">places<input onChange={() => setPlacesCheckboxValue(val => !val)} type="checkbox" id="places" name="fields" value={ placesCheckboxValue }/></label>
+
+            <label htmlFor="flags">flags<input onChange={() => setFlagsCheckboxValue(val => !val)} type="checkbox" id="flags" name="fields" value={ flagsCheckboxValue }/></label>
           </div>
         </fieldset>
       </form>
@@ -74,6 +65,27 @@ export default function Form({ offsetList, postQuery }) {
   );
 
 }
+
+
+
+//
+// <fieldset>
+//   <div className={ selectdiv }>
+//     <label htmlFor="offsets">Select offset:</label>
+//     <select
+//     value={ selectValue }
+//     onChange={e => setSelectValue(e.target.value)}
+//     id="offsets"
+//     >
+//       <option hidden>{ selectValue }</option>
+//       {offsetList.map(({ offset }, i) => <option key={ i } value={ offset }>{ offset }</option>)}
+//     </select>
+//   </div>
+// </fieldset>
+
+
+
+
 
 // <div ></div>
 

@@ -20,24 +20,24 @@ export default function App() {
     dispatch,
   ] = useReducer(reducer, initialState);
   // const [offsetList, updateOffsetList] = useState(null);
-
-  useEffect(() => {
-    console.log('ddd ', Date.now());
-
-    const evtSource = new EventSource(server + '/connect');
-
-    ['status', 'offsetList'].forEach((action) => {
-      evtSource.addEventListener(action, function (e) {
-        console.log(action, Date.now());
-        dispatch({ type: action, payload: { [action]: e.data } });
-      }, false);
-    });
-
-    return function cleanup() {
-      evtSource.close();
-    };
-
-  }, []);
+  //
+  // useEffect(() => {
+  //   console.log('ddd ', Date.now());
+  //
+  //   const evtSource = new EventSource(server + '/connect');
+  //
+  //   ['status', 'offsetList'].forEach((action) => {
+  //     evtSource.addEventListener(action, function (e) {
+  //       console.log(action, Date.now());
+  //       dispatch({ type: action, payload: { [action]: e.data } });
+  //     }, false);
+  //   });
+  //
+  //   return function cleanup() {
+  //     evtSource.close();
+  //   };
+  //
+  // }, []);
 
 
 
@@ -112,9 +112,8 @@ export default function App() {
       {
         !!status && status.startsWith('Conn') && <Loading/>
       }
-      {
-        offsetList && <Form offsetList={ offsetList } postQuery={ postQuery }/>
-      }
+      <Form offsetList={ offsetList } postQuery={ postQuery }/>
+
       {
         (offset || places || flags) && <Results offset={ offset } places={ places } flags={ flags }></Results>
       }
@@ -122,3 +121,7 @@ export default function App() {
     </main>
   );
 }
+
+// {
+//   offsetList && 
+// }
