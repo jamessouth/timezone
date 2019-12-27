@@ -26,7 +26,7 @@ form{
 .button:hover{
   box-shadow: -4px -11px 9px 1px #3e2723;
 }
-.button:disabled{
+*:disabled{
   cursor: not-allowed;
   filter: contrast(0.25);
 }
@@ -120,6 +120,7 @@ pre{
   line-height: 20px;
   white-space: pre-wrap;
   word-break: break-word;
+  height: 192px;
   width: 302px;
   margin: 0 auto 4rem;
 }

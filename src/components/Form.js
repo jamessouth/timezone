@@ -36,7 +36,7 @@ export default function Form({ offsetList, postQuery }) {
 
             <label htmlFor="places">places<input onChange={() => setPlacesCheckboxValue(val => !val)} type="checkbox" id="places" name="fields" value={ placesCheckboxValue }/></label>
 
-            <label htmlFor="flags">flags<input onChange={() => setFlagsCheckboxValue(val => !val)} type="checkbox" id="flags" name="fields" value={ flagsCheckboxValue }/></label>
+            <label htmlFor="flags">flags<input onChange={() => setFlagsCheckboxValue(val => !val)} type="checkbox" id="flags" name="fields" { ...( !placesCheckboxValue ? { 'disabled': true } : {}) } value={ flagsCheckboxValue }/></label>
           </div>
         </fieldset>
       </form>
@@ -46,7 +46,9 @@ export default function Form({ offsetList, postQuery }) {
                     <code ref={ code1 }>{`{
   timezone(offset: "${selectValue}") {
     ${offsetCheckboxValue ? 'offset' : ''}
-    ${placesCheckboxValue ? 'places' : ''}
+    ${placesCheckboxValue ? `places ${flagsCheckboxValue ? `{
+      flags
+    }` : ''}` : ''}
   }
 }`}</code>
     </pre>
