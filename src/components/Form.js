@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { h2, button, checkdiv, selectdiv, p, p2 } from '../styles/Form.module.css';
 
 export default function Form({ offsetList, postQuery }) {
+  offsetList = [];
   const code1 = useRef('');
   const [queryText, setQueryText] = useState(null);
   const [selectValue, setSelectValue] = useState('UTC+/-...');
@@ -26,6 +27,21 @@ export default function Form({ offsetList, postQuery }) {
     <section>
       <h2 className={ h2 }>Construct GraphQL Query</h2>
       <form>
+
+        <fieldset>
+          <div className={ selectdiv }>
+            <label htmlFor="offsets">Select offset:</label>
+            <select
+            value={ selectValue }
+            onChange={e => setSelectValue(e.target.value)}
+            id="offsets"
+            >
+              <option hidden>{ selectValue }</option>
+              {offsetList.map(({ offset }, i) => <option key={ i } value={ offset }>{ offset }</option>)}
+            </select>
+          </div>
+        </fieldset>
+
 
 
         <fieldset>
@@ -70,35 +86,3 @@ export default function Form({ offsetList, postQuery }) {
   );
 
 }
-
-
-
-//
-// <fieldset>
-//   <div className={ selectdiv }>
-//     <label htmlFor="offsets">Select offset:</label>
-//     <select
-//     value={ selectValue }
-//     onChange={e => setSelectValue(e.target.value)}
-//     id="offsets"
-//     >
-//       <option hidden>{ selectValue }</option>
-//       {offsetList.map(({ offset }, i) => <option key={ i } value={ offset }>{ offset }</option>)}
-//     </select>
-//   </div>
-// </fieldset>
-
-
-
-
-
-// <div ></div>
-
-// <div className={ div }></div>
-// <label htmlFor="dewey">Dewey</label>
-// <input onChange={e => setRadioValue(e.target.value)} type="radio" id="dewey" name="drone" value="dewey"/>
-
-      // <textarea readOnly value={queryText} onChange={e => setQueryText(e.target.value)} cols="40" rows="15" name="query"></textarea>
-
-      // <label htmlFor="huey">huey</label>
-      // <input onChange={e => setRadioValue(e.target.value)} type="radio" id="huey" name="drone" value="huey"/>

@@ -56,7 +56,7 @@ fieldset{
   border: 1px solid #3e2723;
   width: 80%;
   max-width: 300px;
-  background: linear-gradient(rgba(237, 237, 237, 0.2), rgba(222, 222, 222, 0.2));
+  background: linear-gradient(0deg, #f5eed2a1 15%, transparent);
 }
 /* label, */
 .p,
@@ -81,7 +81,7 @@ legend{
   flex-direction: column;
   justify-content: space-around;
   height: 180px;
-  width: 44%;
+  width: 47%;
   margin: .5rem auto;
 }
 .checkdiv label{
