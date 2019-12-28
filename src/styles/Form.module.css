@@ -3,7 +3,7 @@ form{
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  height: 350px;
+  height: 950px;
   margin: 1em 0 2em;
 }
 .button{
@@ -56,7 +56,7 @@ fieldset{
   border: 1px solid #3e2723;
   width: 80%;
   max-width: 300px;
-  background: linear-gradient(0deg, #f5eed2a1 15%, transparent);
+  background: linear-gradient(0deg, #ddb77f63 15%, transparent);
 }
 /* label, */
 .p,
