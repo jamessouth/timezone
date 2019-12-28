@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { h2, button, checkdiv, selectdiv, p } from '../styles/Form.module.css';
+import { h2, button, checkdiv, selectdiv, p, p2 } from '../styles/Form.module.css';
 
 export default function Form({ offsetList, postQuery }) {
   const code1 = useRef('');
@@ -7,8 +7,8 @@ export default function Form({ offsetList, postQuery }) {
   const [selectValue, setSelectValue] = useState('UTC+/-...');
   // const [radioValue, setRadioValue] = useState(null);
   const [offsetCheckboxValue, setOffsetCheckboxValue] = useState(false);
-  const [placesCheckboxValue, setPlacesCheckboxValue] = useState(false);
-  const [flagsCheckboxValue, setFlagsCheckboxValue] = useState(false);
+  const [nameCheckboxValue, setNameCheckboxValue] = useState(false);
+  const [flagCheckboxValue, setFlagCheckboxValue] = useState(false);
 
   useEffect(() => {
     setQueryText(code1.current.textContent);
@@ -16,8 +16,8 @@ export default function Form({ offsetList, postQuery }) {
     // radioValue,
     selectValue,
     offsetCheckboxValue,
-    placesCheckboxValue,
-    flagsCheckboxValue,
+    nameCheckboxValue,
+    flagCheckboxValue,
   ]);
 
   // [h2, 'font-effect-decaying'].join(' ')
@@ -29,14 +29,16 @@ export default function Form({ offsetList, postQuery }) {
 
 
         <fieldset>
-          <legend>Select data:</legend>
+          <legend>&nbsp;&nbsp;Select data:&nbsp;&nbsp;</legend>
 
           <div className={ checkdiv }>
             <label htmlFor="offset">offset<input onChange={() => setOffsetCheckboxValue(val => !val)} type="checkbox" id="offset" name="fields" value={ offsetCheckboxValue }/></label>
 
-            <label htmlFor="places">places<input onChange={() => setPlacesCheckboxValue(val => !val)} type="checkbox" id="places" name="fields" value={ placesCheckboxValue }/></label>
+            <p className={ [p, p2].join(" ") }>places:</p>
 
-            <label htmlFor="flags">flags<input onChange={() => setFlagsCheckboxValue(val => !val)} type="checkbox" id="flags" name="fields" { ...( !placesCheckboxValue ? { 'disabled': true } : {}) } value={ flagsCheckboxValue }/></label>
+            <label htmlFor="name">&#8735;name<input onChange={() => setNameCheckboxValue(val => !val)} type="checkbox" id="name" name="fields" value={ nameCheckboxValue }/></label>
+
+            <label htmlFor="flag">&#8735;&nbsp;&nbsp;flag<input onChange={() => setFlagCheckboxValue(val => !val)} type="checkbox" id="flag" name="fields" { ...( !nameCheckboxValue ? { 'disabled': true } : {}) } value={ flagCheckboxValue }/></label>
           </div>
         </fieldset>
       </form>
@@ -46,9 +48,10 @@ export default function Form({ offsetList, postQuery }) {
                     <code ref={ code1 }>{`{
   timezone(offset: "${selectValue}") {
     ${offsetCheckboxValue ? 'offset' : ''}
-    ${placesCheckboxValue ? `places ${flagsCheckboxValue ? `{
-      flags
-    }` : ''}` : ''}
+    ${nameCheckboxValue ? `places {
+      name
+      ${flagCheckboxValue ? 'flag' : ''}
+    }` : ''}
   }
 }`}</code>
     </pre>
@@ -58,7 +61,7 @@ export default function Form({ offsetList, postQuery }) {
         className={ button }
         style={{ maxWidth: 300 }}
         onClick={() => postQuery(queryText)}
-        { ...(selectValue == 'UTC+/-...' || !queryText || (!offsetCheckboxValue && !placesCheckboxValue) ? { 'disabled': true } : {}) }
+        { ...(selectValue == 'UTC+/-...' || !queryText || (!offsetCheckboxValue && !nameCheckboxValue) ? { 'disabled': true } : {}) }
       >
         submit query
       </button>

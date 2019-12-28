@@ -2,11 +2,22 @@
 import { graphql, GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLList } from 'graphql';
 
 const assert = require('assert');
+
+
+
 const TimezoneType = new GraphQLObjectType({
   name: 'Timezone',
   fields: () => ({
     offset: { type: GraphQLString },
-    places: { type: GraphQLList(GraphQLString) }
+    places: { type: GraphQLList(PlaceType) }
+  })
+});
+
+const PlaceType = new GraphQLObjectType({
+  name: 'Place',
+  fields: () => ({
+    name: { type: GraphQLString },
+    flag: { type: GraphQLString }
   })
 });
 
