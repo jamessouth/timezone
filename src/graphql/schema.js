@@ -48,6 +48,31 @@ const RootQuery = new GraphQLObjectType({
           return err;
         }
       }
+    },
+    place: {
+      type: PlaceType,
+      args: { name: { type: GraphQLString }},
+      async resolve(parent, { name }, db) {
+        try {
+          // throw new Error('arrrg');
+          // let docs;
+
+          const docs = await db
+            .collection('timezones')
+            .find({ "places.pl": name })
+            .project({ offset: 1, _id: 0 })
+            .toArray();
+          console.log('dddddd', docs);
+          assert.equal(1, docs.length);
+          return docs[0];
+
+
+
+        } catch (err) {
+          console.log('sch2', err.name, err.message);
+          return err;
+        }
+      }
     }
   }
 });
