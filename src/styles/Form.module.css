@@ -3,7 +3,7 @@ form{
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  height: 950px;
+  height: 680px;
   margin: 1em 0 2em;
 }
 .button{
@@ -99,35 +99,42 @@ legend{
   align-items: center;
   /* max-width: 300px; */
 }
-.checkdiv{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  height: 180px;
-  width: 47%;
-  margin: .5rem auto;
-}
 label{
   font-family: 'Redressed', cursive;
   font-size: 1.875rem;
   /* justify-self: end; */
 }
+.check{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 47%;
+  margin: .5rem auto;
+}
+.checkdiv{
+  height: 180px;
+
+}
+.checkdiv2{
+  height: 104px;
+}
 .checkdiv label{
   align-self: flex-end;
 }
-.checkdiv label:nth-of-type(1){
+.checkdiv label:nth-of-type(1),
+.checkdiv2 label{
   align-self: start;
 }
 
 
-.checkdiv input{
+.check input{
   height: 20px;
   width: 20px;
   vertical-align: middle;
   margin-left: 6px;
 }
-.checkdiv input:hover,
-.checkdiv input:focus{
+.check input:hover,
+.check input:focus{
   filter: drop-shadow(-4px -11px 6px #3e2723);
 }
 .p{
@@ -187,8 +194,9 @@ section{
   legend{
     font-size: 2.5rem;
   }
-  .selectdiv{
-    height: 120px;
+  .selectdiv,
+  .radiodiv{
+    height: 140px;
   }
   select{
     height: 28px;
@@ -197,7 +205,7 @@ section{
   }
   form{
     /* flex-direction: row; */
-    height: 1000px;
+    height: 900px;
   }
   .p{
     margin-bottom: 1rem;
@@ -206,9 +214,14 @@ section{
     margin-bottom: 0;
   }
   .checkdiv{
-    width: 54%;
+    width: 43%;
     height: 210px;
     margin: 1rem auto;
+  }
+  .checkdiv2{
+    width: 42%;
+    height: 140px;
+    margin: auto;
   }
 
 }

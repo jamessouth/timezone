@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { h2, button, checkdiv, radiodiv, selectdiv, p, p2 } from '../styles/Form.module.css';
+import { h2, button, check, checkdiv, checkdiv2, radiodiv, selectdiv, p, p2 } from '../styles/Form.module.css';
 
 export default function Form({ offsetList, placeList, postQuery }) {
   offsetList = [];
@@ -93,7 +93,7 @@ export default function Form({ offsetList, placeList, postQuery }) {
 
               {
                 radioValue == "timezone" &&
-                  <div className={ checkdiv }>
+                  <div className={ [check, checkdiv].join(' ') }>
                     <label htmlFor="offset1">offset<input onChange={() => setOffsetCheckboxValue(val => !val)} type="checkbox" id="offset1" name="fields" value={ offsetCheckboxValue }/></label>
 
                     <p className={ [p, p2].join(" ") }>places:</p>
@@ -106,10 +106,8 @@ export default function Form({ offsetList, placeList, postQuery }) {
 
               {
                 radioValue == "place" &&
-                  <div className={ checkdiv }>
+                  <div className={ [check, checkdiv2].join(' ') }>
                     <label htmlFor="place1">place<input onChange={() => setPlaceCheckboxValue(val => !val)} type="checkbox" id="place1" name="fields" value={ placeCheckboxValue }/></label>
-
-
 
                     <label htmlFor="offset2">offsets<input onChange={() => setOffsetCheckboxValue(val => !val)} type="checkbox" id="offset2" name="fields" value={ offsetCheckboxValue }/></label>
 
