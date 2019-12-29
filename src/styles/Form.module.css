@@ -58,6 +58,26 @@ fieldset{
   max-width: 300px;
   background: linear-gradient(0deg, #ddb77f63 15%, transparent);
 }
+/* fieldset:nth-of-type(1){
+
+} */
+.radiodiv{
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+input[type="radio"]{
+  width: 20px;
+  height: 20px;
+  margin-left: 12px;
+}
+.radiodiv label:last-of-type input[type="radio"]{
+  margin-left: 61px;
+}
+
+
 /* label, */
 .p,
 legend{
@@ -84,7 +104,7 @@ legend{
   width: 47%;
   margin: .5rem auto;
 }
-.checkdiv label{
+label{
   font-family: 'Redressed', cursive;
   font-size: 1.875rem;
   /* justify-self: end; */
@@ -166,7 +186,7 @@ section{
   }
   form{
     /* flex-direction: row; */
-    height: 400px;
+    height: 1000px;
   }
   .p{
     margin-bottom: 1rem;

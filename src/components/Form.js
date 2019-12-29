@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { h2, button, checkdiv, selectdiv, p, p2 } from '../styles/Form.module.css';
+import { h2, button, checkdiv, radiodiv, selectdiv, p, p2 } from '../styles/Form.module.css';
 
 export default function Form({ offsetList, placeList, postQuery }) {
   offsetList = [];
@@ -37,13 +37,17 @@ export default function Form({ offsetList, placeList, postQuery }) {
 
         <fieldset>
           <legend>&nbsp;&nbsp;Select query:&nbsp;&nbsp;</legend>
+          <div className={ radiodiv }>
+            <label>
+              Time Zone
+              <input onChange={e => setRadioValue(e.target.value)} type="radio" name="queryType" value="timezone"/>
+            </label>
 
-          <label htmlFor="timezone">Time Zone</label>
-          <input onChange={e => setRadioValue(e.target.value)} type="radio" id="timezone" name="queryType" value="timezone"/>
-
-          <label htmlFor="place">Place</label>
-          <input onChange={e => setRadioValue(e.target.value)} type="radio" id="place" name="queryType" value="place"/>
-
+            <label>
+              Place
+              <input onChange={e => setRadioValue(e.target.value)} type="radio" name="queryType" value="place"/>
+            </label>
+          </div>
         </fieldset>
 
         <fieldset>
