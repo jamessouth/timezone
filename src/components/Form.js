@@ -11,7 +11,8 @@ export default function Form({ offsetList, placeList, postQuery }) {
   const [radioValue, setRadioValue] = useState(null);
   const [selectTimezoneValue, setSelectTimezoneValue] = useState('UTC+/-...');
   const [selectPlaceValue, setSelectPlaceValue] = useState('Place...');
-  const [offsetCheckboxValue, setOffsetCheckboxValue] = useState(false);
+  const [offsetTZCheckboxValue, setOffsetTZCheckboxValue] = useState(false);
+  const [offsetPLCheckboxValue, setOffsetPLCheckboxValue] = useState(false);
   const [nameCheckboxValue, setNameCheckboxValue] = useState(false);
   const [flagCheckboxValue, setFlagCheckboxValue] = useState(false);
   const [placeCheckboxValue, setPlaceCheckboxValue] = useState(false);
@@ -24,7 +25,8 @@ export default function Form({ offsetList, placeList, postQuery }) {
     radioValue,
     selectTimezoneValue,
     selectPlaceValue,
-    offsetCheckboxValue,
+    offsetTZCheckboxValue,
+    offsetPLCheckboxValue,
     nameCheckboxValue,
     flagCheckboxValue,
     placeCheckboxValue,
@@ -117,7 +119,7 @@ export default function Form({ offsetList, placeList, postQuery }) {
               {
                 radioValue == "timezone" &&
                   <div className={ [check, checkdiv].join(' ') }>
-                    <label htmlFor="offset1">offset<input onChange={() => setOffsetCheckboxValue(val => !val)} type="checkbox" id="offset1" name="fields" value={ offsetCheckboxValue }/></label>
+                    <label htmlFor="offset1">offset<input onChange={() => setOffsetTZCheckboxValue(val => !val)} type="checkbox" id="offset1" name="fields" value={ offsetTZCheckboxValue }/></label>
 
                     <p className={ [p, p2].join(" ") }>places:</p>
 
@@ -132,7 +134,7 @@ export default function Form({ offsetList, placeList, postQuery }) {
                   <div className={ [check, checkdiv2].join(' ') }>
                     <label htmlFor="place1">place<input onChange={() => setPlaceCheckboxValue(val => !val)} type="checkbox" id="place1" name="fields" value={ placeCheckboxValue }/></label>
 
-                    <label htmlFor="offset2">offsets<input onChange={() => setOffsetCheckboxValue(val => !val)} type="checkbox" id="offset2" name="fields" value={ offsetCheckboxValue }/></label>
+                    <label htmlFor="offset2">offsets<input onChange={() => setOffsetPLCheckboxValue(val => !val)} type="checkbox" id="offset2" name="fields" value={ offsetPLCheckboxValue }/></label>
 
 
                   </div>
@@ -147,10 +149,12 @@ export default function Form({ offsetList, placeList, postQuery }) {
   radioValue &&
 <>
   <p className={ p }>Your query:</p>
+{
+  radioValue == "timezone" &&
     <pre>
                     <code ref={ code1 }>{`{
-  ${radioValue}(${argValue}: "${radioValue == 'place' ? selectPlaceValue : selectTimezoneValue}") {
-    ${offsetCheckboxValue ? 'offset' : ''}
+  timezone(offset: "${selectTimezoneValue}") {
+    ${offsetTZCheckboxValue ? 'offset' : ''}
     ${nameCheckboxValue ? `places {
       name
       ${flagCheckboxValue ? 'flag' : ''}
@@ -158,13 +162,27 @@ export default function Form({ offsetList, placeList, postQuery }) {
   }
 }`}</code>
     </pre>
+}
+
+{
+  radioValue == "place" &&
+    <pre>
+                    <code ref={ code1 }>{`{
+  place(name: "${selectPlaceValue}") {
+    ${placeCheckboxValue ? 'name' : ''}
+    ${offsetPLCheckboxValue ? 'offsets' : ''}
+  }
+}`}</code>
+    </pre>
+}
+
 
       <button
         type="button"
         className={ button }
         style={{ maxWidth: 300 }}
         onClick={() => postQuery(queryText)}
-        { ...(selectTimezoneValue == 'UTC+/-...' || !queryText || (!offsetCheckboxValue && !nameCheckboxValue) ? { 'disabled': true } : {}) }
+        { ...(selectTimezoneValue == 'UTC+/-...' || !queryText || (!offsetTZCheckboxValue && !nameCheckboxValue) ? { 'disabled': true } : {}) }
       >
         submit query
       </button>
