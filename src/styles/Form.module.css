@@ -3,8 +3,11 @@ form{
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  margin: 3em 0;
+}
+.form{
   height: 680px;
-  margin: 1em 0 2em;
+
 }
 .button{
   margin: 0 auto;
@@ -203,7 +206,7 @@ section{
     font-size: 1.125rem;
     padding: 2px 0 1px;
   }
-  form{
+  .form{
     /* flex-direction: row; */
     height: 900px;
   }

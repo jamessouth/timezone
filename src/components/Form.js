@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { h2, button, check, checkdiv, checkdiv2, radiodiv, selectdiv, p, p2 } from '../styles/Form.module.css';
+import { h2, button, check, checkdiv, checkdiv2, form, radiodiv, selectdiv, p, p2 } from '../styles/Form.module.css';
 
 export default function Form({ offsetList, placeList, postQuery }) {
   offsetList = [];
@@ -33,7 +33,7 @@ export default function Form({ offsetList, placeList, postQuery }) {
   return (
     <section>
       <h2 className={ h2 }>Construct GraphQL Query</h2>
-      <form>
+      <form className={ radioValue ? form : '' }>
 
         <fieldset>
           <legend>&nbsp;&nbsp;Select query:&nbsp;&nbsp;</legend>
@@ -120,6 +120,9 @@ export default function Form({ offsetList, placeList, postQuery }) {
 
       </form>
 
+{
+  radioValue &&
+<>
   <p className={ p }>Your query:</p>
     <pre>
                     <code ref={ code1 }>{`{
@@ -142,7 +145,8 @@ export default function Form({ offsetList, placeList, postQuery }) {
       >
         submit query
       </button>
-
+    </>
+}
     </section>
   );
 
