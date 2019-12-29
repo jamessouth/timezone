@@ -8,24 +8,27 @@ export default function Form({ offsetList, placeList, postQuery }) {
 
 
   const code1 = useRef('');
-  const [queryText, setQueryText] = useState(null);
+  const [radioValue, setRadioValue] = useState(null);
   const [selectTimezoneValue, setSelectTimezoneValue] = useState('UTC+/-...');
   const [selectPlaceValue, setSelectPlaceValue] = useState('Place...');
-  // const [radioValue, setRadioValue] = useState(null);
   const [offsetCheckboxValue, setOffsetCheckboxValue] = useState(false);
-  const [placeCheckboxValue, setPlaceCheckboxValue] = useState(false);
-  const [radioValue, setRadioValue] = useState(null);
   const [nameCheckboxValue, setNameCheckboxValue] = useState(false);
   const [flagCheckboxValue, setFlagCheckboxValue] = useState(false);
+  const [placeCheckboxValue, setPlaceCheckboxValue] = useState(false);
+  const [queryText, setQueryText] = useState(null);
+  const [argValue, setArgValue] = useState(null);
 
   useEffect(() => {
     setQueryText(code1.current.textContent);
   }, [
-    // radioValue,
+    radioValue,
     selectTimezoneValue,
+    selectPlaceValue,
     offsetCheckboxValue,
     nameCheckboxValue,
     flagCheckboxValue,
+    placeCheckboxValue,
+    argValue,
   ]);
 
   // [h2, 'font-effect-decaying'].join(' ')
@@ -40,12 +43,32 @@ export default function Form({ offsetList, placeList, postQuery }) {
           <div className={ radiodiv }>
             <label>
               Time Zone
-              <input onChange={e => setRadioValue(e.target.value)} type="radio" name="queryType" value="timezone"/>
+              <input
+                onChange={
+                  e => {
+                    setRadioValue(e.target.value);
+                    setArgValue('offset');
+                  }
+                }
+                type="radio"
+                name="queryType"
+                value="timezone"
+              />
             </label>
 
             <label>
               Place
-              <input onChange={e => setRadioValue(e.target.value)} type="radio" name="queryType" value="place"/>
+              <input
+                onChange={
+                  e => {
+                    setRadioValue(e.target.value);
+                    setArgValue('name');
+                  }
+                }
+                type="radio"
+                name="queryType"
+                value="place"
+              />
             </label>
           </div>
         </fieldset>
@@ -126,7 +149,7 @@ export default function Form({ offsetList, placeList, postQuery }) {
   <p className={ p }>Your query:</p>
     <pre>
                     <code ref={ code1 }>{`{
-  timezone(offset: "${selectTimezoneValue}") {
+  ${radioValue}(${argValue}: "${radioValue == 'place' ? selectPlaceValue : selectTimezoneValue}") {
     ${offsetCheckboxValue ? 'offset' : ''}
     ${nameCheckboxValue ? `places {
       name
