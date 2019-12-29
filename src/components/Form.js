@@ -17,6 +17,7 @@ export default function Form({ offsetList, placeList, postQuery }) {
   const [namePLCheckboxValue, setNamePLCheckboxValue] = useState(false);
   const [offsetPLCheckboxValue, setOffsetPLCheckboxValue] = useState(false);
   const [queryText, setQueryText] = useState(null);
+  const [readyToSend, setReadyToSend] = useState(false);
 
   useEffect(() => {
     setQueryText(code1.current.textContent);
@@ -29,6 +30,28 @@ export default function Form({ offsetList, placeList, postQuery }) {
     flagCheckboxValue,
     namePLCheckboxValue,
     offsetPLCheckboxValue,
+  ]);
+
+  useEffect(() => {
+    console.log('rts', readyToSend);
+    if (
+      (radioValue == 'timezone' && (selectTimezoneValue == 'UTC+/-...' || (!offsetTZCheckboxValue && !nameTZCheckboxValue))) ||
+      (radioValue == 'place' && (selectTimezoneValue == 'Place...' || (!namePLCheckboxValue && !offsetPLCheckboxValue))) ||
+      !queryText
+    ) {
+      setReadyToSend(false);
+    } else {
+      setReadyToSend(true);
+    }
+  }, [
+    radioValue,
+    selectTimezoneValue,
+    offsetTZCheckboxValue,
+    nameTZCheckboxValue,
+    flagCheckboxValue,
+    namePLCheckboxValue,
+    offsetPLCheckboxValue,
+    queryText,
   ]);
 
   // [h2, 'font-effect-decaying'].join(' ')
@@ -149,7 +172,7 @@ export default function Form({ offsetList, placeList, postQuery }) {
 {
   radioValue &&
 <>
-  <p className={ p }>Your query:{queryText}</p>
+  <p className={ p }>Your query:</p>
 {
   radioValue == "timezone" &&
     <pre>
@@ -177,13 +200,13 @@ export default function Form({ offsetList, placeList, postQuery }) {
     </pre>
 }
 
-
+<p>{readyToSend}</p>
       <button
         type="button"
         className={ button }
         style={{ maxWidth: 300 }}
         onClick={() => postQuery(queryText)}
-        { ...(selectTimezoneValue == 'UTC+/-...' || !queryText || (!offsetTZCheckboxValue && !nameTZCheckboxValue) ? { 'disabled': true } : {}) }
+        { ...(readyToSend ? { 'disabled': true } : {}) }
       >
         submit query
       </button>
