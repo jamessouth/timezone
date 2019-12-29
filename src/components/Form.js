@@ -50,59 +50,76 @@ export default function Form({ offsetList, placeList, postQuery }) {
           </div>
         </fieldset>
 
-        <fieldset>
-          <legend>&nbsp;&nbsp;Select input:&nbsp;&nbsp;</legend>
-          <div className={ selectdiv }>
-            <label htmlFor="offsetSelectList">Select offset:</label>
-            <select
-            value={ selectTimezoneValue }
-            onChange={e => setSelectTimezoneValue(e.target.value)}
-            id="offsetSelectList"
-            >
-              <option hidden>{ selectTimezoneValue }</option>
-              {offsetList.map(({ offset }, i) => <option key={ i } value={ offset }>{ offset }</option>)}
-            </select>
-          </div>
+        {
+          radioValue &&
+            <fieldset>
+              <legend>&nbsp;&nbsp;Select input:&nbsp;&nbsp;</legend>
+              {
+                radioValue == "timezone" &&
+                  <div className={ selectdiv }>
+                    <label htmlFor="offsetSelectList">Select offset:</label>
+                    <select
+                    value={ selectTimezoneValue }
+                    onChange={e => setSelectTimezoneValue(e.target.value)}
+                    id="offsetSelectList"
+                    >
+                      <option hidden>{ selectTimezoneValue }</option>
+                      {offsetList.map(({ offset }, i) => <option key={ i } value={ offset }>{ offset }</option>)}
+                    </select>
+                  </div>
+              }
 
-          <div className={ selectdiv }>
-            <label htmlFor="placeSelectList">Select place:</label>
-            <select
-            value={ selectPlaceValue }
-            onChange={e => setSelectPlaceValue(e.target.value)}
-            id="placeSelectList"
-            >
-              <option hidden>{ selectPlaceValue }</option>
-              {placeList.map(({ place }, i) => <option key={ i } value={ place }>{ place }</option>)}
-            </select>
-          </div>
-        </fieldset>
+              {
+                radioValue == "place" &&
+                  <div className={ selectdiv }>
+                    <label htmlFor="placeSelectList">Select place:</label>
+                    <select
+                    value={ selectPlaceValue }
+                    onChange={e => setSelectPlaceValue(e.target.value)}
+                    id="placeSelectList"
+                    >
+                      <option hidden>{ selectPlaceValue }</option>
+                      {placeList.map(({ place }, i) => <option key={ i } value={ place }>{ place }</option>)}
+                    </select>
+                  </div>
+              }
+            </fieldset>
+        }
+
+        {
+          radioValue &&
+            <fieldset>
+              <legend>&nbsp;&nbsp;Select data:&nbsp;&nbsp;</legend>
+
+              {
+                radioValue == "timezone" &&
+                  <div className={ checkdiv }>
+                    <label htmlFor="offset1">offset<input onChange={() => setOffsetCheckboxValue(val => !val)} type="checkbox" id="offset1" name="fields" value={ offsetCheckboxValue }/></label>
+
+                    <p className={ [p, p2].join(" ") }>places:</p>
+
+                    <label htmlFor="name">&#8735;name<input onChange={() => setNameCheckboxValue(val => !val)} type="checkbox" id="name" name="fields" value={ nameCheckboxValue }/></label>
+
+                    <label htmlFor="flag">&#8735;&nbsp;&nbsp;flag<input onChange={() => setFlagCheckboxValue(val => !val)} type="checkbox" id="flag" name="fields" { ...( !nameCheckboxValue ? { 'disabled': true } : {}) } value={ flagCheckboxValue }/></label>
+                  </div>
+              }
+
+              {
+                radioValue == "place" &&
+                  <div className={ checkdiv }>
+                    <label htmlFor="place1">place<input onChange={() => setPlaceCheckboxValue(val => !val)} type="checkbox" id="place1" name="fields" value={ placeCheckboxValue }/></label>
 
 
 
-        <fieldset>
-          <legend>&nbsp;&nbsp;Select data:&nbsp;&nbsp;</legend>
-
-          <div className={ checkdiv }>
-            <label htmlFor="offset1">offset<input onChange={() => setOffsetCheckboxValue(val => !val)} type="checkbox" id="offset1" name="fields" value={ offsetCheckboxValue }/></label>
-
-            <p className={ [p, p2].join(" ") }>places:</p>
-
-            <label htmlFor="name">&#8735;name<input onChange={() => setNameCheckboxValue(val => !val)} type="checkbox" id="name" name="fields" value={ nameCheckboxValue }/></label>
-
-            <label htmlFor="flag">&#8735;&nbsp;&nbsp;flag<input onChange={() => setFlagCheckboxValue(val => !val)} type="checkbox" id="flag" name="fields" { ...( !nameCheckboxValue ? { 'disabled': true } : {}) } value={ flagCheckboxValue }/></label>
-          </div>
+                    <label htmlFor="offset2">offsets<input onChange={() => setOffsetCheckboxValue(val => !val)} type="checkbox" id="offset2" name="fields" value={ offsetCheckboxValue }/></label>
 
 
-          <div className={ checkdiv }>
-            <label htmlFor="place1">place<input onChange={() => setPlaceCheckboxValue(val => !val)} type="checkbox" id="place1" name="fields" value={ placeCheckboxValue }/></label>
+                  </div>
+              }
+            </fieldset>
+        }
 
 
-
-            <label htmlFor="offset2">offsets<input onChange={() => setOffsetCheckboxValue(val => !val)} type="checkbox" id="offset2" name="fields" value={ offsetCheckboxValue }/></label>
-
-
-          </div>
-        </fieldset>
       </form>
 
   <p className={ p }>Your query:</p>

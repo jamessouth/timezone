@@ -85,14 +85,17 @@ legend{
   font-size: 1.875rem;
   text-align: center;
 }
+legend{
+  font-size: 2rem;
+}
 /* label[for="offsets"]{
   margin-bottom: -1.875rem;
 } */
 .selectdiv{
-  height: 70px;
+  height: 120px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   /* max-width: 300px; */
 }
@@ -167,17 +170,25 @@ section{
 
 
 @media screen and (min-width: 768px){
+  fieldset{
+    max-width: 400px;
+  }
+  .radiodiv label:last-of-type input[type="radio"]{
+    margin-left: 71px;
+  }
   .h2{
     font-size: 2.25rem;
     width: 75%;
   }
-  .checkdiv label,
-  .p,
-  legend{
+  label,
+  .p{
     font-size: 2.25rem;
   }
+  legend{
+    font-size: 2.5rem;
+  }
   .selectdiv{
-    height: 86px;
+    height: 120px;
   }
   select{
     height: 28px;
