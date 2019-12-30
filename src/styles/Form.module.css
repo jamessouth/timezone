@@ -17,7 +17,7 @@ form{
   background: radial-gradient(palegoldenrod 30%, transparent 90%);
   padding: 2px 12px;
   width: 90%;
-  max-width: 600px;
+  max-width: 300px;
   border: 8px inset #9b1d14;
   cursor: pointer;
   outline: none;
@@ -52,9 +52,7 @@ fieldset{
   max-width: 300px;
   background: linear-gradient(0deg, #ddb77f63 15%, transparent);
 }
-/* fieldset:nth-of-type(1){
 
-} */
 .radiodiv{
   height: 120px;
   display: flex;
@@ -63,10 +61,6 @@ fieldset{
   align-items: center;
 }
 
-
-
-
-/* label, */
 .p,
 legend{
   font-family: 'Redressed', cursive;
@@ -76,14 +70,10 @@ legend{
 legend{
   font-size: 2rem;
 }
-/* label[for="offsets"]{
-  margin-bottom: -1.875rem;
-} */
 
 label{
   font-family: 'Redressed', cursive;
   font-size: 1.875rem;
-  /* justify-self: end; */
 }
 .check{
   display: flex;
@@ -106,7 +96,6 @@ label{
 .checkdiv2 label{
   align-self: start;
 }
-
 
 .p{
   margin-bottom: .75rem;
@@ -137,8 +126,6 @@ code{
 section{
   margin-bottom: 4rem;
 }
-
-
 
 @media screen and (min-width: 768px){
   fieldset{
@@ -181,19 +168,3 @@ section{
   }
 
 }
-
-/*
-
-@media screen and (min-width: 1024px){
-
-
-
-
-}
- */
-
-
-
-
-
-/* 15 */

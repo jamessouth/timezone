@@ -62,11 +62,6 @@ export default function Form({ offsetList, placeList, postQuery }) {
     return <option key={ i } value={ place }>{ place }</option>;
   }
 
-  function handleCheckChange(value) {
-    console.log(value);
-    setOffsetTZCheckboxValue(val => !val)
-  }
-
 
 
   useEffect(() => {
@@ -249,7 +244,6 @@ export default function Form({ offsetList, placeList, postQuery }) {
       <button
         type="button"
         className={ button }
-        style={{ maxWidth: 300 }}
         onClick={() => postQuery(queryText)}
         { ...(disableSendBtn ? { 'disabled': true } : {}) }
       >
