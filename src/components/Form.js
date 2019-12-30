@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Radio from './Radio';
+import Select from './Select';
 import {
   button,
   check,
@@ -8,14 +9,14 @@ import {
   form,
   h2,
   p,
-  p2
+  p2,
   radiodiv,
-  selectdiv,
+  selectdiv
 } from '../styles/Form.module.css';
 
 export default function Form({ offsetList, placeList, postQuery }) {
-  offsetList = [];
-  placeList = [];
+  offsetList = [{offset:'UTC-2'}, {offset:'UTC+9'}];
+  placeList = [{place:'texas'},{place:'ohio'}];
 
 
 
@@ -46,9 +47,19 @@ export default function Form({ offsetList, placeList, postQuery }) {
   }
 
   function handleSelectChange(val) {
-    setRadioValue(val);
+    if (val.startsWith('UTC')) {
+      setSelectTimezoneValue(val);
+    } else {
+      setSelectPlaceValue(val);
+    }
+  }
 
+  function mapFunctionTZ({ offset }, i) {
+    return <option key={ i } value={ offset }>{ offset }</option>;
+  }
 
+  function mapFunctionPL({ place }, i) {
+    return <option key={ i } value={ place }>{ place }</option>;
   }
 
 
@@ -118,16 +129,15 @@ export default function Form({ offsetList, placeList, postQuery }) {
                 radioValue == "timezone" &&
                   <div className={ selectdiv }>
 
-                    <label>
-                      Select offset:
-                      <select
-                        value={ selectTimezoneValue }
-                        onChange={e => setSelectTimezoneValue(e.target.value)}
-                      >
-                        <option hidden>{ selectTimezoneValue }</option>
-                        {offsetList.map(({ offset }, i) => <option key={ i } value={ offset }>{ offset }</option>)}
-                      </select>
-                    </label>
+                    <Select
+                      text="offset"
+                      value={ selectTimezoneValue }
+                      onChange={ handleSelectChange }
+                      list={ offsetList }
+                      mapFunc={ mapFunctionTZ }
+                    />
+
+
 
                   </div>
               }
@@ -135,15 +145,18 @@ export default function Form({ offsetList, placeList, postQuery }) {
               {
                 radioValue == "place" &&
                   <div className={ selectdiv }>
-                    <label htmlFor="placeSelectList">Select place:</label>
-                    <select
+
+
+                    <Select
+                      text="place"
                       value={ selectPlaceValue }
-                      onChange={e => setSelectPlaceValue(e.target.value)}
-                      id="placeSelectList"
-                    >
-                      <option hidden>{ selectPlaceValue }</option>
-                      {placeList.map(({ place }, i) => <option key={ i } value={ place }>{ place }</option>)}
-                    </select>
+                      onChange={ handleSelectChange }
+                      list={ placeList }
+                      mapFunc={ mapFunctionPL }
+                    />
+
+
+
                   </div>
               }
             </fieldset>
