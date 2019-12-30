@@ -178,18 +178,43 @@ export default function Form({ offsetList, placeList, postQuery }) {
 
                     <p className={ [p, p2].join(" ") }>places:</p>
 
-                    <label htmlFor="name">&#8735;name<input onChange={() => setNameTZCheckboxValue(val => !val)} type="checkbox" id="name" name="fields" value={ nameTZCheckboxValue }/></label>
+                    <Check
+                      text="&#8735;name"
+                      onChange={ () => setNameTZCheckboxValue(val => !val) }
+                      value={ nameTZCheckboxValue }
+                    />
 
-                    <label htmlFor="flag">&#8735;&nbsp;&nbsp;flag<input onChange={() => setFlagCheckboxValue(val => !val)} type="checkbox" id="flag" name="fields" { ...( !nameTZCheckboxValue ? { 'disabled': true } : {}) } value={ flagCheckboxValue }/></label>
+                    <Check
+                      text="&#8735;&nbsp;&nbsp;flag"
+                      onChange={ () => setFlagCheckboxValue(val => !val) }
+                      value={ flagCheckboxValue }
+                      dis={ !nameTZCheckboxValue }
+                    />
+
+
+
                   </div>
               }
 
               {
                 radioValue == "place" &&
                   <div className={ [check, checkdiv2].join(' ') }>
-                    <label htmlFor="place1">name<input onChange={() => setNamePLCheckboxValue(val => !val)} type="checkbox" id="place1" name="fields" value={ namePLCheckboxValue }/></label>
 
-                    <label htmlFor="offset2">offsets<input onChange={() => setOffsetPLCheckboxValue(val => !val)} type="checkbox" id="offset2" name="fields" value={ offsetPLCheckboxValue }/></label>
+
+                    <Check
+                      text="name"
+                      onChange={ () => setNamePLCheckboxValue(val => !val) }
+                      value={ namePLCheckboxValue }
+                    />
+
+
+                    <Check
+                      text="offsets"
+                      onChange={ () => setOffsetPLCheckboxValue(val => !val) }
+                      value={ offsetPLCheckboxValue }
+                    />
+
+
 
 
                   </div>

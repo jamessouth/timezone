@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/Check.module.css';
 
-export default function Check({ text, onChange, value }) {
+export default function Check({ text, onChange, value, dis }) {
 
   return (
     <label>
@@ -11,6 +11,7 @@ export default function Check({ text, onChange, value }) {
         type="checkbox"
         name="fields"
         value={ value }
+        { ...( dis ? { 'disabled': true } : {}) }
       />
     </label>
   );
