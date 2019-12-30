@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Radio from './Radio';
 import { h2, button, check, checkdiv, checkdiv2, form, radiodiv, selectdiv, p, p2 } from '../styles/Form.module.css';
 
 export default function Form({ offsetList, placeList, postQuery }) {
@@ -18,6 +19,23 @@ export default function Form({ offsetList, placeList, postQuery }) {
   const [offsetPLCheckboxValue, setOffsetPLCheckboxValue] = useState(false);
   const [queryText, setQueryText] = useState(null);
   const [disableSendBtn, setDisableSendBtn] = useState(true);
+
+
+
+  function handleRadioChange(val) {
+    console.log(val);
+    setRadioValue(val);
+    if (val == 'timezone') {
+      setNamePLCheckboxValue(false);
+      setOffsetPLCheckboxValue(false);
+    } else {
+      setOffsetTZCheckboxValue(false);
+      setNameTZCheckboxValue(false);
+      setFlagCheckboxValue(false);
+    }
+  }
+
+
 
   useEffect(() => {
     setQueryText(code1.current.textContent);
@@ -60,31 +78,24 @@ export default function Form({ offsetList, placeList, postQuery }) {
         <fieldset>
           <legend>&nbsp;&nbsp;Select query:&nbsp;&nbsp;</legend>
           <div className={ radiodiv }>
-            <label>
-              Time Zone
-              <input
-                onChange={
-                  e => {
-                    setRadioValue(e.target.value);
-                    setNamePLCheckboxValue(false);
-                    setOffsetPLCheckboxValue(false);
-                  }
-                }
-                type="radio"
-                name="queryType"
-                value="timezone"
-              />
-            </label>
+
+            <Radio
+              text="Time Zone"
+              onChange={ handleRadioChange }
+              value="timezone"
+            />
+
+
 
             <label>
               Place
               <input
                 onChange={
                   e => {
-                    setRadioValue(e.target.value);
-                    setOffsetTZCheckboxValue(false);
-                    setNameTZCheckboxValue(false);
-                    setFlagCheckboxValue(false);
+                    handleRadioChange(e.target.value);
+                    // setOffsetTZCheckboxValue(false);
+                    // setNameTZCheckboxValue(false);
+                    // setFlagCheckboxValue(false);
                   }
                 }
                 type="radio"
@@ -104,9 +115,9 @@ export default function Form({ offsetList, placeList, postQuery }) {
                   <div className={ selectdiv }>
                     <label htmlFor="offsetSelectList">Select offset:</label>
                     <select
-                    value={ selectTimezoneValue }
-                    onChange={e => setSelectTimezoneValue(e.target.value)}
-                    id="offsetSelectList"
+                      value={ selectTimezoneValue }
+                      onChange={e => setSelectTimezoneValue(e.target.value)}
+                      id="offsetSelectList"
                     >
                       <option hidden>{ selectTimezoneValue }</option>
                       {offsetList.map(({ offset }, i) => <option key={ i } value={ offset }>{ offset }</option>)}
@@ -119,9 +130,9 @@ export default function Form({ offsetList, placeList, postQuery }) {
                   <div className={ selectdiv }>
                     <label htmlFor="placeSelectList">Select place:</label>
                     <select
-                    value={ selectPlaceValue }
-                    onChange={e => setSelectPlaceValue(e.target.value)}
-                    id="placeSelectList"
+                      value={ selectPlaceValue }
+                      onChange={e => setSelectPlaceValue(e.target.value)}
+                      id="placeSelectList"
                     >
                       <option hidden>{ selectPlaceValue }</option>
                       {placeList.map(({ place }, i) => <option key={ i } value={ place }>{ place }</option>)}
@@ -211,3 +222,25 @@ export default function Form({ offsetList, placeList, postQuery }) {
   );
 
 }
+
+
+
+
+
+
+//
+// <label>
+//   Time Zone
+//   <input
+//     onChange={
+//       e => {
+//         handleRadioChange(e.target.value);
+//         // setNamePLCheckboxValue(false);
+//         // setOffsetPLCheckboxValue(false);
+//       }
+//     }
+//     type="radio"
+//     name="queryType"
+//     value="timezone"
+//   />
+// </label>
