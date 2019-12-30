@@ -1,6 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Radio from './Radio';
-import { h2, button, check, checkdiv, checkdiv2, form, radiodiv, selectdiv, p, p2 } from '../styles/Form.module.css';
+import {
+  button,
+  check,
+  checkdiv,
+  checkdiv2,
+  form,
+  h2,
+  p,
+  p2
+  radiodiv,
+  selectdiv,
+} from '../styles/Form.module.css';
 
 export default function Form({ offsetList, placeList, postQuery }) {
   offsetList = [];
@@ -23,7 +34,6 @@ export default function Form({ offsetList, placeList, postQuery }) {
 
 
   function handleRadioChange(val) {
-    console.log(val);
     setRadioValue(val);
     if (val == 'timezone') {
       setNamePLCheckboxValue(false);
@@ -33,6 +43,12 @@ export default function Form({ offsetList, placeList, postQuery }) {
       setNameTZCheckboxValue(false);
       setFlagCheckboxValue(false);
     }
+  }
+
+  function handleSelectChange(val) {
+    setRadioValue(val);
+
+
   }
 
 
@@ -91,8 +107,6 @@ export default function Form({ offsetList, placeList, postQuery }) {
               value="place"
             />
 
-
-
           </div>
         </fieldset>
 
@@ -103,15 +117,18 @@ export default function Form({ offsetList, placeList, postQuery }) {
               {
                 radioValue == "timezone" &&
                   <div className={ selectdiv }>
-                    <label htmlFor="offsetSelectList">Select offset:</label>
-                    <select
-                      value={ selectTimezoneValue }
-                      onChange={e => setSelectTimezoneValue(e.target.value)}
-                      id="offsetSelectList"
-                    >
-                      <option hidden>{ selectTimezoneValue }</option>
-                      {offsetList.map(({ offset }, i) => <option key={ i } value={ offset }>{ offset }</option>)}
-                    </select>
+
+                    <label>
+                      Select offset:
+                      <select
+                        value={ selectTimezoneValue }
+                        onChange={e => setSelectTimezoneValue(e.target.value)}
+                      >
+                        <option hidden>{ selectTimezoneValue }</option>
+                        {offsetList.map(({ offset }, i) => <option key={ i } value={ offset }>{ offset }</option>)}
+                      </select>
+                    </label>
+
                   </div>
               }
 
