@@ -10,8 +10,7 @@ import {
   h2,
   p,
   p2,
-  radiodiv,
-  selectdiv
+  radiodiv
 } from '../styles/Form.module.css';
 
 export default function Form({ offsetList, placeList, postQuery }) {
@@ -127,37 +126,28 @@ export default function Form({ offsetList, placeList, postQuery }) {
               <legend>&nbsp;&nbsp;Select input:&nbsp;&nbsp;</legend>
               {
                 radioValue == "timezone" &&
-                  <div className={ selectdiv }>
 
-                    <Select
-                      text="offset"
-                      value={ selectTimezoneValue }
-                      onChange={ handleSelectChange }
-                      list={ offsetList }
-                      mapFunc={ mapFunctionTZ }
-                    />
+                  <Select
+                    text="offset"
+                    value={ selectTimezoneValue }
+                    onChange={ handleSelectChange }
+                    list={ offsetList }
+                    mapFunc={ mapFunctionTZ }
+                  />
 
-
-
-                  </div>
               }
 
               {
                 radioValue == "place" &&
-                  <div className={ selectdiv }>
 
+                  <Select
+                    text="place"
+                    value={ selectPlaceValue }
+                    onChange={ handleSelectChange }
+                    list={ placeList }
+                    mapFunc={ mapFunctionPL }
+                  />
 
-                    <Select
-                      text="place"
-                      value={ selectPlaceValue }
-                      onChange={ handleSelectChange }
-                      list={ placeList }
-                      mapFunc={ mapFunctionPL }
-                    />
-
-
-
-                  </div>
               }
             </fieldset>
         }

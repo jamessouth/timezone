@@ -1,0 +1,26 @@
+select{
+  width: 80%;
+  height: 25px;
+  background-color: #ededed;
+}
+select:focus,
+select:hover{
+  filter: drop-shadow(-4px -11px 6px #3e2723);
+}
+.selectdiv{
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+@media screen and (min-width: 768px){
+  .selectdiv{
+    height: 140px;
+  }
+  select{
+    height: 28px;
+    font-size: 1.125rem;
+    padding: 2px 0 1px;
+  }
+}

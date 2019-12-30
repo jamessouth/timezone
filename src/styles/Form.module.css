@@ -45,16 +45,7 @@ form{
   -webkit-mask-image: url('../assets/masks/decaying.png');
   /* self-host google font effect mask image due to cors bug introduced with chrome 79 */
 }
-select{
-  width: 80%;
-  height: 25px;
-  background-color: #ededed;
-  /* max-width: 300px; */
-}
-select:focus,
-select:hover{
-  filter: drop-shadow(-4px -11px 6px #3e2723);
-}
+
 fieldset{
   border: 1px solid #3e2723;
   width: 80%;
@@ -79,7 +70,7 @@ fieldset{
 .p,
 legend{
   font-family: 'Redressed', cursive;
-  font-size: 1.875rem;
+
   text-align: center;
 }
 legend{
@@ -88,14 +79,7 @@ legend{
 /* label[for="offsets"]{
   margin-bottom: -1.875rem;
 } */
-.selectdiv{
-  height: 120px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  /* max-width: 300px; */
-}
+
 label{
   font-family: 'Redressed', cursive;
   font-size: 1.875rem;
@@ -136,6 +120,7 @@ label{
 }
 .p{
   margin-bottom: .75rem;
+  font-size: 1.875rem;
 }
 .p2{
   margin-bottom: 0;
@@ -165,14 +150,6 @@ section{
 
 
 
-
-
-
-
-
-
-
-
 @media screen and (min-width: 768px){
   fieldset{
     max-width: 400px;
@@ -188,15 +165,10 @@ section{
   legend{
     font-size: 2.5rem;
   }
-  .selectdiv,
   .radiodiv{
     height: 140px;
   }
-  select{
-    height: 28px;
-    font-size: 1.125rem;
-    padding: 2px 0 1px;
-  }
+
   .form{
     /* flex-direction: row; */
     height: 900px;
