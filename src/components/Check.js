@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/Check.module.css';
+import { input } from '../styles/Check.module.css';
 
 export default function Check({ text, onChange, value, dis }) {
 
@@ -7,6 +7,7 @@ export default function Check({ text, onChange, value, dis }) {
     <label>
       { text }
       <input
+        className={ input }
         onChange={ () => onChange() }
         type="checkbox"
         name="fields"

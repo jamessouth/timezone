@@ -108,16 +108,6 @@ label{
 }
 
 
-.check input{
-  height: 20px;
-  width: 20px;
-  vertical-align: middle;
-  margin-left: 6px;
-}
-.check input:hover,
-.check input:focus{
-  filter: drop-shadow(-4px -11px 6px #3e2723);
-}
 .p{
   margin-bottom: .75rem;
   font-size: 1.875rem;

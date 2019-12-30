@@ -167,9 +167,6 @@ export default function Form({ offsetList, placeList, postQuery }) {
                 radioValue == "timezone" &&
                   <div className={ [check, checkdiv].join(' ') }>
 
-
-
-
                     <Check
                       text="offset"
                       onChange={ () => setOffsetTZCheckboxValue(val => !val) }
@@ -191,8 +188,6 @@ export default function Form({ offsetList, placeList, postQuery }) {
                       dis={ !nameTZCheckboxValue }
                     />
 
-
-
                   </div>
               }
 
@@ -200,22 +195,17 @@ export default function Form({ offsetList, placeList, postQuery }) {
                 radioValue == "place" &&
                   <div className={ [check, checkdiv2].join(' ') }>
 
-
                     <Check
                       text="name"
                       onChange={ () => setNamePLCheckboxValue(val => !val) }
                       value={ namePLCheckboxValue }
                     />
 
-
                     <Check
                       text="offsets"
                       onChange={ () => setOffsetPLCheckboxValue(val => !val) }
                       value={ offsetPLCheckboxValue }
                     />
-
-
-
 
                   </div>
               }
