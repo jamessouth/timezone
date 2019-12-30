@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Check from './Check';
 import Radio from './Radio';
 import Select from './Select';
 import {
@@ -59,6 +60,11 @@ export default function Form({ offsetList, placeList, postQuery }) {
 
   function mapFunctionPL({ place }, i) {
     return <option key={ i } value={ place }>{ place }</option>;
+  }
+
+  function handleCheckChange(value) {
+    console.log(value);
+    setOffsetTZCheckboxValue(val => !val)
   }
 
 
@@ -160,7 +166,15 @@ export default function Form({ offsetList, placeList, postQuery }) {
               {
                 radioValue == "timezone" &&
                   <div className={ [check, checkdiv].join(' ') }>
-                    <label htmlFor="offset1">offset<input onChange={() => setOffsetTZCheckboxValue(val => !val)} type="checkbox" id="offset1" name="fields" value={ offsetTZCheckboxValue }/></label>
+
+
+
+
+                    <Check
+                      text="offset"
+                      onChange={ () => setOffsetTZCheckboxValue(val => !val) }
+                      value={ offsetTZCheckboxValue }
+                    />
 
                     <p className={ [p, p2].join(" ") }>places:</p>
 
