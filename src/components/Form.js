@@ -17,7 +17,7 @@ export default function Form({ offsetList, placeList, postQuery }) {
   const [namePLCheckboxValue, setNamePLCheckboxValue] = useState(false);
   const [offsetPLCheckboxValue, setOffsetPLCheckboxValue] = useState(false);
   const [queryText, setQueryText] = useState(null);
-  const [readyToSend, setReadyToSend] = useState(false);
+  const [disableSendBtn, setDisableSendBtn] = useState(true);
 
   useEffect(() => {
     setQueryText(code1.current.textContent);
@@ -33,25 +33,21 @@ export default function Form({ offsetList, placeList, postQuery }) {
   ]);
 
   useEffect(() => {
-    console.log('rts', readyToSend);
     if (
       (radioValue == 'timezone' && (selectTimezoneValue == 'UTC+/-...' || (!offsetTZCheckboxValue && !nameTZCheckboxValue))) ||
-      (radioValue == 'place' && (selectTimezoneValue == 'Place...' || (!namePLCheckboxValue && !offsetPLCheckboxValue))) ||
-      !queryText
+      (radioValue == 'place' && (selectPlaceValue == 'Place...' || (!namePLCheckboxValue && !offsetPLCheckboxValue)))
     ) {
-      setReadyToSend(false);
+      setDisableSendBtn(true);
     } else {
-      setReadyToSend(true);
+      setDisableSendBtn(false);
     }
   }, [
     radioValue,
     selectTimezoneValue,
     offsetTZCheckboxValue,
     nameTZCheckboxValue,
-    flagCheckboxValue,
     namePLCheckboxValue,
     offsetPLCheckboxValue,
-    queryText,
   ]);
 
   // [h2, 'font-effect-decaying'].join(' ')
@@ -200,13 +196,12 @@ export default function Form({ offsetList, placeList, postQuery }) {
     </pre>
 }
 
-<p>{readyToSend}</p>
       <button
         type="button"
         className={ button }
         style={{ maxWidth: 300 }}
         onClick={() => postQuery(queryText)}
-        { ...(readyToSend ? { 'disabled': true } : {}) }
+        { ...(disableSendBtn ? { 'disabled': true } : {}) }
       >
         submit query
       </button>
