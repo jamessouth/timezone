@@ -1,23 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { radiodiv } from '../styles/Radio.module.css';
+import React from 'react';
+import '../styles/Radio.module.css';
 
 export default function Radio({ text, onChange, value }) {
-
-  function handleChange(e) {
-    onChange(e.target.value);
-  }
 
   return (
     <label>
       { text }
       <input
-        onChange={ handleChange }
+        onChange={ e => onChange(e.target.value) }
         type="radio"
         name="queryType"
         value={ value }
       />
     </label>
   );
-
 
 }

@@ -1,0 +1,13 @@
+input[type="radio"]{
+  width: 20px;
+  height: 20px;
+  margin-left: 12px;
+}
+input[type="radio"][value="place"]{
+  margin-left: 61px;
+}
+@media screen and (min-width: 768px){
+  input[type="radio"][value="place"]{
+    margin-left: 71px;
+  }
+}

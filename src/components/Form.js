@@ -85,24 +85,14 @@ export default function Form({ offsetList, placeList, postQuery }) {
               value="timezone"
             />
 
+            <Radio
+              text="Place"
+              onChange={ handleRadioChange }
+              value="place"
+            />
 
 
-            <label>
-              Place
-              <input
-                onChange={
-                  e => {
-                    handleRadioChange(e.target.value);
-                    // setOffsetTZCheckboxValue(false);
-                    // setNameTZCheckboxValue(false);
-                    // setFlagCheckboxValue(false);
-                  }
-                }
-                type="radio"
-                name="queryType"
-                value="place"
-              />
-            </label>
+
           </div>
         </fieldset>
 
@@ -222,25 +212,3 @@ export default function Form({ offsetList, placeList, postQuery }) {
   );
 
 }
-
-
-
-
-
-
-//
-// <label>
-//   Time Zone
-//   <input
-//     onChange={
-//       e => {
-//         handleRadioChange(e.target.value);
-//         // setNamePLCheckboxValue(false);
-//         // setOffsetPLCheckboxValue(false);
-//       }
-//     }
-//     type="radio"
-//     name="queryType"
-//     value="timezone"
-//   />
-// </label>
