@@ -89,6 +89,7 @@ export default function Form({ offsetList, placeList, postQuery }) {
   }, [
     radioValue,
     selectTimezoneValue,
+    selectPlaceValue,
     offsetTZCheckboxValue,
     nameTZCheckboxValue,
     namePLCheckboxValue,

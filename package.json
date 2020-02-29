@@ -2,7 +2,7 @@
   "name": "timezones",
   "version": "1.0.0",
   "description": "graphql fun",
-  "private": "true",
+  "private": true,
   "browserslist": "last 2 versions, > 1%, not dead, not ie < 12",
   "main": "index.js",
   "scripts": {
