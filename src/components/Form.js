@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import Check from './Check';
 import Radio from './Radio';
 import Select from './Select';
@@ -264,5 +265,7 @@ export default function Form({
 Form.propTypes = {
   offsetList: PropTypes.array,
   placeList: PropTypes.array,
-  postQuery: PropTypes.func
+  postQuery: PropTypes.func,
+  offset: PropTypes.string,
+  place: PropTypes.string
 }

@@ -3,26 +3,26 @@ import { graphql } from 'graphql';
 import schema from './graphql/schema';
 
 import prog from './utils/ProgressEmitter';
-import pipeError from './utils/pipeError';
+// import pipeError from './utils/pipeError';
 
 import routePipe from './utils/routePipe';
 import routeMap from './utils/routeMap';
 
 
-const { pipeline } = require('stream');
+// const { pipeline } = require('stream');
 const http = require('http');
 
-const fs = require('fs');
-const https = require('https');
 const path = require('path');
-const assert = require('assert');
+// const fs = require('fs');
+// const https = require('https');
+// const assert = require('assert');
 
 
 const MongoClient = require('mongodb').MongoClient;
 
 
 
-
+// eslint-disable-next-line no-unused-vars
 const server = http.createServer(serverCB).listen(3101, () => {
   console.log('server running on port 3101!', '\x07');// default beep
 });

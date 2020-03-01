@@ -1,12 +1,12 @@
-const https = require('https');
-const fs = require('fs');
+// const https = require('https');
+// const fs = require('fs');
 // const file = fs.createWriteStream('./flagdata');
 
 const parse5 = require('parse5');
 const treeAdapters = require('parse5/lib/tree-adapters/default.js');
 const MongoClient = require('mongodb').MongoClient;
 
-import help1 from './help1';
+// import help1 from './help1';
 import td from '../tabledata';
 import './polyfills/flatMap';
 import './polyfills/flat';
@@ -93,7 +93,7 @@ async function loaddb(obj) {
     //
     //   console.log(plcs, flgs);
 
-    plcs.forEach(async (x,i) => {
+    plcs.forEach(async (x) => {
       let ppp = [];
       x.places.forEach((y) => {
         if (y in obj) {
@@ -107,7 +107,7 @@ async function loaddb(obj) {
 
 
     client.close();
-  } catch (e) {
+  } catch (e) { // eslint-disable-next-line no-console
     console.log(e);
   }
 

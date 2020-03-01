@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { selectdiv } from '../styles/Select.module.css';
 
 export default function Select({
