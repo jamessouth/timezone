@@ -1,8 +1,21 @@
 import React from 'react';
 import { h2 } from '../styles/Form.module.css';
-import { h22, h3, ul, li, span, p, img } from '../styles/Results.module.css';
+import {
+  h22,
+  h3,
+  ul,
+  li,
+  span,
+  p,
+  img,
+} from '../styles/Results.module.css';
 
-export default function Results({ places, offset, flags }) {
+export default function Results({
+  places,
+  offset,
+  flags,
+}) {
+  
   const locations = places ?
     places.map((place, ind) =>
       <li className={ li } key={ ind }>
@@ -13,10 +26,9 @@ export default function Results({ places, offset, flags }) {
       </li>) :
     null;
 
-
-// , 'font-effect-decaying'
-// [h3, 'font-effect-distressed-wood'].join(' ')
-// [h3, 'font-effect-distressed-wood'].join(' ')
+  // , 'font-effect-decaying'
+  // [h3, 'font-effect-distressed-wood'].join(' ')
+  // [h3, 'font-effect-distressed-wood'].join(' ')
 
   return (
     <section>
@@ -30,4 +42,10 @@ export default function Results({ places, offset, flags }) {
     </section>
   );
 
+}
+
+Results.propTypes = {
+  places: PropTypes.array,
+  offset: PropTypes.string,
+  flags: PropTypes.array
 }

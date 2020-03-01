@@ -14,7 +14,11 @@ import {
   radiodiv
 } from '../styles/Form.module.css';
 
-export default function Form({ offsetList, placeList, postQuery }) {
+export default function Form({
+  offsetList,
+  placeList,
+  postQuery,
+}) {
   offsetList = [{offset:'UTC-2'}, {offset:'UTC+9'}];
   placeList = [{place:'texas'},{place:'ohio'}];
 
@@ -127,7 +131,7 @@ export default function Form({ offsetList, placeList, postQuery }) {
             <fieldset>
               <legend>&nbsp;&nbsp;Select input:&nbsp;&nbsp;</legend>
               {
-                radioValue == "timezone" &&
+                radioValue == 'timezone' &&
 
                   <Select
                     text="offset"
@@ -140,7 +144,7 @@ export default function Form({ offsetList, placeList, postQuery }) {
               }
 
               {
-                radioValue == "place" &&
+                radioValue == 'place' &&
 
                   <Select
                     text="place"
@@ -160,7 +164,7 @@ export default function Form({ offsetList, placeList, postQuery }) {
               <legend>&nbsp;&nbsp;Select data:&nbsp;&nbsp;</legend>
 
               {
-                radioValue == "timezone" &&
+                radioValue == 'timezone' &&
                   <div className={ [check, checkdiv].join(' ') }>
 
                     <Check
@@ -169,7 +173,7 @@ export default function Form({ offsetList, placeList, postQuery }) {
                       value={ offsetTZCheckboxValue }
                     />
 
-                    <p className={ [p, p2].join(" ") }>places:</p>
+                    <p className={ [p, p2].join(' ') }>places:</p>
 
                     <Check
                       text="&#8735;name"
@@ -188,7 +192,7 @@ export default function Form({ offsetList, placeList, postQuery }) {
               }
 
               {
-                radioValue == "place" &&
+                radioValue == 'place' &&
                   <div className={ [check, checkdiv2].join(' ') }>
 
                     <Check
@@ -211,14 +215,14 @@ export default function Form({ offsetList, placeList, postQuery }) {
 
       </form>
 
-{
-  radioValue &&
+      {
+        radioValue &&
 <>
   <p className={ p }>Your query:</p>
-{
-  radioValue == "timezone" &&
+  {
+    radioValue == 'timezone' &&
     <pre>
-                    <code ref={ code1 }>{`{
+      <code ref={ code1 }>{`{
   timezone(offset: "${selectTimezoneValue}") {
     ${offsetTZCheckboxValue ? 'offset' : ''}
     ${nameTZCheckboxValue ? `places {
@@ -228,31 +232,37 @@ export default function Form({ offsetList, placeList, postQuery }) {
   }
 }`}</code>
     </pre>
-}
+  }
 
-{
-  radioValue == "place" &&
+  {
+    radioValue == 'place' &&
     <pre>
-                    <code ref={ code1 }>{`{
+      <code ref={ code1 }>{`{
   place(name: "${selectPlaceValue}") {
     ${namePLCheckboxValue ? 'name' : ''}
     ${offsetPLCheckboxValue ? 'offsets' : ''}
   }
 }`}</code>
     </pre>
-}
+  }
 
-      <button
-        type="button"
-        className={ button }
-        onClick={() => postQuery(queryText)}
-        { ...(disableSendBtn ? { 'disabled': true } : {}) }
-      >
+  <button
+    type="button"
+    className={ button }
+    onClick={ () => postQuery(queryText) }
+    { ...(disableSendBtn ? { 'disabled': true } : {}) }
+  >
         submit query
-      </button>
-    </>
-}
+  </button>
+</>
+      }
     </section>
   );
 
+}
+
+Form.propTypes = {
+  offsetList: PropTypes.array,
+  placeList: PropTypes.array,
+  postQuery: PropTypes.func
 }

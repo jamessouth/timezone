@@ -61,7 +61,7 @@ let arr = ancAndPara[0].childNodes
 const flagObj = arr.flat().reduce((x,y) => {
   // console.log(y);
   let k = y.split(/x-(Flags?_of|Bandeira_de)_/gi)[2]
-  .replace(/\.svg\.png/, '').replace(/^the_/, '').replace(/_/, ' ').replace(/_%28\w+%29/, '');
+    .replace(/\.svg\.png/, '').replace(/^the_/, '').replace(/_/, ' ').replace(/_%28\w+%29/, '');
   // console.log(k);
   if (!x[k]) {
     x[k] = y;
@@ -97,9 +97,9 @@ async function loaddb(obj) {
       let ppp = [];
       x.places.forEach((y) => {
         if (y in obj) {
-          ppp.push({"pl": y, "fl": obj[y]});
+          ppp.push({'pl': y, 'fl': obj[y]});
         } else {
-          ppp.push({"pl": y, "fl": "blank"});
+          ppp.push({'pl': y, 'fl': 'blank'});
         }
       })
       await db.collection('results').insertOne({no: x.no, places: ppp, offset: x.offset});
@@ -119,7 +119,7 @@ loaddb(flagObj);
 //   return arr.map((x,i) => {
 //     return x.flags.sort((a,b) => {
 //       // console.log(a);
-      // return list[i].places.indexOf(a.split(/x-(Flags?_of|Bandeira_de)_/gi)[1].replace(/.svg.png/, '').replace(/the_/, '').replace(/_/, ' ')) - list[i].places.indexOf(b.split(/x-(Flags?_of|Bandeira_de)_/gi)[1].replace(/.svg.png/, '').replace(/the_/, '').replace(/_/, ' '));
+// return list[i].places.indexOf(a.split(/x-(Flags?_of|Bandeira_de)_/gi)[1].replace(/.svg.png/, '').replace(/the_/, '').replace(/_/, ' ')) - list[i].places.indexOf(b.split(/x-(Flags?_of|Bandeira_de)_/gi)[1].replace(/.svg.png/, '').replace(/the_/, '').replace(/_/, ' '));
 //     });
 //   });
 //

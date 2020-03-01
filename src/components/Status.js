@@ -12,3 +12,7 @@ export default function Status({ status }) {
   );
 
 }
+
+Status.propTypes = {
+  status: PropTypes.string
+}

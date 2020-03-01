@@ -1,7 +1,11 @@
 import React from 'react';
 import '../styles/Radio.module.css';
 
-export default function Radio({ text, onChange, value }) {
+export default function Radio({
+  text,
+  onChange,
+  value,
+}) {
 
   return (
     <label>
@@ -15,4 +19,10 @@ export default function Radio({ text, onChange, value }) {
     </label>
   );
 
+}
+
+Radio.propTypes = {
+  text: PropTypes.string,
+  onChange: PropTypes.func,
+  value: PropTypes.bool
 }

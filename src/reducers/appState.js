@@ -11,29 +11,29 @@ function reducer(state, { type, payload: { offsetList, places, flags, offset, st
 
   switch (type) {
 
-    case 'offsetList':
-      return {
-        ...state,
-        offsetList: JSON.parse(offsetList)
-      };
+  case 'offsetList':
+    return {
+      ...state,
+      offsetList: JSON.parse(offsetList)
+    };
 
-    case 'data':
-      return {
-        ...state,
-        places,
-        flags,
-        offset,
-        status
-      };
+  case 'data':
+    return {
+      ...state,
+      places,
+      flags,
+      offset,
+      status
+    };
 
-    case 'status':
-      return {
-        ...state,
-        status
-      };
+  case 'status':
+    return {
+      ...state,
+      status
+    };
 
-    default:
-      throw new Error('Reducer action type not recognized');
+  default:
+    throw new Error('Reducer action type not recognized');
   }
 
 

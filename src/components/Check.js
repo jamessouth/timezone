@@ -1,7 +1,12 @@
 import React from 'react';
 import { input } from '../styles/Check.module.css';
 
-export default function Check({ text, onChange, value, dis }) {
+export default function Check({
+  text,
+  onChange,
+  value,
+  dis,
+}) {
 
   return (
     <label>
@@ -17,4 +22,11 @@ export default function Check({ text, onChange, value, dis }) {
     </label>
   );
 
+}
+
+Check.propTypes = {
+  text: PropTypes.string,
+  onChange: PropTypes.func,
+  value: PropTypes.bool,
+  dis: PropTypes.bool
 }

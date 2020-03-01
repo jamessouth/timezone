@@ -4,4 +4,4 @@ export default function pipeError(err, url) {
   } else {
     console.log(`Pipeline succeeded: ${url}`);
   }
-};
+}

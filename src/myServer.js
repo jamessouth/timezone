@@ -39,66 +39,66 @@ async function serverCB(req, res) {
   if (req.method == 'POST') {
     let source = '';
     // try {
-      // const client = new MongoClient(
-      //   'mongodb://localhost:27017',
-      //   {
-      //     useNewUrlParser: true,
-      //     useUnifiedTopology: true,
-      //   }
-      // );
-      // await client.connect();
-      // const db = client.db('tzs');
-      req.on('data', chk => {
-        // console.log('ch ', chk);
-        source += chk;
-      });
-      req.on('end', async () => {
-        // console.log('src ', source);
-        try {
-          data = await graphql({ schema, source, contextValue: db });
-          // if (data.data) {
-          // console.log('mys', data);
-          if (data.errors) {
-            console.log();
-            console.log(data.errors);
-            console.log();
-            throw data.errors[0];
-
-          }
-
-
-          const flags = await db
-            .collection('flags')
-            .find({})
-            .project({ flags: 1, _id: 0 })
-            .toArray();
-
-            // console.log(flags);
-
-
-
-
-
-          payload = Object.assign({}, data.data.timezone, flags[0]);
-
-          console.log('fhfhfhfhfhfhf');
-        } catch (err) {
-          console.log('llllllllllllll', err);
-          payload = { status: `${err.name}: ${err.message}. Number of documents retrieved not equal to 1.` };
-        } finally {
-          console.log('pl ', payload);
+    // const client = new MongoClient(
+    //   'mongodb://localhost:27017',
+    //   {
+    //     useNewUrlParser: true,
+    //     useUnifiedTopology: true,
+    //   }
+    // );
+    // await client.connect();
+    // const db = client.db('tzs');
+    req.on('data', chk => {
+      // console.log('ch ', chk);
+      source += chk;
+    });
+    req.on('end', async () => {
+      // console.log('src ', source);
+      try {
+        data = await graphql({ schema, source, contextValue: db });
+        // if (data.data) {
+        // console.log('mys', data);
+        if (data.errors) {
           console.log();
-          // client && client.close();
-          // res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
-          res.end(JSON.stringify(payload));
+          console.log(data.errors);
+          console.log();
+          throw data.errors[0];
+
         }
-      });
+
+
+        const flags = await db
+          .collection('flags')
+          .find({})
+          .project({ flags: 1, _id: 0 })
+          .toArray();
+
+        // console.log(flags);
+
+
+
+
+
+        payload = Object.assign({}, data.data.timezone, flags[0]);
+
+        console.log('fhfhfhfhfhfhf');
+      } catch (err) {
+        console.log('llllllllllllll', err);
+        payload = { status: `${err.name}: ${err.message}. Number of documents retrieved not equal to 1.` };
+      } finally {
+        console.log('pl ', payload);
+        console.log();
+        // client && client.close();
+        // res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
+        res.end(JSON.stringify(payload));
+      }
+    });
     // } catch (err) {
     //   payload = { error: `Error connecting to database: ${err.message}. Please try again.` };
-      // res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
-      // console.log('t33333333', err);
-      // res.write('Error connecting to database. Please try again.', 'utf8');
-      // res.end(JSON.stringify(payload));
+    // res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
+    // console.log('t33333333', err);
+    // res.write('Error connecting to database. Please try again.', 'utf8');
+    // res.end(JSON.stringify(payload));
     // }
   }
 
@@ -136,44 +136,44 @@ async function serverCB(req, res) {
       const eventInterval = setInterval(() => res.write(':keepalive\n\n\n'), 119562);//2 minute timeout in chrome
 
 
-        res.write('event: status\ndata: Connecting to database\n\n\n');
+      res.write('event: status\ndata: Connecting to database\n\n\n');
 
-        try {
-          await client.connect();
-          db = client.db('tzs');
-          console.log("Connected correctly to mongo server!", !!db);
-          prog.emit('connected');
-          const offsets = await db
-            .collection('timezones')
-            .find({})
-            .project({ offset: 1, _id: 0 })
-            .sort('no', 1)
-            .toArray();
+      try {
+        await client.connect();
+        db = client.db('tzs');
+        console.log('Connected correctly to mongo server!', !!db);
+        prog.emit('connected');
+        const offsets = await db
+          .collection('timezones')
+          .find({})
+          .project({ offset: 1, _id: 0 })
+          .sort('no', 1)
+          .toArray();
 
-          if (offsets.length == 0) {
-            throw new Error('Database error: Data not available');
-          } else {
+        if (offsets.length == 0) {
+          throw new Error('Database error: Data not available');
+        } else {
 
-            prog.emit('offsetsfetched', offsets);
-          }
-
-
-
-
-
-
-
-        } catch (err) {
-
-          console.log('conn err', err.message, err);
-          if (err.name == 'MongoTimeoutError') {
-            res.write(`event: status\ndata: Error connecting to database: ${err.message}. Please try again.\n\n\n`);
-
-          } else {
-            res.write(`event: status\ndata: ${err.message}. Please try again.\n\n\n`);
-          }
-
+          prog.emit('offsetsfetched', offsets);
         }
+
+
+
+
+
+
+
+      } catch (err) {
+
+        console.log('conn err', err.message, err);
+        if (err.name == 'MongoTimeoutError') {
+          res.write(`event: status\ndata: Error connecting to database: ${err.message}. Please try again.\n\n\n`);
+
+        } else {
+          res.write(`event: status\ndata: ${err.message}. Please try again.\n\n\n`);
+        }
+
+      }
 
 
 
@@ -208,7 +208,7 @@ async function serverCB(req, res) {
 
 
   }
-};
+}
 
 
 // Image by <a href="https://pixabay.com/users/TheDigitalArtist-202249/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4181261">Pete Linforth</a> from <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=4181261">Pixabay</a>

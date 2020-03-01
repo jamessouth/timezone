@@ -98,8 +98,8 @@ export default function App() {
   }
 
 
-// form validation
-// [h1, 'font-effect-decaying'].join(' ')
+  // form validation
+  // [h1, 'font-effect-decaying'].join(' ')
 
 
   return (
