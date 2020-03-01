@@ -67,19 +67,20 @@ async function serverCB(req, res) {
         }
 
 
-        const flags = await db
-          .collection('flags')
-          .find({})
-          .project({ flags: 1, _id: 0 })
-          .toArray();
+        // const flags = await db
+        //   .collection('flags')
+        //   .find({})
+        //   .project({ flags: 1, _id: 0 })
+        //   .toArray();
 
         // console.log(flags);
+        // , flags[0]
+
+        // db.timezones.find({},{"places.pl":1, _id:0})
+        // db.timezones.find({"places.pl":"United States"},{offset:1, _id:0})
 
 
-
-
-
-        payload = Object.assign({}, data.data.timezone, flags[0]);
+        payload = Object.assign({}, data.data.timezone);
 
         console.log('fhfhfhfhfhfhf');
       } catch (err) {

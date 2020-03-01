@@ -20,8 +20,8 @@ export default function Form({
   placeList,
   postQuery,
 }) {
-  offsetList = [{offset:'UTC-2'}, {offset:'UTC+9'}];
-  placeList = [{place:'texas'},{place:'ohio'}];
+  // offsetList = [{offset:'UTC-2'}, {offset:'UTC+9'}];
+  // placeList = [{place:'texas'},{place:'ohio'}];
 
 
 

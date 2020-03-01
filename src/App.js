@@ -109,10 +109,14 @@ export default function App() {
       {
         status && <p className={ msg }>{ status }</p>
       }
+
       {
-        !!status && status.startsWith('Conn') && <Loading/>
+        status && status.startsWith('Conn') && <Loading/>
       }
-      <Form offsetList={ offsetList } postQuery={ postQuery }/>
+
+      {
+        !status && <Form offsetList={ offsetList } postQuery={ postQuery }/>
+      }
 
       {
         (offset || places || flags) && <Results offset={ offset } places={ places } flags={ flags }></Results>
