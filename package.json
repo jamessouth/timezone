@@ -6,10 +6,10 @@
   "browserslist": "last 2 versions, > 1%, not dead, not ie < 12",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint src/ && echo 'Linted!'",
-    "dev:front": "webpack-dev-server",
+    "lint": "eslint --fix src/ && echo 'Linted!'",
+    "dev:front": "webpack-dev-server --env.ENV=dev",
     "dev:back": "nodemon --watch src/myServer.js -r esm src/myServer.js",
-    "build": "webpack && cp -r src/assets/icons/ dist/",
+    "build": "webpack --env.ENV=prod && cp -r src/assets/icons/ dist/",
     "test": "nyc riteway -r @babel/register -r @babel/polyfill src/**/*.test.js | tap-nirvana",
     "watch": "watch \"clear && npm run -s lint && npm run -s test\" src/"
   },
@@ -21,6 +21,7 @@
     "graphql": "14.4.2",
     "mongodb": "^3.5.4",
     "parse5": "^5.1.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0"
   },
@@ -37,6 +38,7 @@
     "css-loader": "^3.4.2",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^2.5.0",
     "file-loader": "^5.1.0",
     "html-webpack-plugin": "^4.0.0-beta.11",
     "nodemon": "^2.0.2",
