@@ -8,8 +8,8 @@ const MongoClient = require('mongodb').MongoClient;
 
 // import help1 from './help1';
 import td from '../tabledata';
-import './polyfills/flatMap';
-import './polyfills/flat';
+import '../src/polyfills/flatMap';
+import '../src/polyfills/flat';
 // https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', chunks => chunks.pipe(file));
 
 const client = new MongoClient(
