@@ -18,11 +18,12 @@ const requestAsync = function(url, file, path) {
         https.get(url, chunks => {
 
             chunks.pipe(file);
-            console.log('dt: ', Date.now());
+            // console.log('dt: ', Date.now());
             fs.readFile(path, 'base64', (err, data) => {
                 if (err) return reject(err);
                 resolve(data);
             });
+            
         });
 
 
@@ -35,17 +36,19 @@ async function* gengen(arr) {
         const path = 'C:/Users/danny/Desktop/flags/' + arr[i].name + '.png';
         const file = fs.createWriteStream(path);
         const url = 'https://' + arr[i].flag;
-        let b64 = requestAsync(url, file, path);
+        const b64 = requestAsync(url, file, path);
 
-        console.log('dt2: ', Date.now());
+        // console.log('dt2: ', Date.now());
         yield b64;
+        fs.unlinkSync(path);
         
     }
 }
 
-async function loop(arr) {
+async function loop(arr, db) {
     for await (const url of gengen(arr)) {
-        console.log('res: ', url, Date.now());
+        // console.log('res: ', url, Date.now());
+        db.collection('bu2')
     }
 }
     
@@ -68,7 +71,7 @@ async function go() {
 
     await client.close();
 
-    loop(urls);
+    loop(urls, db);
 
 }
 
