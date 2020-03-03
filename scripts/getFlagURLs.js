@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
-// const https = require('https');
-// const fs = require('fs');
-// const file = fs.createWriteStream('./tabledata');
+const https = require('https');
+const fs = require('fs');
+
 
 const client = new MongoClient(
     'mongodb://localhost:27017',
@@ -10,6 +10,44 @@ const client = new MongoClient(
         useUnifiedTopology: true,
     }
     );
+
+
+const requestAsync = function(url, file, path) {
+    return new Promise((resolve, reject) => {
+
+        https.get(url, chunks => {
+
+            chunks.pipe(file);
+            console.log('dt: ', Date.now());
+            fs.readFile(path, 'base64', (err, data) => {
+                if (err) return reject(err);
+                resolve(data);
+            });
+        });
+
+
+    });
+};
+
+async function* gengen(arr) {
+
+    for (let i = 0; i < arr.length; i++) {
+        const path = 'C:/Users/danny/Desktop/flags/' + arr[i].name + '.png';
+        const file = fs.createWriteStream(path);
+        const url = 'https://' + arr[i].flag;
+        let b64 = requestAsync(url, file, path);
+
+        console.log('dt2: ', Date.now());
+        yield b64;
+        
+    }
+}
+
+async function loop(arr) {
+    for await (const url of gengen(arr)) {
+        console.log('res: ', url, Date.now());
+    }
+}
     
 async function go() {
     await client.connect();
@@ -24,20 +62,14 @@ async function go() {
     .toArray();
 
 
-    const urls = list.slice(0,3).flatMap(b => b.places.map(f => ({no: b.no, name: f.pl, flag: f.fl})));
+    const urls = list.slice(0,1).flatMap(b => b.places.map(f => ({no: b.no, name: f.pl, flag: f.fl})));
 
-    console.log('urls: ', urls);
+    // console.log('urls: ', urls);
 
     await client.close();
 
+    loop(urls);
 
-
-
-
-
-
-
-// https.get('https://en.wikipedia.org/w/api.php?action=parse&page=Time_zone&prop=text&section=11&format=json&origin=*', chunks => chunks.pipe(file));
 }
 
 go();

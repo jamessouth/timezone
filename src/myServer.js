@@ -79,6 +79,11 @@ async function serverCB(req, res) {
         // db.timezones.find({},{"places.pl":1, _id:0})
         // db.timezones.find({"places.pl":"United States"},{offset:1, _id:0})
 
+        // db.results.updateOne({"places.pl":"Kiribati (Phoenix Islands)","no":36},{$set: {"places.$.fl": kir}})
+
+
+        // upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/46px-Flag_of_the_United_States.svg.png
+
 
         payload = Object.assign({}, data.data.timezone);
 
