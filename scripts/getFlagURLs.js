@@ -15,19 +15,48 @@ const client = new MongoClient(
 const requestAsync = function(url, file, path) {
     return new Promise((resolve, reject) => {
 
-        https.get(url, async chunks => {
+        https.get(url, res => {
 
-            await chunks.pipe(file);
+            const { statusCode } = res;
+
+            console.log('st: ', statusCode);
+
+            let error;
+            if (statusCode !== 200) {
+              error = new Error('Request Failed.\n' +
+                                `Status Code: ${statusCode}`);
+            }
+
+            if (error) {
+              console.error(error.message);
+              // Consume response data to free up memory
+              res.resume();
+              return;
+            }
+            res.setEncoding('base64');
+            let data = "";
+            res.on('data', chunk => data += chunk);
+            res.on('end', () => {
+                console.log('data: ', data);
+            });
+
+
+
+
+            // await chunks.pipe(file).then(() => console.log('rere: ', Date.now()));
             // console.log('dt: ', Date.now());
             
-            fs.readFile(path, 'base64', (err, data) => {
-                if (err) reject(err);
-                setTimeout(() => {
+            // fs.readFile(path, 'base64', (err, data) => {
+            //     console.log('dt222: ', Date.now());
+            //     if (err) reject(err);
+            //     // setTimeout(() => {
 
-                    resolve(data);
-                }, 250);
-            });
+            //         resolve(data);
+            //     // }, 250);
+            // });
             
+        }).on('error', e => {
+            console.log('err: ', e);
         });
 
 
@@ -45,7 +74,7 @@ async function* gengen(arr) {
 
         // console.log('dt2: ', Date.now());
         yield Promise.all([b64, arr[i].name, arr[i].no]);
-        // fs.unlinkSync(path);
+        fs.unlinkSync(path);
         
     }
 }
@@ -71,14 +100,14 @@ async function go() {
     .toArray();
 
 
-    const urls = list.slice(1,2).flatMap(b => b.places.map(f => ({no: b.no, name: f.pl, flag: f.fl})));
+    const urls = list.slice(0,1).flatMap(b => b.places.map(f => ({no: b.no, name: f.pl, flag: f.fl})));
 
-    // console.log('urls: ', urls);
+    console.log('urls: ', urls);
 
     await client.close();
 
     // .slice(0,1)
-    loop(urls, db);
+    // loop(urls, db);
 
 }
 
