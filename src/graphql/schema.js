@@ -23,7 +23,8 @@ const PlaceType = new GraphQLObjectType({
   name: 'Place',
   fields: () => ({
     name: { type: GraphQLString },
-    flag: { type: GraphQLString }
+    flag: { type: GraphQLString },
+    offset: { type: GraphQLList(GraphQLString) }
   })
 });
 
