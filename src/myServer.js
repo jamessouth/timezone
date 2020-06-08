@@ -134,6 +134,7 @@ async function serverCB(req, res) {
       );
 
       res.writeHead(200, {
+        'Access-Control-Allow-Origin': 'http://localhost:3100',
         'Connection': 'keep-alive',
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache'

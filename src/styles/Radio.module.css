@@ -6,6 +6,30 @@ input[type="radio"]{
 input[type="radio"][value="place"]{
   margin-left: 61px;
 }
+input[type="radio"]:checked{
+  -webkit-appearance: none;
+  appearance: none;
+  padding: 3px;
+  background-clip: content-box;
+  border: 1px solid #3e2723;
+  background-color: #3e2723;
+  border-radius: 50%;
+}
+.lab{
+  position: relative;
+}
+.lab::before{
+  content: "";
+  width: 20px;
+  height: 20px;
+  display: block;
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  top: 8px;
+  right: 0px;
+  background-color: white;
+}
 @media screen and (min-width: 768px){
   input[type="radio"][value="place"]{
     margin-left: 71px;

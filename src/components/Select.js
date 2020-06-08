@@ -29,7 +29,7 @@ export default function Select({
 Select.propTypes = {
   text: PropTypes.string,
   onChange: PropTypes.func,
-  value: PropTypes.bool,
+  value: PropTypes.string,
   list: PropTypes.array,
   mapFunc: PropTypes.func
 }
