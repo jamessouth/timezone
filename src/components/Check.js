@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { input } from '../styles/Check.module.css';
+import { input, lab } from '../styles/Check.module.css';
 
 export default function Check({
   text,
@@ -10,7 +10,7 @@ export default function Check({
 }) {
 
   return (
-    <label>
+    <label className={ lab }>
       { text }
       <input
         className={ input }

@@ -1,10 +1,39 @@
+.lab{
+  position: relative;
+  z-index: 0;
+}
+.lab::before{
+  content: "";
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  z-index: -1;
+  top: 8px;
+  right: 0px;
+  background-color: #ededed;
+}
 .input{
+  -webkit-appearance: none;
+  appearance: none;
   height: 20px;
   width: 20px;
   vertical-align: middle;
   margin-left: 6px;
 }
-.input:hover,
+/* .input:hover,
 .input:focus{
   filter: drop-shadow(-4px -11px 6px #3e2723);
+} */
+/* .input:after{
+} */
+.input:checked:after{
+  content: "";
+  right: 5px;
+  top: 8px;
+  position: absolute;
+  width: 5px;
+  height: 12px;
+  border: solid #3e2723;
+  border-width: 0 5px 5px 0;
+  transform: rotate(45deg);
 }
