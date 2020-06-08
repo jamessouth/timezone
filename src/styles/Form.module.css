@@ -42,6 +42,7 @@ form{
   color: #3e2723;
   /* margin-bottom: .6em; */
   text-decoration: underline;
+  mask-image: url('../assets/masks/decaying.png');
   -webkit-mask-image: url('../assets/masks/decaying.png');
   /* self-host google font effect mask image due to cors bug introduced with chrome 79 */
 }
@@ -72,6 +73,7 @@ legend{
 }
 
 label{
+  position: relative;
   font-family: 'Redressed', cursive;
   font-size: 1.875rem;
 }

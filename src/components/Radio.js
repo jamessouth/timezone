@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { lab } from '../styles/Radio.module.css';
+import { inp } from '../styles/index.css';
 
 export default function Radio({
   text,
@@ -9,7 +10,7 @@ export default function Radio({
 }) {
 
   return (
-    <label className={ lab }>
+    <label className={ [inp, lab].join(' ') }>
       { text }
       <input
         onChange={ e => onChange(e.target.value) }

@@ -17,6 +17,7 @@ body{
   margin: .5em 0 .75em;
   color: #3e2723;
   font-family: 'Redressed', cursive;
+  mask-image: url('../assets/masks/decaying.png');
   -webkit-mask-image: url('../assets/masks/decaying.png');
   /* self-host google font effect mask image due to cors bug introduced with chrome 79 */
 }
@@ -28,6 +29,18 @@ body{
   font-family: monospace;
   width: 80%;
   /* max-width: 50%; */
+}
+.inp:hover:after,
+.inp:focus-within:after{
+  content: "";
+  width: 86%;
+  height: 20px;
+  position: absolute;
+  z-index: -1;
+  left: -12px;
+  top: 4px;
+  background-color: #ededed;
+  display: block;
 }
 
 

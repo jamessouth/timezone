@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { selectdiv } from '../styles/Select.module.css';
+import { inp, lab, selectdiv } from '../styles/Select.module.css';
 
 export default function Select({
   text,
@@ -12,15 +12,16 @@ export default function Select({
 
   return (
     <div className={ selectdiv }>
-      <label htmlFor={ text + '77' }>Select { text }:</label>
-      <select
-        value={ value }
-        id={ text + '77' }
-        onChange={ e => onChange(e.target.value) }
-      >
-        <option hidden>{ value }</option>
-        { list.map(mapFunc) }
-      </select>
+      <label className={ [inp, lab].join(' ') } htmlFor={ text + '77' }>Select { text }:
+        <select
+          value={ value }
+          id={ text + '77' }
+          onChange={ e => onChange(e.target.value) }
+        >
+          <option hidden>{ value }</option>
+          { list.map(mapFunc) }
+        </select>
+      </label>
     </div>
   );
 

@@ -3,15 +3,25 @@ select{
   height: 25px;
   background-color: #ededed;
 }
-select:focus,
-select:hover{
-  filter: drop-shadow(-4px -11px 6px #3e2723);
+.lab{
+  text-align: center;
+}
+.inp:hover:after,
+.inp:focus-within:after{
+  content: "";
+  width: 60%;
+  height: 20px;
+  position: absolute;
+  z-index: -1;
+  left: 37px;
+  top: 4px;
+  background-color: #ededed;
+  display: block;
 }
 .selectdiv{
   height: 120px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
 }
 @media screen and (min-width: 768px){
