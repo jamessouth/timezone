@@ -6,17 +6,21 @@ input[type="radio"]{
 input[type="radio"][value="place"]{
   margin-left: 61px;
 }
-input[type="radio"]:checked{
+input[type="radio"]{
   -webkit-appearance: none;
   appearance: none;
+  background-color: #ededed;
+  border: 1px solid #3e2723;
+  border-radius: 50%;
+}
+input[type="radio"]:checked{
   padding: 3px;
   background-clip: content-box;
-  border: 1px solid #3e2723;
   background-color: #3e2723;
-  border-radius: 50%;
 }
 .lab{
   position: relative;
+  z-index: 0;
 }
 .lab::before{
   content: "";
@@ -28,7 +32,7 @@ input[type="radio"]:checked{
   border-radius: 50%;
   top: 8px;
   right: 0px;
-  background-color: white;
+  background-color: #ededed;
 }
 @media screen and (min-width: 768px){
   input[type="radio"][value="place"]{
