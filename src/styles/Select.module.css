@@ -24,7 +24,7 @@ select{
   z-index: -1;
   transform: translateX(-50%);
   left: 50%;
-  top: 28px;
+  top: 29px;
   border-style: solid;
   border-color: #ededed;
   border-width: 0 0 6px 0;
@@ -36,6 +36,10 @@ select{
   align-items: center;
 }
 @media screen and (min-width: 768px){
+  .inp:hover:after,
+  .inp:focus-within:after{
+    top: 36px;
+  }
   .selectdiv{
     height: 140px;
   }
