@@ -25,8 +25,7 @@ select{
   transform: translateX(-50%);
   left: 50%;
   top: 29px;
-  border-style: solid;
-  border-color: #ededed;
+  border: solid #ededed;
   border-width: 0 0 6px 0;
 }
 .selectdiv{

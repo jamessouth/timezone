@@ -15,6 +15,7 @@ export default function App() {
       flags,
       offset,
       offsetList,
+      placeList,
       status,
     },
     dispatch,
@@ -26,7 +27,7 @@ export default function App() {
   
     const evtSource = new EventSource(server + '/connect');
   
-    ['status', 'offsetList'].forEach((action) => {
+    ['status', 'offsetList', 'placeList'].forEach((action) => {
       evtSource.addEventListener(action, function (e) { // eslint-disable-next-line no-console
         console.log(action, Date.now());
         dispatch({ type: action, payload: { [action]: e.data } });
@@ -115,7 +116,7 @@ export default function App() {
       }
 
       {
-        !status && <Form offsetList={ offsetList } postQuery={ postQuery }/>
+        !status && <Form placeList={ placeList } offsetList={ offsetList } postQuery={ postQuery }/>
       }
 
       {

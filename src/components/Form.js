@@ -23,7 +23,7 @@ export default function Form({
   // offsetList = [{offset:'UTC-2'}, {offset:'UTC+9'}];
   // placeList = [{place:'texas'},{place:'ohio'}];
 
-
+  console.log('wewere: ', placeList);
 
   const code1 = useRef('');
   const [radioValue, setRadioValue] = useState(null);

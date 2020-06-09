@@ -111,17 +111,20 @@ async function serverCB(req, res) {
   if (req.method == 'GET') {
 
 
-
-
     if (req.url == '/connect') {
       console.log('es route ', Date.now());
 
       prog.once('connected', () => {
-        res.write('event: status\ndata: Connected...getting time zones\n\n\n');
+        res.write('event: status\ndata: Connected...getting data\n\n\n');
       });
 
       prog.once('offsetsfetched', (arr) => {
         res.write(`event: offsetList\ndata: ${JSON.stringify(arr)}\n\n\n`);
+        res.write('event: status\ndata: \n\n\n');
+      });
+
+      prog.once('placesfetched', (arr) => {
+        res.write(`event: placeList\ndata: ${JSON.stringify(arr)}\n\n\n`);
         res.write('event: status\ndata: \n\n\n');
       });
 
@@ -157,17 +160,21 @@ async function serverCB(req, res) {
           .sort('no', 1)
           .toArray();
 
-        if (offsets.length == 0) {
+          // db.timezones.find({},{"places.pl":1, _id:0})
+        const places = await db
+          .collection('timezones')
+          .find({})
+          .project({ "places.pl": 1, _id: 0 })
+          .sort('no', 1)
+          .toArray();
+
+        if (offsets.length == 0 || places.length == 0) {
           throw new Error('Database error: Data not available');
         } else {
 
+          prog.emit('placesfetched', places);
           prog.emit('offsetsfetched', offsets);
         }
-
-
-
-
-
 
 
       } catch (err) {

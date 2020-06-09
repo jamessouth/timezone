@@ -3,10 +3,11 @@ const initialState = {
   flags: null,
   offset: null,
   offsetList: null,
+  placeList: null,
   status: null,
 };
 
-function reducer(state, { type, payload: { offsetList, places, flags, offset, status } }) {
+function reducer(state, { type, payload: { offsetList, placeList, places, flags, offset, status } }) {
 
 
   switch (type) {
@@ -15,6 +16,12 @@ function reducer(state, { type, payload: { offsetList, places, flags, offset, st
     return {
       ...state,
       offsetList: JSON.parse(offsetList)
+    };
+
+  case 'placeList':
+    return {
+      ...state,
+      placeList: JSON.parse(placeList)
     };
 
   case 'data':
