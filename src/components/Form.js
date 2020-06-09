@@ -23,7 +23,7 @@ export default function Form({
   // offsetList = [{offset:'UTC-2'}, {offset:'UTC+9'}];
   // placeList = [{place:'texas'},{place:'ohio'}];
 
-  placeList && console.log('wewere: ', [...new Set(placeList.flatMap(x => x.places).map(y => y.pl).sort((a, b) => a.localeCompare(b)))]);
+  placeList && console.log('wewere: ', [...new Set(placeList.flatMap(x => x.places).map(p => p.pl).sort((a, b) => a.localeCompare(b)))]);
 
   const code1 = useRef('');
   const [radioValue, setRadioValue] = useState(null);
@@ -59,12 +59,12 @@ export default function Form({
     }
   }
 
-  function mapFunctionTZ({ offset }, i) {
-    return <option key={ i } value={ offset }>{ offset }</option>;
-  }
+  // function mapFunctionTZ({ offset }, i) {
+  //   return <option key={ i } value={ offset }>{ offset }</option>;
+  // }
 
-  function mapFunctionPL({ place }, i) {
-    return <option key={ i } value={ place }>{ place }</option>;
+  function mapFunc(val, i) {
+    return <option key={ i } value={ val }>{ val }</option>;
   }
 
 
@@ -138,8 +138,8 @@ export default function Form({
                     text="offset"
                     value={ selectTimezoneValue }
                     onChange={ handleSelectChange }
-                    list={ offsetList }
-                    mapFunc={ mapFunctionTZ }
+                    list={ offsetList.map(o => o.offset) }
+                    mapFunc={ mapFunc }
                   />
 
               }
@@ -151,8 +151,8 @@ export default function Form({
                     text="place"
                     value={ selectPlaceValue }
                     onChange={ handleSelectChange }
-                    list={ placeList }
-                    mapFunc={ mapFunctionPL }
+                    list={ [...new Set(placeList.flatMap(x => x.places).map(p => p.pl).sort((a, b) => a.localeCompare(b)))] }
+                    mapFunc={ mapFunc }
                   />
 
               }
