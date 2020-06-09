@@ -6,17 +6,28 @@ select{
 .lab{
   text-align: center;
 }
+.inp:hover,
+.inp:focus-within{
+  color: #ededed;
+}
+.inp:after,
+.inp:after{
+  content: "";
+  width: 0%;
+  transition: width .2s cubic-bezier(.55, .06, .68, .19);
+}
 .inp:hover:after,
 .inp:focus-within:after{
-  content: "";
-  width: 60%;
-  height: 20px;
+  display: block;
+  width: 80%;
   position: absolute;
   z-index: -1;
-  left: 37px;
-  top: 4px;
-  background-color: #ededed;
-  display: block;
+  transform: translateX(-50%);
+  left: 50%;
+  top: 28px;
+  border-style: solid;
+  border-color: #ededed;
+  border-width: 0 0 6px 0;
 }
 .selectdiv{
   height: 120px;

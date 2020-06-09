@@ -30,17 +30,26 @@ body{
   width: 80%;
   /* max-width: 50%; */
 }
+.inp:hover,
+.inp:focus-within{
+  color: #ededed;
+}
+.inp:after,
+.inp:after{
+  content: "";
+  width: 0%;
+  transition: width .2s cubic-bezier(.55, .06, .68, .19);
+}
 .inp:hover:after,
 .inp:focus-within:after{
-  content: "";
-  width: 86%;
-  height: 20px;
+  display: block;
+  width: 70%;
   position: absolute;
   z-index: -1;
-  left: -12px;
-  top: 4px;
-  background-color: #ededed;
-  display: block;
+  top: 28px;
+  border-style: solid;
+  border-color: #ededed;
+  border-width: 0 0 6px 0;
 }
 
 
