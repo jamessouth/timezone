@@ -158,30 +158,26 @@ async function serverCB(req, res) {
           .find({})
           .project({ "places.pl": 1, offset: 1, _id: 0 })
           .sort('no', 1)
-          .toArray((err, docs) => {
-            assert.equal(err, null);
-            console.log('doc: ', docs.reduce((acc, x) => {
-              acc[0].push(x.places);
-              acc[1].push(x.offset);
-              return acc;
-            }, [[], []]));
-          });
+          .toArray();
 
-          // db.timezones.find({},{"places.pl":1, _id:0})
-        // const places = await db
-        //   .collection('timezones')
-        //   .find({})
-        //   .project({ "places.pl": 1, _id: 0 })
-        //   .sort('no', 1)
-        //   .toArray();
+        const splitData = records.reduce((acc, x) => {
+          acc[0].push(...x.places.map(p => p.pl));
+          acc[1].push(x.offset);
+          return acc;
+        }, [[], []]);
 
-        // if (records.length == 0) {
-        //   throw new Error('Database error: Data not available');
-        // } else {
+        console.log('rrr: ', splitData);
 
-          // prog.emit('placesfetched', places);
-          // prog.emit('offsetsfetched', offsets);
-        // }
+        const pList = [...new Set(splitData[0].sort((a, b) => a.localeCompare(b)))];
+        const oList = splitData[1];
+
+        if (records.length == 0) {
+          throw new Error('Database error: Data not available');
+        } else {
+
+          prog.emit('placesfetched', pList);
+          prog.emit('offsetsfetched', oList);
+        }
 
 
       } catch (err) {
