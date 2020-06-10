@@ -115,71 +115,70 @@ console.log('oi;oijoij: ', );
 
         {
           radioValue &&
-            <fieldset>
-              <legend>&nbsp;&nbsp;Select input:&nbsp;&nbsp;</legend>
-      
-                <Select
-                  text={ radioValue == 'timezone' ? "offset" : "place" }
-                  value={ radioValue == 'timezone' ? selectTimezoneValue : selectPlaceValue }
-                  onChange={ handleSelectChange }
-                  list={ radioValue == 'timezone' ? offsetList : placeList }
-                />
+            <>
+              <fieldset>
+                <legend>&nbsp;&nbsp;Select input:&nbsp;&nbsp;</legend>
+        
+                  <Select
+                    text={ radioValue == 'timezone' ? "offset" : "place" }
+                    value={ radioValue == 'timezone' ? selectTimezoneValue : selectPlaceValue }
+                    onChange={ handleSelectChange }
+                    list={ radioValue == 'timezone' ? offsetList : placeList }
+                  />
 
-            </fieldset>
-        }
+              </fieldset>
 
-        {
-          radioValue &&
-            <fieldset>
-              <legend>&nbsp;&nbsp;Select data:&nbsp;&nbsp;</legend>
+              <fieldset>
+                <legend>&nbsp;&nbsp;Select data:&nbsp;&nbsp;</legend>
 
-              {
-                radioValue == 'timezone' &&
-                  <div className={ [check, checkdiv].join(' ') }>
+                {
+                  radioValue == 'timezone' &&
+                    <div className={ [check, checkdiv].join(' ') }>
 
-                    <Check
-                      text="offset"
-                      onChange={ () => setOffsetTZCheckboxValue(val => !val) }
-                      value={ offsetTZCheckboxValue }
-                    />
+                      <Check
+                        text="offset"
+                        onChange={ () => setOffsetTZCheckboxValue(val => !val) }
+                        value={ offsetTZCheckboxValue }
+                      />
 
-                    <p className={ [p, p2].join(' ') }>places:</p>
+                      <p className={ [p, p2].join(' ') }>places:</p>
 
-                    <Check
-                      text="&#8735;name"
-                      onChange={ () => setNameTZCheckboxValue(val => !val) }
-                      value={ nameTZCheckboxValue }
-                    />
+                      <Check
+                        text="&#8735;name"
+                        onChange={ () => setNameTZCheckboxValue(val => !val) }
+                        value={ nameTZCheckboxValue }
+                      />
 
-                    <Check
-                      text="&#8735;&nbsp;&nbsp;flag"
-                      onChange={ () => setFlagCheckboxValue(val => !val) }
-                      value={ flagCheckboxValue }
-                      dis={ !nameTZCheckboxValue }
-                    />
+                      <Check
+                        text="&#8735;&nbsp;&nbsp;flag"
+                        onChange={ () => setFlagCheckboxValue(val => !val) }
+                        value={ flagCheckboxValue }
+                        dis={ !nameTZCheckboxValue }
+                      />
 
-                  </div>
-              }
+                    </div>
+                }
 
-              {
-                radioValue == 'place' &&
-                  <div className={ [check, checkdiv2].join(' ') }>
+                {
+                  radioValue == 'place' &&
+                    <div className={ [check, checkdiv2].join(' ') }>
 
-                    <Check
-                      text="name"
-                      onChange={ () => setNamePLCheckboxValue(val => !val) }
-                      value={ namePLCheckboxValue }
-                    />
+                      <Check
+                        text="name"
+                        onChange={ () => setNamePLCheckboxValue(val => !val) }
+                        value={ namePLCheckboxValue }
+                      />
 
-                    <Check
-                      text="offsets"
-                      onChange={ () => setOffsetPLCheckboxValue(val => !val) }
-                      value={ offsetPLCheckboxValue }
-                    />
+                      <Check
+                        text="offsets"
+                        onChange={ () => setOffsetPLCheckboxValue(val => !val) }
+                        value={ offsetPLCheckboxValue }
+                      />
 
-                  </div>
-              }
-            </fieldset>
+                    </div>
+                }
+              </fieldset>
+            </>
         }
 
 
