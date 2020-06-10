@@ -15,7 +15,7 @@ const http = require('http');
 const path = require('path');
 // const fs = require('fs');
 // const https = require('https');
-// const assert = require('assert');
+const assert = require('assert');
 
 
 const MongoClient = require('mongodb').MongoClient;
@@ -153,28 +153,35 @@ async function serverCB(req, res) {
         db = client.db('tzs');
         console.log('Connected correctly to mongo server!', !!db);
         prog.emit('connected');
-        const offsets = await db
+        const records = await db
           .collection('timezones')
           .find({})
-          .project({ offset: 1, _id: 0 })
+          .project({ "places.pl": 1, offset: 1, _id: 0 })
           .sort('no', 1)
-          .toArray();
+          .toArray((err, docs) => {
+            assert.equal(err, null);
+            console.log('doc: ', docs.reduce((acc, x) => {
+              acc[0].push(x.places);
+              acc[1].push(x.offset);
+              return acc;
+            }, [[], []]));
+          });
 
           // db.timezones.find({},{"places.pl":1, _id:0})
-        const places = await db
-          .collection('timezones')
-          .find({})
-          .project({ "places.pl": 1, _id: 0 })
-          .sort('no', 1)
-          .toArray();
+        // const places = await db
+        //   .collection('timezones')
+        //   .find({})
+        //   .project({ "places.pl": 1, _id: 0 })
+        //   .sort('no', 1)
+        //   .toArray();
 
-        if (offsets.length == 0 || places.length == 0) {
-          throw new Error('Database error: Data not available');
-        } else {
+        // if (records.length == 0) {
+        //   throw new Error('Database error: Data not available');
+        // } else {
 
-          prog.emit('placesfetched', places);
-          prog.emit('offsetsfetched', offsets);
-        }
+          // prog.emit('placesfetched', places);
+          // prog.emit('offsetsfetched', offsets);
+        // }
 
 
       } catch (err) {
