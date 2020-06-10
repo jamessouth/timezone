@@ -32,14 +32,6 @@ export default function Form({
   const [offsetPLCheckboxValue, setOffsetPLCheckboxValue] = useState(false);
   const [queryText, setQueryText] = useState(null);
   const [disableSendBtn, setDisableSendBtn] = useState(true);
-  const oList = radioValue && offsetList
-                                .map(o => o.offset)
-                                .map((val, i) => <option key={ i } value={ val }>{ val }</option>);
-  const pList = radioValue && [...new Set(placeList
-                                            .flatMap(x => x.places)
-                                            .map(p => p.pl)
-                                            .sort((a, b) => a.localeCompare(b)))]
-                                            .map((val, i) => <option key={ i } value={ val }>{ val }</option>);
 
 console.log('oi;oijoij: ', );
 
@@ -130,7 +122,7 @@ console.log('oi;oijoij: ', );
                   text={ radioValue == 'timezone' ? "offset" : "place" }
                   value={ radioValue == 'timezone' ? selectTimezoneValue : selectPlaceValue }
                   onChange={ handleSelectChange }
-                  list={ radioValue == 'timezone' ? oList : pList }
+                  list={ radioValue == 'timezone' ? offsetList : placeList }
                 />
 
             </fieldset>

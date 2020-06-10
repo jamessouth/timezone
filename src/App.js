@@ -116,7 +116,7 @@ export default function App() {
       }
 
       {
-        !status && <Form placeList={ placeList } offsetList={ offsetList } postQuery={ postQuery }/>
+        placeList && offsetList && !status && <Form placeList={ placeList } offsetList={ offsetList } postQuery={ postQuery }/>
       }
 
       {
