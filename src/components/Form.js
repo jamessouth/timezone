@@ -20,10 +20,6 @@ export default function Form({
   placeList,
   postQuery,
 }) {
-  // offsetList = [{offset:'UTC-2'}, {offset:'UTC+9'}];
-  // placeList = [{place:'texas'},{place:'ohio'}];
-
-  placeList && console.log('wewere: ', [...new Set(placeList.flatMap(x => x.places).map(p => p.pl).sort((a, b) => a.localeCompare(b)))]);
 
   const code1 = useRef('');
   const [radioValue, setRadioValue] = useState(null);
@@ -36,8 +32,16 @@ export default function Form({
   const [offsetPLCheckboxValue, setOffsetPLCheckboxValue] = useState(false);
   const [queryText, setQueryText] = useState(null);
   const [disableSendBtn, setDisableSendBtn] = useState(true);
+  const oList = radioValue && offsetList
+                                .map(o => o.offset)
+                                .map((val, i) => <option key={ i } value={ val }>{ val }</option>);
+  const pList = radioValue && [...new Set(placeList
+                                            .flatMap(x => x.places)
+                                            .map(p => p.pl)
+                                            .sort((a, b) => a.localeCompare(b)))]
+                                            .map((val, i) => <option key={ i } value={ val }>{ val }</option>);
 
-
+console.log('oi;oijoij: ', );
 
   function handleRadioChange(val) {
     setRadioValue(val);
@@ -58,16 +62,6 @@ export default function Form({
       setSelectPlaceValue(val);
     }
   }
-
-  // function mapFunctionTZ({ offset }, i) {
-  //   return <option key={ i } value={ offset }>{ offset }</option>;
-  // }
-
-  function mapFunc(val, i) {
-    return <option key={ i } value={ val }>{ val }</option>;
-  }
-
-
 
   useEffect(() => {
     setQueryText(code1.current.textContent);
@@ -131,31 +125,14 @@ export default function Form({
           radioValue &&
             <fieldset>
               <legend>&nbsp;&nbsp;Select input:&nbsp;&nbsp;</legend>
-              {
-                radioValue == 'timezone' &&
+      
+                <Select
+                  text={ radioValue == 'timezone' ? "offset" : "place" }
+                  value={ radioValue == 'timezone' ? selectTimezoneValue : selectPlaceValue }
+                  onChange={ handleSelectChange }
+                  list={ radioValue == 'timezone' ? oList : pList }
+                />
 
-                  <Select
-                    text="offset"
-                    value={ selectTimezoneValue }
-                    onChange={ handleSelectChange }
-                    list={ offsetList.map(o => o.offset) }
-                    mapFunc={ mapFunc }
-                  />
-
-              }
-
-              {
-                radioValue == 'place' &&
-
-                  <Select
-                    text="place"
-                    value={ selectPlaceValue }
-                    onChange={ handleSelectChange }
-                    list={ [...new Set(placeList.flatMap(x => x.places).map(p => p.pl).sort((a, b) => a.localeCompare(b)))] }
-                    mapFunc={ mapFunc }
-                  />
-
-              }
             </fieldset>
         }
 

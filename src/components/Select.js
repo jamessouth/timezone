@@ -7,7 +7,6 @@ export default function Select({
   onChange,
   value,
   list,
-  mapFunc,
 }) {
 
   return (
@@ -19,7 +18,7 @@ export default function Select({
           onChange={ e => onChange(e.target.value) }
         >
           <option hidden>{ value }</option>
-          { list.map(mapFunc) }
+          { list }
         </select>
       </label>
     </div>
@@ -31,6 +30,5 @@ Select.propTypes = {
   text: PropTypes.string,
   onChange: PropTypes.func,
   value: PropTypes.string,
-  list: PropTypes.array,
-  mapFunc: PropTypes.func
+  list: PropTypes.array
 }
