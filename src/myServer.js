@@ -118,15 +118,11 @@ async function serverCB(req, res) {
         res.write('event: status\ndata: Connected...getting data\n\n\n');
       });
 
-      prog.once('offsetsfetched', (arr) => {
-        res.write(`event: offsetList\ndata: ${JSON.stringify(arr)}\n\n\n`);
+      prog.once('datafetched', (arr) => {
+        res.write(`event: dataLists\ndata: ${JSON.stringify(arr)}\n\n\n`);
         res.write('event: status\ndata: \n\n\n');
       });
 
-      prog.once('placesfetched', (arr) => {
-        res.write(`event: placeList\ndata: ${JSON.stringify(arr)}\n\n\n`);
-        res.write('event: status\ndata: \n\n\n');
-      });
 
       client = new MongoClient(
         'mongodb://localhost:27017',
@@ -166,7 +162,7 @@ async function serverCB(req, res) {
           return acc;
         }, [[], []]);
 
-        console.log('rrr: ', splitData);
+        // console.log('rrr: ', splitData);
 
         const pList = [...new Set(splitData[0].sort((a, b) => a.localeCompare(b)))];
         const oList = splitData[1];
@@ -175,8 +171,7 @@ async function serverCB(req, res) {
           throw new Error('Database error: Data not available');
         } else {
 
-          prog.emit('placesfetched', pList);
-          prog.emit('offsetsfetched', oList);
+          prog.emit('datafetched', [oList, pList]);
         }
 
 

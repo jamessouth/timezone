@@ -9,28 +9,18 @@ const initialState = {
   status: null,
 };
 
-function reducer(state, { type, payload: { offsetList, placeList, places, flags, offset, status } }) {
+const makeOptions = arr => arr.map((val, i) => <option key={ i } value={ val }>{ val }</option>);
 
-
+function reducer(state, { type, payload: { dataLists, places, flags, offset, status } }) {
+  
   switch (type) {
 
-  case 'offsetList':
+  case 'dataLists':
+    const [o, p] = JSON.parse(dataLists);
     return {
       ...state,
-      offsetList: JSON
-                    .parse(offsetList)
-                    .map(o => o.offset)
-                    .map((val, i) => <option key={ i } value={ val }>{ val }</option>)
-    };
-
-  case 'placeList':
-    return {
-      ...state,
-      placeList: [...new Set(JSON.parse(placeList)
-                   .flatMap(x => x.places)
-                   .map(p => p.pl)
-                   .sort((a, b) => a.localeCompare(b)))]
-                   .map((val, i) => <option key={ i } value={ val }>{ val }</option>)
+      offsetList: makeOptions(o),
+      placeList: makeOptions(p)
     };
 
   case 'data':

@@ -27,7 +27,7 @@ export default function App() {
   
     const evtSource = new EventSource(server + '/connect');
   
-    ['status', 'offsetList', 'placeList'].forEach((action) => {
+    ['status', 'dataLists'].forEach((action) => {
       evtSource.addEventListener(action, function (e) { // eslint-disable-next-line no-console
         console.log(action, Date.now());
         dispatch({ type: action, payload: { [action]: e.data } });
