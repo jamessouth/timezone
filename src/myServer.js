@@ -152,12 +152,12 @@ async function serverCB(req, res) {
         const records = await db
           .collection('timezones')
           .find({})
-          .project({ "places.pl": 1, offset: 1, _id: 0 })
+          .project({ "places.name": 1, offset: 1, _id: 0 })
           .sort('no', 1)
           .toArray();
 
         const splitData = records.reduce((acc, x) => {
-          acc[0].push(...x.places.map(p => p.pl));
+          acc[0].push(...x.places.map(p => p.name));
           acc[1].push(x.offset);
           return acc;
         }, [[], []]);
