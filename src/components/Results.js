@@ -19,8 +19,10 @@ export default function Results({
   const locations = places ?
     places.map(({name, flag}, ind) =>
       <li className={ li } key={ ind }>
-       
-        <img className={ img } src={ 'data:image/png;base64,' + flag }/>
+       {
+         flag &&
+          <img className={ img } src={ `data:image/png;base64,${flag}` }/>
+       }
 
 
         <p className={ p }>
