@@ -20,7 +20,7 @@ export default function Results({
   const locations = places ?
     places.map((place, ind) =>
       <li className={ li } key={ ind }>
-        <img className={ img } src={ 'data:image/png;base64,' + flags[ind] }/>
+       
         <p className={ p }>
           { place }
         </p>
@@ -30,6 +30,7 @@ export default function Results({
   // , 'font-effect-decaying'
   // [h3, 'font-effect-distressed-wood'].join(' ')
   // [h3, 'font-effect-distressed-wood'].join(' ')
+  // <img className={ img } src={ 'data:image/png;base64,' + flags[ind] }/>
 
   return (
     <section>
