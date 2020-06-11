@@ -24,7 +24,7 @@ const PlaceType = new GraphQLObjectType({
   fields: () => ({
     name: { type: GraphQLString },
     flag: { type: GraphQLString },
-    offset: { type: GraphQLList(GraphQLString) }
+    offsets: { type: GraphQLList(GraphQLString) }
   })
 });
 
@@ -66,7 +66,7 @@ const RootQuery = new GraphQLObjectType({
 
           const docs = await db
             .collection('timezones')
-            .find({ 'places.pl': name })
+            .find({ 'places.name': name })
             .project({ offset: 1, _id: 0 })
             .toArray();
           console.log('dddddd', docs);
