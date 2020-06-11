@@ -14,15 +14,17 @@ import {
 export default function Results({
   places,
   offset,
-  flags,
 }) {
   
   const locations = places ?
-    places.map((place, ind) =>
+    places.map(({name, flag}, ind) =>
       <li className={ li } key={ ind }>
        
+        <img className={ img } src={ 'data:image/png;base64,' + flag }/>
+
+
         <p className={ p }>
-          { place }
+          { name }
         </p>
       </li>) :
     null;
@@ -30,7 +32,7 @@ export default function Results({
   // , 'font-effect-decaying'
   // [h3, 'font-effect-distressed-wood'].join(' ')
   // [h3, 'font-effect-distressed-wood'].join(' ')
-  // <img className={ img } src={ 'data:image/png;base64,' + flags[ind] }/>
+  
 
   return (
     <section>
@@ -48,6 +50,5 @@ export default function Results({
 
 Results.propTypes = {
   places: PropTypes.array,
-  offset: PropTypes.string,
-  flags: PropTypes.array
+  offset: PropTypes.string
 }

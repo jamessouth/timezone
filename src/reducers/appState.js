@@ -2,7 +2,6 @@ import React from 'react';
 
 const initialState = {
   places: null,
-  flags: null,
   offset: null,
   offsetList: null,
   placeList: null,
@@ -11,7 +10,7 @@ const initialState = {
 
 const makeOptions = arr => arr.map((val, i) => <option key={ i } value={ val }>{ val }</option>);
 
-function reducer(state, { type, payload: { dataLists, places, flags, offset, status } }) {
+function reducer(state, { type, payload: { dataLists, places, offset, status } }) {
   
   switch (type) {
 
@@ -27,7 +26,6 @@ function reducer(state, { type, payload: { dataLists, places, flags, offset, sta
     return {
       ...state,
       places,
-      flags,
       offset,
       status
     };

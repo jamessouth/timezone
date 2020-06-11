@@ -12,7 +12,6 @@ export default function App() {
   const [
     {
       places,
-      flags,
       offset,
       offsetList,
       placeList,
@@ -120,7 +119,7 @@ export default function App() {
       }
 
       {
-        (offset || places || flags) && <Results offset={ offset } places={ places } flags={ flags }></Results>
+        (offset || places) && <Results offset={ offset } places={ places }></Results>
       }
 
     </main>

@@ -58,7 +58,7 @@
     margin-bottom: 0;
   }
   .ul{
-    width: 98%;
+    width: 96%;
     margin: auto;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(292px, 1fr));
