@@ -57,7 +57,7 @@ async function serverCB(req, res) {
       try {
         data = await graphql({ schema, source, contextValue: db });
         // if (data.data) {
-        // console.log('mys', data);
+        console.log('mys', data.data.timezone);
         if (data.errors) {
           console.log();
           console.log(data.errors);
@@ -95,7 +95,7 @@ async function serverCB(req, res) {
         console.log('pl ', payload);
         console.log();
         // client && client.close();
-        // res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
+        res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
         res.end(JSON.stringify(payload));
       }
     });
