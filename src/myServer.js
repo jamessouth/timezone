@@ -37,7 +37,6 @@ async function serverCB(req, res) {
 
 
   if (req.method == 'POST') {
-    console.log('reeeee: ', req.headers);
     let source = '';
     // try {
     // const client = new MongoClient(
@@ -76,11 +75,6 @@ async function serverCB(req, res) {
 
         // console.log(flags);
         // , flags[0]
-
-        // db.timezones.findOne({"places.name":"Georgia (USA)"},{"places.flag.$":1, _id:0})
-
-
-
 
         // db.timezones.find({},{"places.pl":1, _id:0})
         // db.timezones.find({"places.pl":"United States"},{offset:1, _id:0})
