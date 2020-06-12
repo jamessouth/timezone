@@ -77,10 +77,14 @@ export default function App() {
 
   // }
 
-  async function postQuery(body) {
+  async function postQuery(body, query) {
     try {
       let data = await fetch(server, {
         method: 'POST',
+        headers: {
+          // 'X-Query-Type': `${query}`,
+          'Content-Type': 'text/plain;charset=UTF-8',
+        },
         body
       });
       if (data.ok) {

@@ -218,7 +218,7 @@ console.log('oi;oijoij: ', );
   <button
     type="button"
     className={ button }
-    onClick={ () => postQuery(queryText) }
+    onClick={ () => postQuery(queryText, radioValue) }
     { ...(disableSendBtn ? { 'disabled': true } : {}) }
   >
         submit query
