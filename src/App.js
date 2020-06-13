@@ -13,6 +13,9 @@ export default function App() {
     {
       places,
       offset,
+      flag,
+      name,
+      offsets,
       offsetList,
       placeList,
       status,
@@ -91,7 +94,7 @@ export default function App() {
         data = await data.json(); // eslint-disable-next-line no-console
         console.log(data);
 
-        dispatch({ type: 'data', payload: data });
+        dispatch({ type, payload: data });
 
       } else {
         throw new Error('Network problem - response not ok');
@@ -124,6 +127,10 @@ export default function App() {
 
       {
         (offset || places) && <Results offset={ offset } places={ places }></Results>
+      }
+
+      {
+        (offsets || name) && <Results offsets={ offsets } name={ name } flag={ flag }></Results>
       }
 
     </main>

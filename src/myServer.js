@@ -56,11 +56,11 @@ async function serverCB(req, res) {
     });
     req.on('end', async () => {
       const {source, type} = JSON.parse(query);
-      console.log('src ', source);
+      // console.log('src ', source);
       try {
         data = await graphql({ schema, source, contextValue: db });
         // if (data.data) {
-        console.log('mys', Object.assign({}, data.data[type]));
+        // console.log('mys', Object.assign({}, data.data[type]));
         if (data.errors) {
           console.log();
           console.log(data.errors);
@@ -90,14 +90,14 @@ async function serverCB(req, res) {
         // upload.wikimedia.org/wikipedia/en/thumb/a/a4/Flag_of_the_United_States.svg/46px-Flag_of_the_United_States.svg.png
 
 
-        payload = Object.assign({}, data.data.timezone);
+        payload = Object.assign({}, data.data[type]);
 
         console.log('fhfhfhfhfhfhf');
       } catch (err) {
         console.log('llllllllllllll', err);
         payload = { status: `${err.name}: ${err.message}. Number of documents retrieved not equal to 1.` };
       } finally {
-        console.log('pl ', payload);
+        // console.log('pl ', payload);
         console.log();
         // client && client.close();
         res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
