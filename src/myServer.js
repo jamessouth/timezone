@@ -60,7 +60,7 @@ async function serverCB(req, res) {
       try {
         data = await graphql({ schema, source, contextValue: db });
         // if (data.data) {
-        console.log('mys', data.data[type]);
+        console.log('mys', Object.assign({}, data.data[type]));
         if (data.errors) {
           console.log();
           console.log(data.errors);

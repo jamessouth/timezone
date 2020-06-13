@@ -209,6 +209,7 @@ console.log('oi;oijoij: ', );
       <code ref={ code1 }>{`{
   place(name: "${selectPlaceValue}") {
     ${namePLCheckboxValue ? 'name' : ''}
+    flag
     ${offsetPLCheckboxValue ? 'offsets' : ''}
   }
 }`}</code>
