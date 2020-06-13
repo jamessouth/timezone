@@ -77,7 +77,11 @@ export default function App() {
 
   // }
 
-  async function postQuery(body) {
+  async function postQuery(source, type) {
+    const body = JSON.stringify({
+      source,
+      type,
+    });
     try {
       let data = await fetch(server, {
         method: 'POST',

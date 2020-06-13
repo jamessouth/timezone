@@ -15,7 +15,7 @@ const http = require('http');
 const path = require('path');
 // const fs = require('fs');
 // const https = require('https');
-const assert = require('assert');
+// const assert = require('assert');
 
 
 const MongoClient = require('mongodb').MongoClient;
@@ -36,8 +36,10 @@ async function serverCB(req, res) {
   let payload, data;
 
 
+
+
   if (req.method == 'POST') {
-    let source = '';
+    let query = '';
     // try {
     // const client = new MongoClient(
     //   'mongodb://localhost:27017',
@@ -50,14 +52,15 @@ async function serverCB(req, res) {
     // const db = client.db('tzs');
     req.on('data', chk => {
       // console.log('ch ', chk);
-      source += chk;
+      query += chk;
     });
     req.on('end', async () => {
-      // console.log('src ', source);
+      const {source, type} = JSON.parse(query);
+      console.log('src ', source);
       try {
         data = await graphql({ schema, source, contextValue: db });
         // if (data.data) {
-        console.log('mys', data.data.timezone);
+        console.log('mys', data.data[type]);
         if (data.errors) {
           console.log();
           console.log(data.errors);
@@ -66,6 +69,8 @@ async function serverCB(req, res) {
 
         }
 
+
+        // db.timezones.findOne({"places.name":"Georgia (USA)"},{"places.flag.$":1, _id:0})
 
         // const flags = await db
         //   .collection('flags')

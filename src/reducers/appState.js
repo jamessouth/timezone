@@ -16,7 +16,6 @@ function reducer(state, { type, payload: { dataLists, places, offset, status } }
 
   case 'dataLists':
     const [o, p] = JSON.parse(dataLists);
-    console.log('asdaf: ', o, p);
     return {
       ...state,
       offsetList: makeOptions(o),

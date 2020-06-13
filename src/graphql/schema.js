@@ -64,14 +64,29 @@ const RootQuery = new GraphQLObjectType({
           // throw new Error('arrrg');
           // let docs;
 
+          // db.timezones.findOne({"places.name":"Georgia (USA)"},{"places.flag.$":1, _id:0})
+
           const docs = await db
             .collection('timezones')
             .find({ 'places.name': name })
             .project({ offset: 1, _id: 0 })
             .toArray();
-          console.log('dddddd', docs);
-          assert.equal(1, docs.length);
-          return docs[0];
+
+          const flag = await db
+            .collection('timezones')
+            .find({ 'places.name': name })
+            .project({ 'places.flag.$': 1, _id: 0 })
+            .toArray();
+
+
+
+          console.log('popopopo');
+          // assert.equal(1, docs.length);
+          return {
+            name,
+            flag: flag[0].places[0].flag,
+            offsets: [...docs.map(o => o.offset)]
+          };
 
 
 
