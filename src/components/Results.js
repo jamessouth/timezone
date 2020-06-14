@@ -8,7 +8,7 @@ import {
   li,
   span,
   p,
-  img,
+  loc,
 } from '../styles/Results.module.css';
 
 export default function Results({
@@ -22,14 +22,22 @@ export default function Results({
   const locations = places ?
     places.map(({name, flag}, ind) =>
       <li className={ li } key={ ind }>
-       {
-         flag &&
-          <img className={ img } src={ `data:image/png;base64,${flag}` }/>
-       }
-
+        {
+          flag &&
+            <img style={{ marginRight: '10px' }} src={ `data:image/png;base64,${flag}` }/>
+        }
 
         <p className={ p }>
           { name }
+        </p>
+      </li>) :
+    null;
+
+  const tzs = offsets ?
+    offsets.map((off, ind) =>
+      <li className={ li } key={ ind }>
+        <p className={ p }>
+          { off }
         </p>
       </li>) :
     null;
@@ -54,17 +62,19 @@ export default function Results({
             <h3 className={ h3 }>
               Location:
             </h3>
-            <img
-              className={ img }
-              src={ `data:image/png;base64,${flag}` }
-            />
-            <span className={ span }>
-              { name }
-            </span>
+            <div className={ loc }>
+              <img
+                style={{ marginRight: '10px' }}
+                src={ `data:image/png;base64,${flag}` }
+              />
+              <span className={ span }>
+                { name }
+              </span>
+            </div>
           </>
       }
       {
-        offsets && <><h3 className={ h3 }>Offsets:</h3><ul className={ ul }>{ offsets }</ul></>
+        offsets && <><h3 className={ h3 }>Time Zones:</h3><ul className={ ul }>{ tzs }</ul></>
       }
     </section>
   );
