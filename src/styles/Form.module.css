@@ -6,7 +6,7 @@ form{
   margin: 3em 0;
 }
 .form{
-  height: 680px;
+  /* height: 680px; */
 
 }
 .button{
@@ -26,7 +26,7 @@ form{
   color: #e83b17;
 }
 .button:focus,
-.button:hover{
+.button:hover:not(:disabled){
   box-shadow: -4px -11px 9px 1px #3e2723;
 }
 *:disabled{
@@ -50,6 +50,7 @@ form{
 fieldset{
   border: 1px solid #3e2723;
   width: 80%;
+  margin-bottom: 3em;
   max-width: 300px;
   background: linear-gradient(0deg, #ddb77f63 15%, transparent);
 }

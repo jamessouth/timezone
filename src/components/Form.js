@@ -92,7 +92,7 @@ console.log('oi;oijoij: ', );
   return (
     <section>
       <h2 className={ h2 }>Construct GraphQL Query</h2>
-      <form className={ radioValue ? form : '' }>
+      <form className={ form }>
 
         <fieldset>
           <legend>&nbsp;&nbsp;Select query:&nbsp;&nbsp;</legend>
