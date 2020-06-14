@@ -92,9 +92,18 @@ export default function App() {
       });
       if (data.ok) {
         data = await data.json(); // eslint-disable-next-line no-console
-        console.log(data);
+        const payload = Object.assign({
+          places: null,
+          offset: null,
+          flag: null,
+          name: null,
+          offsets: null,
+        }, data)
 
-        dispatch({ type, payload: data });
+
+        console.log(payload);
+
+        dispatch({ type: 'data', payload });
 
       } else {
         throw new Error('Network problem - response not ok');
@@ -126,11 +135,14 @@ export default function App() {
       }
 
       {
-        (offset || places) && <Results offset={ offset } places={ places }></Results>
-      }
-
-      {
-        (offsets || name) && <Results offsets={ offsets } name={ name } flag={ flag }></Results>
+        (offset || places || offsets || name) &&
+          <Results
+            offset={ offset }
+            places={ places }
+            offsets={ offsets }
+            name={ name }
+            flag={ flag }
+          ></Results>
       }
 
     </main>

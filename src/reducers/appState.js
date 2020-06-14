@@ -25,17 +25,11 @@ function reducer(state, { type, payload: { dataLists, places, offset, flag, name
       placeList: makeOptions(p)
     };
 
-  case 'timezone':
+  case 'data':
     return {
       ...state,
       places,
       offset,
-      status
-    };
-
-  case 'place':
-    return {
-      ...state,
       name,
       flag,
       offsets,
