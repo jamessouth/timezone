@@ -9,6 +9,7 @@ import {
   span,
   p,
   loc,
+  img,
 } from '../styles/Results.module.css';
 
 export default function Results({
@@ -24,7 +25,7 @@ export default function Results({
       <li className={ li } key={ ind }>
         {
           flag &&
-            <img style={{ marginRight: '10px' }} src={ `data:image/png;base64,${flag}` }/>
+            <img className={ img } src={ `data:image/png;base64,${flag}` }/>
         }
 
         <p className={ p }>
@@ -64,7 +65,7 @@ export default function Results({
             </h3>
             <div className={ loc }>
               <img
-                style={{ marginRight: '10px' }}
+                className={ img }
                 src={ `data:image/png;base64,${flag}` }
               />
               <span className={ span }>
