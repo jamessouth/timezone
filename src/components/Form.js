@@ -8,7 +8,6 @@ import {
   check,
   checkdiv,
   checkdiv2,
-  form,
   h2,
   p,
   p2,
@@ -92,7 +91,7 @@ console.log('oi;oijoij: ', );
   return (
     <section>
       <h2 className={ h2 }>Construct GraphQL Query</h2>
-      <form className={ form }>
+      <form>
 
         <fieldset>
           <legend>&nbsp;&nbsp;Select query:&nbsp;&nbsp;</legend>

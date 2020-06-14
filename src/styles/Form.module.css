@@ -5,10 +5,8 @@ form{
   align-items: center;
   margin: 3em 0;
 }
-.form{
-  /* height: 680px; */
 
-}
+
 .button{
   margin: 0 auto;
   display: block;
@@ -149,10 +147,8 @@ section{
     height: 140px;
   }
 
-  .form{
-    /* flex-direction: row; */
-    height: 900px;
-  }
+
+  
   .p{
     margin-bottom: 1rem;
   }
