@@ -1,118 +1,25 @@
-import React, { useEffect, useReducer } from 'react';
+import React from 'react';
 import Form from './components/Form';
 import Loading from './components/Loading';
 import Results from './components/Results';
 // import Status from './components/Status';
-import { initialState, reducer } from './reducers/appState';
+// import { initialState, reducer } from './reducers/appState';
 import { h1, msg } from './styles/index.css';
+import useAppState from './hooks/useAppState';
 
 export default function App() {
-  const server = 'http://localhost:3101';
 
-  const [
-    {
-      places,
-      offset,
-      flag,
-      name,
-      offsets,
-      offsetList,
-      placeList,
-      status,
-    },
-    dispatch,
-  ] = useReducer(reducer, initialState);
-  
-  
-  useEffect(() => { // eslint-disable-next-line no-console
-    console.log('ddd ', Date.now());
-  
-    const evtSource = new EventSource(server + '/connect');
-  
-    ['status', 'dataLists'].forEach((action) => {
-      evtSource.addEventListener(action, function (e) { // eslint-disable-next-line no-console
-        console.log(action, Date.now());
-        dispatch({ type: action, payload: { [action]: e.data } });
-      }, false);
-    });
-  
-    return function cleanup() {
-      evtSource.close();
-    };
-  
-  }, []);
-
-
-
-
-
-  // function sendMsg() {
-  //   // .map(x => String.fromCharcode(x)
-
-  //   // console.log(new Date());
-  //   fetch(server + '/populateOffsets')
-  //   // .then(x => x.json())
-  //     .then(async res => {
-  //       let bod = '';
-  //       const readr = res.body.getReader();
-  //       const data = await readr.read();
-  //       async function processData({done, value}) {
-  //         if (done) {
-  //           try {
-  //             return JSON.parse(bod);
-  //           } catch (err) { // eslint-disable-next-line no-console
-  //             console.log(bod);
-  //             const data = { error: bod };
-  //             return dispatch({ type: 'data', payload: data });
-  //           }
-  //         }
-  //         bod += new TextDecoder('utf-8').decode(value);
-  //         return readr.read().then(processData);
-  //       }
-  //       return await processData(data);
-  //     })
-  //     .then(offsetList => {
-  //       dispatch({ type: 'status', payload: { 'status': '' } });
-  //       dispatch({ type: 'offsetList', payload: { offsetList } });
-  //       if (error) dispatch({ type: 'data', payload: {} });
-  //     });
-
-
-  // }
-
-  async function postQuery(source, type) {
-    const body = JSON.stringify({
-      source,
-      type,
-    });
-    try {
-      let data = await fetch(server, {
-        method: 'POST',
-        body
-      });
-      if (data.ok) {
-        data = await data.json(); // eslint-disable-next-line no-console
-        const payload = Object.assign({
-          places: null,
-          offset: null,
-          flag: null,
-          name: null,
-          offsets: null,
-        }, data)
-
-
-        console.log(payload);
-
-        dispatch({ type: 'data', payload });
-
-      } else {
-        throw new Error('Network problem - response not ok');
-      }
-    } catch (err) { // eslint-disable-next-line no-console
-      console.log(err);
-    }
-  }
-
+  const {
+    flag,
+    name,
+    offset,
+    offsetList,
+    offsets,
+    placeList,
+    places,
+    postQuery,
+    status,
+  } = useAppState();
 
   // form validation
   // [h1, 'font-effect-decaying'].join(' ')
