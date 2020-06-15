@@ -43,6 +43,10 @@ export default function Results({
       </li>) :
     null;
 
+  const TZtitle = tzs && tzs.length == 1 ? 'Time Zone:' : 'Time Zones:';
+  
+  const PLtitle = locations && locations.length == 1 ? 'Place:' : 'Places:';
+
   // , 'font-effect-decaying'
   // [h3, 'font-effect-distressed-wood'].join(' ')
   // [h3, 'font-effect-distressed-wood'].join(' ')
@@ -55,7 +59,7 @@ export default function Results({
         offset && <><h3 className={ h3 }>Offset:</h3><span className={ span }>{ offset }</span></>
       }
       {
-        places && <><h3 className={ h3 }>Places:</h3><ul className={ ul }>{ locations }</ul></>
+        places && <><h3 className={ h3 }>{ PLtitle }</h3><ul className={ ul }>{ locations }</ul></>
       }
       {
         name &&
@@ -75,7 +79,7 @@ export default function Results({
           </>
       }
       {
-        offsets && <><h3 className={ h3 }>Time Zones:</h3><ul className={ ul }>{ tzs }</ul></>
+        offsets && <><h3 className={ h3 }>{ TZtitle }</h3><ul className={ ul }>{ tzs }</ul></>
       }
     </section>
   );
