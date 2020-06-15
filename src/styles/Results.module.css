@@ -58,9 +58,10 @@
 
 @media screen and (min-width: 450px){
   .li{
-    margin-bottom: 0;
+    margin: 0 10px 20px;
+    /* margin-bottom: 0;
     margin-right: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 20px; */
   }
   .ul{
     display: flex;
@@ -100,9 +101,7 @@
     /* margin: auto; */
   }
   .li{
-    margin-bottom: 0;
-    margin-right: 30px;
-    margin-bottom: 30px;
+    margin: 0 15px 30px;
   }
 }
 
