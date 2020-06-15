@@ -8,6 +8,7 @@ import {
   check,
   checkdiv,
   checkdiv2,
+  fs,
   h2,
   p,
   p2,
@@ -93,7 +94,7 @@ console.log('oi;oijoij: ', );
       <h2 className={ h2 }>Construct GraphQL Query</h2>
       <form>
 
-        <fieldset>
+        <fieldset className={ radioValue ? fs : '' }>
           <legend>&nbsp;&nbsp;Select query:&nbsp;&nbsp;</legend>
           <div className={ radiodiv }>
 
@@ -115,7 +116,7 @@ console.log('oi;oijoij: ', );
         {
           radioValue &&
             <>
-              <fieldset>
+              <fieldset className={ fs }>
                 <legend>&nbsp;&nbsp;Select input:&nbsp;&nbsp;</legend>
         
                   <Select
@@ -127,7 +128,7 @@ console.log('oi;oijoij: ', );
 
               </fieldset>
 
-              <fieldset>
+              <fieldset className={ fs }>
                 <legend>&nbsp;&nbsp;Select data:&nbsp;&nbsp;</legend>
 
                 {

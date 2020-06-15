@@ -48,11 +48,12 @@ form{
 fieldset{
   border: 1px solid #3e2723;
   width: 80%;
-  margin-bottom: 3em;
   max-width: 300px;
   background: linear-gradient(0deg, #ddb77f63 15%, transparent);
 }
-
+.fs{
+  margin-bottom: 3em;
+}
 .radiodiv{
   height: 120px;
   display: flex;
