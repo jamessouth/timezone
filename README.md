@@ -1,6 +1,6 @@
 # timezones
 
-#### React, Node, GraphQL, MongoDB.
+#### React, Node, GraphQL, MongoDB
 -------------------------------------------------------------------------------
 
 Query the DB:
@@ -9,7 +9,7 @@ Query the DB:
     by offset from UTC to get places in that time zone (option: with flag)
 
        OR
-    
+
     by place name to get time zones spanned by that location
 ```
 

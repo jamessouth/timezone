@@ -18,14 +18,11 @@ export default function useAppState() {
       dispatch,
     ] = useReducer(reducer, initialState);
 
-    useEffect(() => { // eslint-disable-next-line no-console
-        console.log('ddd ', Date.now());
-      
+    useEffect(() => {
         const evtSource = new EventSource(server + '/connect');
       
         ['status', 'dataLists'].forEach((action) => {
-          evtSource.addEventListener(action, function (e) { // eslint-disable-next-line no-console
-            console.log(action, Date.now());
+          evtSource.addEventListener(action, function (e) {
             dispatch({ type: action, payload: { [action]: e.data } });
           }, false);
         });
@@ -33,7 +30,6 @@ export default function useAppState() {
         return function cleanup() {
           evtSource.close();
         };
-      
     }, []);
 
     async function postQuery(source, type) {
@@ -47,7 +43,7 @@ export default function useAppState() {
             body
           });
           if (data.ok) {
-            data = await data.json(); // eslint-disable-next-line no-console
+            data = await data.json();
             const payload = Object.assign({
               places: null,
               offset: null,
@@ -55,9 +51,6 @@ export default function useAppState() {
               name: null,
               offsets: null,
             }, data)
-    
-    
-            console.log(payload);
     
             dispatch({ type: 'data', payload });
     

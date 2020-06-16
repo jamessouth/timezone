@@ -6,6 +6,10 @@
   color: #3e2723;
   outline: none;
 }
+*:disabled{
+  cursor: not-allowed;
+  filter: contrast(0.25);
+}
 body{
   min-height: 100vh;
   background: linear-gradient(rgba(225, 53, 7, .92), rgba(253, 187, 31, .92)), url('../assets/images/map411x731.jpg') no-repeat center/cover;
@@ -28,7 +32,6 @@ body{
   background-color: palegoldenrod;
   font-family: monospace;
   width: 80%;
-  /* max-width: 50%; */
 }
 .inp:hover,
 .inp:focus-within{
@@ -53,22 +56,6 @@ body{
   border-color: #ededed;
   border-width: 0 0 6px 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media screen and (min-width: 360px){
   .h1{
     font-size: 5rem;
@@ -104,17 +91,3 @@ body{
     background: linear-gradient(rgba(225, 53, 7, .92), rgba(253, 187, 31, .92)), url('../assets/images/map1920x1538.jpg') no-repeat center/cover;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 5 */

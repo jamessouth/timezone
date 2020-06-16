@@ -14,8 +14,6 @@ export default function useFormState() {
     const [queryText, setQueryText] = useState(null);
     const [disableSendBtn, setDisableSendBtn] = useState(true);
 
-    console.log('oi;oijoij: ', );
-
   function handleRadioChange(val) {
     setRadioValue(val);
     if (val == 'timezone') {

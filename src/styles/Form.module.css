@@ -5,8 +5,6 @@ form{
   align-items: center;
   margin: 3em 0;
 }
-
-
 .button{
   margin: 0 auto;
   display: block;
@@ -26,10 +24,6 @@ form{
 .button:focus,
 .button:hover:not(:disabled){
   box-shadow: -4px -11px 9px 1px #3e2723;
-}
-*:disabled{
-  cursor: not-allowed;
-  filter: contrast(0.25);
 }
 .h2{
   text-align: center;

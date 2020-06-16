@@ -26,5 +26,5 @@ export default function Radio({
 Radio.propTypes = {
   text: PropTypes.string,
   onChange: PropTypes.func,
-  value: PropTypes.string
+  value: PropTypes.string,
 }

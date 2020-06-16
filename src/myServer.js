@@ -215,7 +215,6 @@ async function serverCB(req, res) {
 
       });
 
-
     } else {
       if (req.url == '/') req.url = '/index.html';
       const route = routePipe(req.url, res);

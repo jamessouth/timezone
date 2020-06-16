@@ -46,7 +46,6 @@ function reducer(state, { type, payload: { dataLists, places, offset, flag, name
     throw new Error('Reducer action type not recognized');
   }
 
-
 }
 
 export { initialState, reducer };

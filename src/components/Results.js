@@ -27,7 +27,6 @@ export default function Results({
           flag &&
             <img className={ img } src={ `data:image/png;base64,${flag}` }/>
         }
-
         <p className={ p }>
           { name }
         </p>
@@ -46,11 +45,6 @@ export default function Results({
   const TZtitle = tzs && tzs.length == 1 ? 'Time Zone:' : 'Time Zones:';
   
   const PLtitle = locations && locations.length == 1 ? 'Place:' : 'Places:';
-
-  // , 'font-effect-decaying'
-  // [h3, 'font-effect-distressed-wood'].join(' ')
-  // [h3, 'font-effect-distressed-wood'].join(' ')
-  
 
   return (
     <section>
@@ -88,5 +82,8 @@ export default function Results({
 
 Results.propTypes = {
   places: PropTypes.array,
-  offset: PropTypes.string
+  offset: PropTypes.string,
+  flag: PropTypes.string,
+  name: PropTypes.string,
+  offset: PropTypes.string,
 }
