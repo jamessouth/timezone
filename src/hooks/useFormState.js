@@ -2,17 +2,17 @@ import { useState, useEffect, useRef } from 'react';
 
 export default function useFormState() {
 
-    const code1 = useRef('');
-    const [radioValue, setRadioValue] = useState(null);
-    const [selectTimezoneValue, setSelectTimezoneValue] = useState('UTC+/-...');
-    const [selectPlaceValue, setSelectPlaceValue] = useState('Place...');
-    const [offsetTZCheckboxValue, setOffsetTZCheckboxValue] = useState(false);
-    const [nameTZCheckboxValue, setNameTZCheckboxValue] = useState(false);
-    const [flagCheckboxValue, setFlagCheckboxValue] = useState(false);
-    const [namePLCheckboxValue, setNamePLCheckboxValue] = useState(false);
-    const [offsetPLCheckboxValue, setOffsetPLCheckboxValue] = useState(false);
-    const [queryText, setQueryText] = useState(null);
-    const [disableSendBtn, setDisableSendBtn] = useState(true);
+  const code1 = useRef('');
+  const [radioValue, setRadioValue] = useState(null);
+  const [selectTimezoneValue, setSelectTimezoneValue] = useState('UTC+/-...');
+  const [selectPlaceValue, setSelectPlaceValue] = useState('Place...');
+  const [offsetTZCheckboxValue, setOffsetTZCheckboxValue] = useState(false);
+  const [nameTZCheckboxValue, setNameTZCheckboxValue] = useState(false);
+  const [flagCheckboxValue, setFlagCheckboxValue] = useState(false);
+  const [namePLCheckboxValue, setNamePLCheckboxValue] = useState(false);
+  const [offsetPLCheckboxValue, setOffsetPLCheckboxValue] = useState(false);
+  const [queryText, setQueryText] = useState(null);
+  const [disableSendBtn, setDisableSendBtn] = useState(true);
 
   function handleRadioChange(val) {
     setRadioValue(val);

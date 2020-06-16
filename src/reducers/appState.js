@@ -17,13 +17,14 @@ function reducer(state, { type, payload: { dataLists, places, offset, flag, name
   
   switch (type) {
 
-  case 'dataLists':
+  case 'dataLists': {
     const [o, p] = JSON.parse(dataLists);
     return {
       ...state,
       offsetList: makeOptions(o),
       placeList: makeOptions(p)
     };
+  }
 
   case 'data':
     return {

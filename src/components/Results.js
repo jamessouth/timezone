@@ -5,12 +5,11 @@ import {
   h22,
   h3,
   ul,
-  li,
   span,
-  p,
   loc,
   img,
 } from '../styles/Results.module.css';
+import useResultsState from '../hooks/useResultsState';
 
 export default function Results({
   places,
@@ -20,31 +19,12 @@ export default function Results({
   offsets,
 }) {
   
-  const locations = places ?
-    places.map(({name, flag}, ind) =>
-      <li className={ li } key={ ind }>
-        {
-          flag &&
-            <img className={ img } src={ `data:image/png;base64,${flag}` }/>
-        }
-        <p className={ p }>
-          { name }
-        </p>
-      </li>) :
-    null;
-
-  const tzs = offsets ?
-    offsets.map((off, ind) =>
-      <li className={ li } key={ ind }>
-        <p className={ p }>
-          { off }
-        </p>
-      </li>) :
-    null;
-
-  const TZtitle = tzs && tzs.length == 1 ? 'Time Zone:' : 'Time Zones:';
-  
-  const PLtitle = locations && locations.length == 1 ? 'Place:' : 'Places:';
+  const {
+    locations,
+    tzs,
+    TZtitle,
+    PLtitle,
+  } = useResultsState(places, offsets);
 
   return (
     <section>
@@ -85,5 +65,5 @@ Results.propTypes = {
   offset: PropTypes.string,
   flag: PropTypes.string,
   name: PropTypes.string,
-  offset: PropTypes.string,
+  offsets: PropTypes.array,
 }

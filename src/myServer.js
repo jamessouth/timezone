@@ -9,7 +9,7 @@ const path = require('path');
 const MongoClient = require('mongodb').MongoClient;// mongod --dbpath="c:\data\db"
 
 // eslint-disable-next-line no-unused-vars
-const server = http.createServer(serverCB).listen(3101, () => {
+const server = http.createServer(serverCB).listen(3101, () => {// eslint-disable-next-line no-console
   console.log('server running on port 3101!', '\x07');// default beep
 });
 
@@ -71,13 +71,13 @@ async function serverCB(req, res) {
 
       try {
         await client.connect();
-        db = client.db('tzs');
+        db = client.db('tzs');// eslint-disable-next-line no-console
         console.log('Connected correctly to mongo server!', !!db);
         prog.emit('connected');
         const records = await db
           .collection('timezones')
           .find({})
-          .project({ "places.name": 1, offset: 1, _id: 0 })
+          .project({ 'places.name': 1, offset: 1, _id: 0 })
           .sort('no', 1)
           .toArray();
 
@@ -96,7 +96,7 @@ async function serverCB(req, res) {
           prog.emit('datafetched', [oList, pList]);
         }
 
-      } catch (err) {
+      } catch (err) {// eslint-disable-next-line no-console
         console.log('conn err', err.message, err);
         if (err.name == 'MongoTimeoutError') {
           res.write(`event: status\ndata: Error connecting to database: ${err.message}. Please try again.\n\n\n`);
@@ -111,8 +111,7 @@ async function serverCB(req, res) {
           await client.close();
           client = null;
           db = null;
-          console.log('close', Date.now(), !!db);
-        } catch (err) {
+        } catch (err) {// eslint-disable-next-line no-console
           console.log(err);
         } finally {
           res.end();

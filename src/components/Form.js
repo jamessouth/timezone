@@ -67,12 +67,12 @@ export default function Form({
             <>
               <fieldset className={ fs }>
                 <legend>&nbsp;&nbsp;Select input:&nbsp;&nbsp;</legend>
-                  <Select
-                    text={ radioValue == 'timezone' ? "offset" : "place" }
-                    value={ radioValue == 'timezone' ? selectTimezoneValue : selectPlaceValue }
-                    onChange={ handleSelectChange }
-                    list={ radioValue == 'timezone' ? offsetList : placeList }
-                  />
+                <Select
+                  text={ radioValue == 'timezone' ? 'offset' : 'place' }
+                  value={ radioValue == 'timezone' ? selectTimezoneValue : selectPlaceValue }
+                  onChange={ handleSelectChange }
+                  list={ radioValue == 'timezone' ? offsetList : placeList }
+                />
               </fieldset>
               <fieldset className={ fs }>
                 <legend>&nbsp;&nbsp;Select data:&nbsp;&nbsp;</legend>
