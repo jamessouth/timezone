@@ -34,7 +34,7 @@ async function serverCB(req, res) {
       } catch (err) {
         payload = { status: `${err.name}: ${err.message}. Number of documents retrieved not equal to 1.` };
       } finally {
-        // res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
+        res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
         res.end(JSON.stringify(payload));
       }
     });
@@ -60,7 +60,7 @@ async function serverCB(req, res) {
       );
 
       res.writeHead(200, {
-        // 'Access-Control-Allow-Origin': 'http://localhost:3100',
+        'Access-Control-Allow-Origin': 'http://localhost:3100',
         'Connection': 'keep-alive',
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache'
