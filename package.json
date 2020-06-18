@@ -13,6 +13,9 @@
     "test": "nyc riteway -r @babel/register -r @babel/polyfill src/**/*.test.js | tap-nirvana",
     "watch": "watch \"clear && npm run -s lint && npm run -s test\" src/"
   },
+  "engines": {
+    "node": ">=12.14.0"
+  },
   "author": "james south",
   "license": "ISC",
   "dependencies": {
