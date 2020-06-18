@@ -8,9 +8,14 @@ const http = require('http');
 const path = require('path');
 const MongoClient = require('mongodb').MongoClient;// mongod --dbpath="c:\data\db"
 
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 8000;
+}
+
 // eslint-disable-next-line no-unused-vars
-const server = http.createServer(serverCB).listen(3101, () => {// eslint-disable-next-line no-console
-  console.log('server running on port 3101!', '\x07');// default beep
+const server = http.createServer(serverCB).listen(port, () => {// eslint-disable-next-line no-console
+  console.log(`server running on port ${port}!`, '\x07');// default beep
 });
 
 let db, client;

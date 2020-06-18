@@ -2,7 +2,7 @@ import { useEffect, useReducer } from 'react';
 import { initialState, reducer } from '../reducers/appState';
 
 export default function useAppState() {
-  const server = 'http://localhost:3101';
+  const server = process.env.SERV;
 
   const [
     {
