@@ -61,7 +61,7 @@ const RootQuery = new GraphQLObjectType({
           return {
             name,
             flag: flag[0].places[0].flag,
-            offsets: [...docs.map(o => o.offset)]
+            offsets: [...docs.map(o => o.offset)].sort((a, b) => a.localeCompare(b))
           };
         } catch (err) {
           return err;
