@@ -57,7 +57,8 @@ async function serverCB(req, res) {
       });
 
       client = new MongoClient(
-        'mongodb://localhost:27017',
+        // 'mongodb://localhost:27017',
+        process.env.MONGODB_URI,
         {
           useNewUrlParser: true,
           useUnifiedTopology: true,
@@ -76,8 +77,9 @@ async function serverCB(req, res) {
 
       try {
         await client.connect();
-        db = client.db('tzs');// eslint-disable-next-line no-console
-        console.log('Connected correctly to mongo server!', !!db);
+        // db = client.db('tzs');
+        db = client.db(process.env.DB_NAME);
+        console.log('Connected correctly to mongo server!', !!db);// eslint-disable-line no-console
         prog.emit('connected');
         const records = await db
           .collection('timezones')
