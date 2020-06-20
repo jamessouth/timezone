@@ -1,14 +1,14 @@
 {
   "name": "timezones",
   "version": "1.0.0",
-  "description": "react, node, graphql, mongodb",
+  "description": "Time zone data displayed with react, node, graphql, mongodb",
   "private": true,
   "browserslist": "last 2 versions, > 1%, not dead, not ie < 12",
   "main": "index.js",
   "scripts": {
     "lint": "eslint --fix src/ && echo 'Linted!'",
     "dev:front": "webpack-dev-server --env.ENV=dev --env.SERV=http://localhost:3101",
-    "dev:back": "env PORT=3101 nodemon --watch src/myServer.js -r esm src/myServer.js",
+    "dev:back": "env PORT=3101 ENV=dev nodemon --watch src/myServer.js -r esm src/myServer.js",
     "build": "webpack --env.ENV=prod --env.SERV=http://timezones.herokuapp.com && cp -r src/assets/icons/ dist/",
     "test": "nyc riteway -r @babel/register -r @babel/polyfill src/**/*.test.js | tap-nirvana",
     "watch": "watch \"clear && npm run -s lint && npm run -s test\" src/"

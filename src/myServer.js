@@ -39,7 +39,7 @@ async function serverCB(req, res) {
       } catch (err) {
         payload = { status: `${err.name}: ${err.message}. Number of documents retrieved not equal to 1.` };
       } finally {
-        // res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
+        process.env.ENV == 'dev' && res.writeHead('200', { 'Access-Control-Allow-Origin': 'http://localhost:3100' });
         res.end(JSON.stringify(payload));
       }
     });
@@ -57,8 +57,7 @@ async function serverCB(req, res) {
       });
 
       client = new MongoClient(
-        // 'mongodb://localhost:27017',
-        process.env.MONGODB_URI,
+        process.env.ENV == 'dev' ? 'mongodb://localhost:27017' : process.env.MONGODB_URI,
         {
           useNewUrlParser: true,
           useUnifiedTopology: true,
@@ -77,8 +76,7 @@ async function serverCB(req, res) {
 
       try {
         await client.connect();
-        // db = client.db('tzs');
-        db = client.db(process.env.DB_NAME);
+        db = process.env.ENV == 'dev' ? client.db('tzs') : client.db(process.env.DB_NAME);
         console.log('Connected correctly to mongo server!', !!db);// eslint-disable-line no-console
         prog.emit('connected');
         const records = await db
