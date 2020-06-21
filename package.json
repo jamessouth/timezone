@@ -10,6 +10,8 @@
     "dev:front": "webpack-dev-server --env.ENV=dev --env.SERV=http://localhost:3101",
     "dev:back": "env PORT=3101 ENV=dev nodemon --watch src/myServer.js -r esm src/myServer.js",
     "build": "webpack --env.ENV=prod --env.SERV=http://timezones.herokuapp.com && cp -r src/assets/icons/ dist/",
+    "build:local": "webpack --env.ENV=prod --env.SERV=http://localhost:8000 && cp -r src/assets/icons/ dist/",
+    "local": "heroku local -p 8000",
     "test": "nyc riteway -r @babel/register -r @babel/polyfill src/**/*.test.js | tap-nirvana",
     "watch": "watch \"clear && npm run -s lint && npm run -s test\" src/"
   },
