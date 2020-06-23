@@ -71,7 +71,7 @@ async function serverCB(req, res) {
         'Cache-Control': 'no-cache'
       });
 
-      // const eventInterval = setInterval(() => res.write(':keepalive\n\n\n'), 119562);//2 minute timeout in chrome
+      const eventInterval = setInterval(() => res.write(':keepalive\n\n\n'), 54165);// heroku dyno times out after 55 seconds
       res.write('event: status\ndata: Connecting to database\n\n\n');
 
       try {
@@ -112,7 +112,7 @@ async function serverCB(req, res) {
 
       req.on('close', async () => {
         try {
-          // clearInterval(eventInterval);
+          clearInterval(eventInterval);
           await client.close();
           client = null;
           db = null;
