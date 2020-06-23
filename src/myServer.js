@@ -15,7 +15,7 @@ if (port == null || port == "") {
 
 // eslint-disable-next-line no-unused-vars
 const server = http.createServer(serverCB).listen(port, () => {// eslint-disable-next-line no-console
-  console.log(`server running on port ${port}!`, '\x07');// default beep
+  console.log(`server running on port ${port}!`);// , '\x07' default beep
 });
 
 let db, client;
@@ -71,7 +71,7 @@ async function serverCB(req, res) {
         'Cache-Control': 'no-cache'
       });
 
-      const eventInterval = setInterval(() => res.write(':keepalive\n\n\n'), 119562);//2 minute timeout in chrome
+      // const eventInterval = setInterval(() => res.write(':keepalive\n\n\n'), 119562);//2 minute timeout in chrome
       res.write('event: status\ndata: Connecting to database\n\n\n');
 
       try {
@@ -112,7 +112,7 @@ async function serverCB(req, res) {
 
       req.on('close', async () => {
         try {
-          clearInterval(eventInterval);
+          // clearInterval(eventInterval);
           await client.close();
           client = null;
           db = null;
