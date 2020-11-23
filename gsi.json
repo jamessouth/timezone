@@ -1,0 +1,18 @@
+[
+    {
+        "IndexName": "OffsetsPerPlace",
+        "KeySchema": [
+            {
+                "AttributeName": "place",
+                "KeyType": "HASH"
+            },
+            {
+                "AttributeName": "offset",
+                "KeyType": "RANGE"
+            }
+        ],
+        "Projection": {
+            "ProjectionType": "ALL"
+        }
+    }
+]
