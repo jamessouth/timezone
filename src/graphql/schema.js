@@ -30,17 +30,39 @@ const RootQuery = new GraphQLObjectType({
     timezone: {
       type: TimezoneType,
       args: { offset: { type: GraphQLString }},
-      async resolve(parent, { offset }, db) {
-        try {
-          const docs = await db
-            .collection('timezones')
-            .find({ offset })
-            .toArray();
-          assert.equal(1, docs.length);
-          return docs[0];
-        } catch (err) {
-          return err;
-        }
+      async resolve(parent, { offset }, db, info) {
+        console.log('ooo: ', info.fieldNodes[0].selectionSet.selections[1].selectionSet.selections);
+        const params = {
+          TableName: 'demo',
+          ProjectionExpression: 'place',
+          KeyConditionExpression: '#os = :v1',
+          ExpressionAttributeValues: {
+            ':v1': offset,
+          },
+          ExpressionAttributeNames: {
+            '#os': 'offset',
+          },
+        };
+
+        // try {
+        //   const docs = await db
+        //     .collection('timezones')
+        //     .find({ offset })
+        //     .toArray();
+        //   assert.equal(1, docs.length);
+        //   return docs[0];
+        // } catch (err) {
+        //   return err;
+        // }
+
+        const prom = db.query(params).promise();
+
+        const d = await prom;
+        console.log('dddd: ', d);
+        return d;
+          // .then()
+          // .catch();
+
       }
     },
     place: {

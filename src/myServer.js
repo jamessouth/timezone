@@ -35,6 +35,7 @@ async function serverCB(req, res) {
       const {source, type} = JSON.parse(query);
       try {
         data = await graphql({ schema, source, contextValue: docClient });
+        console.log('dataaaa: ', data);
         if (data.errors) {
           throw data.errors[0];
         }
@@ -85,8 +86,8 @@ async function serverCB(req, res) {
           "place": "null"
         }
       });
-      const placesProm = docClient.get(params("places")).promise();
       const offsetsProm = docClient.get(params("offsets")).promise();
+      const placesProm = docClient.get(params("places")).promise();
 
       // const splitData = records.reduce((acc, x) => {
       //   acc[0].push(...x.places.map(p => p.name));
@@ -97,8 +98,11 @@ async function serverCB(req, res) {
       // const pList = [...new Set(splitData[0].sort((a, b) => a.localeCompare(b)))];
       // const oList = splitData[1];
 
-      Promise.all([placesProm, offsetsProm])
-        .then(([placesList, offsetsList]) => prog.emit('datafetched', [placesList, offsetsList]))
+      Promise.all([offsetsProm, placesProm])
+        .then(([oL, pL]) => {
+          return [oL.Item.offsets, pL.Item.places];
+        })
+        .then(([offsetsList, placesList]) => prog.emit('datafetched', [offsetsList, placesList]))
         .catch(err => {// eslint-disable-next-line no-console
           console.log('dynomodb error: ', err.message, err);
           res.write(`event: status\ndata: ${err.message}. Please try again.\n\n\n`);
