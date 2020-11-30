@@ -3,7 +3,7 @@
         "IndexName": "OffsetsPerPlace",
         "KeySchema": [
             {
-                "AttributeName": "place",
+                "AttributeName": "name",
                 "KeyType": "HASH"
             },
             {

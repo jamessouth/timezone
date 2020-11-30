@@ -31,7 +31,12 @@ const RootQuery = new GraphQLObjectType({
       type: TimezoneType,
       args: { offset: { type: GraphQLString }},
       async resolve(parent, { offset }, db, info) {
-        console.log('ooo: ', info.fieldNodes[0].selectionSet.selections[1].selectionSet.selections);
+        console.log("eeeeeeee", process.version);
+        const ss = info.fieldNodes[0].selectionSet.selections;
+        // const ss0 = ss[0].name.value ?? '';
+        // const ss1 = ss[1].selectionSet.selections[0].name.value ?? '';
+        // const ss2 = ss[1].selectionSet.selections[1].name.value ?? '';
+        // console.log('ooooooo:', ss0 + ss1 + ss2);
         const params = {
           TableName: 'demo',
           ProjectionExpression: 'place',

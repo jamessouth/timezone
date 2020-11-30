@@ -83,7 +83,7 @@ async function serverCB(req, res) {
         TableName: 'demo',
         Key: {
           "offset": key,
-          "place": "null"
+          "name": "null"
         }
       });
       const offsetsProm = docClient.get(params("offsets")).promise();

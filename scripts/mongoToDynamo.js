@@ -23,7 +23,7 @@ timezones.forEach(doc => {
       TableName: 'demo', 
       Item: {
         "offset": doc.offset,
-        "place": pl.name,
+        "name": pl.name,
         "flag": pl.flag
       },
       ReturnConsumedCapacity: 'INDEXES'
@@ -46,7 +46,7 @@ const item = {
   TableName: 'demo', 
   Item: {
     "offset": "offsets",
-    "place": "null",
+    "name": "null",
     "offsets": arr
   },
   ReturnConsumedCapacity: 'INDEXES'
@@ -64,7 +64,7 @@ const item2 = {
   TableName: 'demo',
   Item: {
     "offset": "places",
-    "place": "null",
+    "name": "null",
     "places": docClient.createSet([...new Set(arr2.flat().map(o => o.name))])
   },
   ReturnConsumedCapacity: 'INDEXES'
